@@ -1,0 +1,102 @@
+[
+  {
+    "productCode": "SK1001",
+    "productName": "Madagascar Centella Light Cleansing Oil",
+    "category": "Cleanser",
+    "productType": "Cleansing Oil",
+    "volume": "200ml",
+    "price": 19.99,
+    "usageDesc": "Massage onto dry skin, emulsify with water, then rinse thoroughly.",
+    "image": "/images/light-cleansing-oil.jpg"
+  },
+  {
+    "productCode": "SK1002",
+    "productName": "Madagascar Centella Ampoule Foam",
+    "category": "Cleanser",
+    "productType": "Foam Cleanser",
+    "volume": "125ml",
+    "price": 13.99,
+    "usageDesc": "Lather with water, gently massage over the face, and rinse well.",
+    "image": "/images/ampoule-foam.jpg"
+  },
+  {
+    "productCode": "SK1003",
+    "productName": "Madagascar Centella Toning Toner",
+    "category": "Toner",
+    "productType": "Exfoliating Toner",
+    "volume": "210ml",
+    "price": 18.99,
+    "usageDesc": "Apply with a cotton pad or hands after cleansing.",
+    "image": "/images/toning-toner.jpg"
+  },
+  {
+    "productCode": "SK1004",
+    "productName": "Madagascar Centella Ampoule",
+    "category": "Serum",
+    "productType": "Ampoule",
+    "volume": "100ml",
+    "price": 21.99,
+    "usageDesc": "Apply 2–3 drops after toner and gently pat until absorbed.",
+    "image": "/images/centella-ampoule.jpg"
+  },
+  {
+    "productCode": "SK1005",
+    "productName": "Madagascar Centella Probio-Cica Intensive Ampoule",
+    "category": "Serum",
+    "productType": "Ampoule",
+    "volume": "50ml",
+    "price": 24.99,
+    "usageDesc": "Use after toner to help nourish and strengthen the skin barrier.",
+    "image": "/images/probio-cica-ampoule.jpg"
+  },
+  {
+    "productCode": "SK1006",
+    "productName": "Madagascar Centella Soothing Cream",
+    "category": "Moisturizer",
+    "productType": "Cream",
+    "volume": "75ml",
+    "price": 22.99,
+    "usageDesc": "Apply as the last step of your skincare routine.",
+    "image": "/images/soothing-cream.jpg"
+  },
+  {
+    "productCode": "SK1007",
+    "productName": "Hyalu-Cica Water-Fit Sun Serum SPF50+ PA++++",
+    "category": "Sunscreen",
+    "productType": "Sun Serum",
+    "volume": "50ml",
+    "price": 16.99,
+    "usageDesc": "Apply generously to the face and neck before sun exposure.",
+    "image": "/images/water-fit-sun-serum.jpg"
+  },
+  {
+    "productCode": "SK1008",
+    "productName": "Hyalu-Cica Silky-Fit Sun Stick SPF50+ PA++++",
+    "category": "Sunscreen",
+    "productType": "Sun Stick",
+    "volume": "20g",
+    "price": 17.99,
+    "usageDesc": "Glide evenly over the face and reapply throughout the day.",
+    "image": "/images/sun-stick.jpg"
+  },
+  {
+    "productCode": "SK1009",
+    "productName": "Madagascar Centella Quick Calming Pad",
+    "category": "Toner",
+    "productType": "Toner Pad",
+    "volume": "70 Pads",
+    "price": 20.99,
+    "usageDesc": "Wipe gently across the skin after cleansing to soothe and hydrate.",
+    "image": "/images/calming-pad.jpg"
+  },
+  {
+    "productCode": "SK1010",
+    "productName": "Madagascar Centella Watergel Sheet Ampoule Mask",
+    "category": "Mask",
+    "productType": "Sheet Mask",
+    "volume": "25ml",
+    "price": 3.99,
+    "usageDesc": "Apply the mask for 15–20 minutes, then pat in the remaining essence.",
+    "image": "/images/sheet-mask.jpg"
+  }
+]
