@@ -23,13 +23,15 @@ export const teamDetails = {
     name: "Ms. Putheanita Prom",
     title: "Founder & CEO",
     avatar: promAvatar,
-    desc: "Formulates the vision, core recipes, and directs the clean cosmetics quality standards."
+    desc: "Formulates the vision, core recipes, and directs the clean cosmetics quality standards.",
+    facebookUrl: "https://www.facebook.com/share/1ExFCeLE93/?mibextid=wwXIfr"
   },
   manager: {
     name: "Ms. Sorrachna Prom",
     title: "General Manager",
     avatar: managerAvatar,
-    desc: "Oversees daily business operations, supply chain quality, and customer support relations."
+    desc: "Oversees daily business operations, supply chain quality, and customer support relations.",
+    facebookUrl: "https://www.facebook.com/share/18cXkjfnwn/?mibextid=wwXIfr"
   }
 };
 
@@ -79,6 +81,7 @@ export function usePutheanetaProfile(onBack) {
     handleMessageSubmit,
     goBack,
     facebookUrl: "https://www.facebook.com/share/1ExFCeLE93/?mibextid=wwXIfr",
+    managerFacebookUrl: "https://www.facebook.com/share/18cXkjfnwn/?mibextid=wwXIfr",
     ownerDetails,
     lightboxImage,
     setLightboxImage,

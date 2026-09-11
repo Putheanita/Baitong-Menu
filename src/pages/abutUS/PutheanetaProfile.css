@@ -318,7 +318,28 @@
   color: #6b6375;
   font-size: 0.95rem;
   line-height: 1.5;
-  margin: 0;
+  margin: 0 0 8px 0;
+}
+
+.tree-social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #2F4F3E;
+  text-decoration: none;
+  background-color: #E8F0EA;
+  padding: 4px 10px;
+  border-radius: 6px;
+  transition: all 0.25s ease;
+  width: fit-content;
+}
+
+.tree-social-link:hover {
+  background-color: #2F4F3E;
+  color: #ffffff;
+  transform: translateY(-1px);
 }
 
 /* Contact form tab */

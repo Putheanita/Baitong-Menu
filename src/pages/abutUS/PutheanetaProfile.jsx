@@ -12,6 +12,7 @@ function PutheanetaProfile({ onBack }) {
     handleMessageSubmit,
     goBack,
     facebookUrl,
+    managerFacebookUrl,
     ownerDetails,
     lightboxImage,
     setLightboxImage,
@@ -74,6 +75,17 @@ function PutheanetaProfile({ onBack }) {
             <h2 className="founder-name">{teamDetails.manager.name}</h2>
             <p className="founder-title">{teamDetails.manager.title}</p>
             <p className="founder-company">{ownerDetails.company}</p>
+
+            <div className="profile-social-links">
+              <a
+                href={managerFacebookUrl || teamDetails.manager.facebookUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-btn facebook-btn"
+              >
+                <span>Connect on Facebook</span>
+              </a>
+            </div>
           </div>
         </div>
 
@@ -148,6 +160,14 @@ function PutheanetaProfile({ onBack }) {
                       <h4>{teamDetails.founder.name}</h4>
                       <p className="node-title">{teamDetails.founder.title}</p>
                       <p className="node-desc">{teamDetails.founder.desc}</p>
+                      <a
+                        href={facebookUrl || teamDetails.founder.facebookUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="tree-social-link"
+                      >
+                        Facebook Profile ↗
+                      </a>
                     </div>
                   </div>
 
@@ -165,6 +185,14 @@ function PutheanetaProfile({ onBack }) {
                       <h4>{teamDetails.manager.name}</h4>
                       <p className="node-title">{teamDetails.manager.title}</p>
                       <p className="node-desc">{teamDetails.manager.desc}</p>
+                      <a
+                        href={managerFacebookUrl || teamDetails.manager.facebookUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="tree-social-link"
+                      >
+                        Facebook Profile ↗
+                      </a>
                     </div>
                   </div>
                 </div>
