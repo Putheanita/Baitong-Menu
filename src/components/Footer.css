@@ -1,0 +1,231 @@
+/* ══════════════════════════════════════════════════════════════════
+   Formal Store Footer Styles (Soft Sage Boutique Palette)
+   ══════════════════════════════════════════════════════════════════ */
+.main-footer {
+  background-color: #F4F7F5; /* Soft, warm botanical sage tint — pleasant and light */
+  color: #4A5850;
+  font-family: 'Outfit', sans-serif;
+  margin-top: 60px;
+  border-top: 1.5px solid #D5E1D9;
+}
+
+.footer-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* Feature Strip */
+.footer-top-strip {
+  background-color: #EBF2ED; /* Gentle sage highlight */
+  border-bottom: 1px solid #D9E5DD;
+  padding: 24px 0;
+}
+
+.footer-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.footer-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.feature-icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.footer-feature-item h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1C3A2B; /* Dark forest green for crisp readability */
+  margin: 0 0 3px 0;
+}
+
+.footer-feature-item p {
+  font-size: 0.8rem;
+  color: #5D7065;
+  margin: 0;
+}
+
+/* Main Footer Content */
+.footer-main {
+  padding: 50px 0 40px 0;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr 1fr 1.3fr;
+  gap: 40px;
+}
+
+.brand-col .footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.footer-logo-icon {
+  font-size: 1.5rem;
+}
+
+.footer-logo-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2F4F3E;
+  letter-spacing: 0.5px;
+}
+
+.footer-tagline {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: #506458;
+  margin: 0 0 16px 0;
+  max-width: 380px;
+}
+
+.footer-founder-tag {
+  font-size: 0.82rem;
+  color: #1E4632;
+  background: #E2ECE5;
+  padding: 6px 12px;
+  border-radius: 6px;
+  display: inline-block;
+  border: 1px solid #C4D6CB;
+}
+
+.footer-col-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #1C3A2B;
+  margin: 0 0 16px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.footer-links button {
+  background: none;
+  border: none;
+  color: #4A5E53;
+  font-family: inherit;
+  font-size: 0.88rem;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.footer-links button:hover {
+  color: #1B4332;
+  font-weight: 600;
+  transform: translateX(4px);
+}
+
+.footer-links span {
+  font-size: 0.88rem;
+  color: #5D7065;
+}
+
+/* Contact Info */
+.footer-contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contact-line {
+  font-size: 0.88rem;
+  margin: 0;
+  color: #4A5E53;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.phone-highlight {
+  color: #164E3F;
+  background-color: #E2ECE5;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+  text-decoration: none;
+  border: 1px solid #C4D6CB;
+  transition: all 0.2s ease;
+}
+
+.phone-highlight:hover {
+  background-color: #D3E4D8;
+  color: #0E352B;
+}
+
+/* Bottom Bar */
+.footer-bottom {
+  border-top: 1px solid #D5E1D9;
+  padding: 20px 0;
+  background-color: #E5EDE7;
+}
+
+.footer-bottom-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.82rem;
+  color: #586B60;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-bottom-content p {
+  margin: 0;
+}
+
+.footer-badges {
+  display: flex;
+  gap: 8px;
+}
+
+.badge-tag {
+  background: #FFFFFF;
+  border: 1px solid #CCDCD1;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.74rem;
+  color: #385244;
+  font-weight: 500;
+}
+
+@media (max-width: 900px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer-container {
+    padding: 0 20px;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+  .footer-bottom-content {
+    flex-direction: column;
+    text-align: center;
+  }
+}

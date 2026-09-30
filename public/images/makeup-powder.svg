@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <radialGradient id="bgLight" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="60%" stop-color="#F7FAF9"/>
+      <stop offset="100%" stop-color="#E8EFEA"/>
+    </radialGradient>
+
+    <!-- Translucent Lid Green -->
+    <linearGradient id="lidGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="35%" stop-color="#E1EDE5"/>
+      <stop offset="75%" stop-color="#B7D7C1"/>
+      <stop offset="100%" stop-color="#93BEA0"/>
+    </linearGradient>
+
+    <!-- Silk Powder Color -->
+    <radialGradient id="powderWhite" cx="45%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="60%" stop-color="#FDFBF7"/>
+      <stop offset="100%" stop-color="#ECE5D8"/>
+    </radialGradient>
+
+    <filter id="softShadow" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#1A3324" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+
+  <rect width="500" height="500" fill="url(#bgLight)"/>
+
+  <!-- Pedestal Shadow -->
+  <ellipse cx="250" cy="410" rx="160" ry="24" fill="#000000" opacity="0.08" filter="blur(8px)"/>
+
+  <!-- Loose Powder Tub Group -->
+  <g filter="url(#softShadow)" transform="translate(135, 115)">
+    <!-- Base Tub (Round Jar) -->
+    <circle cx="115" cy="115" r="115" fill="#FFFFFF" stroke="#E1EBE4" stroke-width="3"/>
+    
+    <!-- Sifter Mesh Inset -->
+    <circle cx="115" cy="115" r="102" fill="url(#powderWhite)" stroke="#D5E3DA" stroke-width="2"/>
+
+    <!-- Sifter Small Holes Array -->
+    <g fill="#A5BAAE" opacity="0.6">
+      <circle cx="115" cy="80" r="3.5"/>
+      <circle cx="95" cy="95" r="3.5"/>
+      <circle cx="135" cy="95" r="3.5"/>
+      <circle cx="80" cy="115" r="3.5"/>
+      <circle cx="115" cy="115" r="4"/>
+      <circle cx="150" cy="115" r="3.5"/>
+      <circle cx="95" cy="135" r="3.5"/>
+      <circle cx="135" cy="135" r="3.5"/>
+      <circle cx="115" cy="150" r="3.5"/>
+      
+      <circle cx="65" cy="115" r="2.5"/>
+      <circle cx="165" cy="115" r="2.5"/>
+      <circle cx="115" cy="65" r="2.5"/>
+      <circle cx="115" cy="165" r="2.5"/>
+    </g>
+
+    <!-- Translucent Lid Overlaid on Side -->
+    <g transform="translate(110, 50) rotate(18)">
+      <circle cx="0" cy="0" r="108" fill="url(#lidGreen)" stroke="#C5DEC9" stroke-width="2.5" opacity="0.94"/>
+      <circle cx="0" cy="0" r="95" fill="none" stroke="#FFFFFF" stroke-width="1.5" opacity="0.6"/>
+      <text x="0" y="-8" font-family="'Playfair Display', serif" font-size="12.5" font-weight="700" fill="#204A33" text-anchor="middle" letter-spacing="3">SILK MINERAL</text>
+      <text x="0" y="8" font-family="'Outfit', sans-serif" font-size="8.5" font-weight="700" fill="#2D6A48" text-anchor="middle" letter-spacing="2">NO-SEBUM POWDER</text>
+      <text x="0" y="24" font-family="'Outfit', sans-serif" font-size="6.5" font-weight="600" fill="#4B8563" text-anchor="middle" letter-spacing="1">BLUR &amp; SET • 8.5g</text>
+    </g>
+  </g>
+
+  <!-- Tag -->
+  <g transform="translate(42, 42)">
+    <rect width="105" height="26" rx="13" fill="#2D6A4F"/>
+    <text x="52" y="17" font-family="'Outfit', sans-serif" font-size="10" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="1">✨ POWDER</text>
+  </g>
+</svg>

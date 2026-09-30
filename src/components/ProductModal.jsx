@@ -34,7 +34,7 @@ function ProductModal({ product, onClose, onAddToCart }) {
 
           {/* Right: Details & Action */}
           <div className="modal-details-wrap">
-            <span className="modal-brand-label">SkinCare Co. • Clean Formula</span>
+            <span className="modal-brand-label">{product.brand || "SkinCare Co."} • Clean Formula</span>
             <h2 className="modal-title">{product.productName}</h2>
             <p className="modal-type-volume">{product.productType} • {product.volume}</p>
 
@@ -42,7 +42,7 @@ function ProductModal({ product, onClose, onAddToCart }) {
 
             <div className="modal-description">
               <p>
-                Crafted with responsibly sourced extracts, this gentle formula deeply hydrates, balances sebum production, and calms irritated skin while reinforcing your natural barrier.
+                {product.usageDesc || "Crafted with responsibly sourced extracts, this gentle formula deeply hydrates, balances sebum production, and calms irritated skin while reinforcing your natural barrier."}
               </p>
             </div>
 

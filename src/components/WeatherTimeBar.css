@@ -1,0 +1,108 @@
+/* ══════════════════════════════════════════════════════════════════
+   Weather & Timezone Bar (Top Utility Strip)
+   ══════════════════════════════════════════════════════════════════ */
+.weather-time-strip {
+  width: 100%;
+  background: #1e3b2e;
+  color: #e2ede5;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.78rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  z-index: 100;
+}
+
+.weather-time-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 6px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Weather Left Side */
+.weather-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.wt-icon {
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.wt-location {
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.wt-temp {
+  font-weight: 800;
+  color: #52b788;
+  background: rgba(82, 183, 136, 0.15);
+  padding: 1px 7px;
+  border-radius: 12px;
+  border: 1px solid rgba(82, 183, 136, 0.3);
+}
+
+.wt-desc {
+  color: #cbd5e1;
+}
+
+.wt-humidity {
+  color: #94a3b8;
+  font-size: 0.74rem;
+}
+
+/* Timezone & Clock Right Side */
+.time-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.wt-tz-badge {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.wt-date {
+  color: #94a3b8;
+}
+
+.wt-clock {
+  color: #ffffff;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.5px;
+}
+
+.wt-clock strong {
+  color: #a7f3d0;
+  font-weight: 700;
+}
+
+/* Responsive adjustment for small screens */
+@media (max-width: 768px) {
+  .weather-time-content {
+    justify-content: center;
+    padding: 5px 14px;
+    font-size: 0.72rem;
+    gap: 6px;
+  }
+  .weather-item,
+  .time-item {
+    justify-content: center;
+    gap: 6px;
+  }
+}

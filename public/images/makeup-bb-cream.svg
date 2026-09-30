@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <radialGradient id="bgLight" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="60%" stop-color="#FAF8F5"/>
+      <stop offset="100%" stop-color="#EEE8E0"/>
+    </radialGradient>
+
+    <!-- Squeezable Tube Body -->
+    <linearGradient id="tubeBeige" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#CBB59D"/>
+      <stop offset="25%" stop-color="#EFE2D3"/>
+      <stop offset="60%" stop-color="#FDF8F2"/>
+      <stop offset="85%" stop-color="#DFCFBE"/>
+      <stop offset="100%" stop-color="#C2AB93"/>
+    </linearGradient>
+
+    <!-- Metallic Rose-Gold Cap -->
+    <linearGradient id="goldCap" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#B88A58"/>
+      <stop offset="35%" stop-color="#EED5B3"/>
+      <stop offset="70%" stop-color="#D4AB7B"/>
+      <stop offset="100%" stop-color="#A07343"/>
+    </linearGradient>
+
+    <filter id="softShadow" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#3D2E20" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <rect width="500" height="500" fill="url(#bgLight)"/>
+
+  <!-- Pedestal Shadow -->
+  <ellipse cx="250" cy="425" rx="140" ry="20" fill="#000000" opacity="0.08" filter="blur(7px)"/>
+
+  <!-- BB Cream Tube -->
+  <g filter="url(#softShadow)" transform="translate(195, 75)">
+    <!-- Top Crimped Seal -->
+    <rect x="10" y="0" width="90" height="18" rx="2" fill="#BAA38A" stroke="#A89078" stroke-width="1"/>
+    <!-- Crimp Lines Texture -->
+    <g stroke="#917A63" stroke-width="1.2">
+      <line x1="20" y1="2" x2="20" y2="16"/>
+      <line x1="30" y1="2" x2="30" y2="16"/>
+      <line x1="40" y1="2" x2="40" y2="16"/>
+      <line x1="50" y1="2" x2="50" y2="16"/>
+      <line x1="60" y1="2" x2="60" y2="16"/>
+      <line x1="70" y1="2" x2="70" y2="16"/>
+      <line x1="80" y1="2" x2="80" y2="16"/>
+      <line x1="90" y1="2" x2="90" y2="16"/>
+    </g>
+
+    <!-- Main Tube Body -->
+    <path d="M 10,18 C 10,18 8,160 18,255 L 92,255 C 102,160 100,18 100,18 Z" fill="url(#tubeBeige)"/>
+    <!-- Tube Highlight Sheen -->
+    <path d="M 28,24 C 28,80 30,220 34,250 L 46,250 C 42,220 40,80 40,24 Z" fill="#FFFFFF" opacity="0.5"/>
+
+    <!-- Brand Typography on Tube -->
+    <g transform="translate(55, 95)" text-anchor="middle">
+      <text y="0" font-family="'Playfair Display', serif" font-size="11" font-weight="700" fill="#3D2E20" letter-spacing="2.5">FACE REPUBLIC</text>
+      <text y="18" font-family="'Outfit', sans-serif" font-size="8.5" font-weight="700" fill="#78593A" letter-spacing="1.8">BARE SKIN BB CREAM</text>
+      <line x1="-30" y1="26" x2="30" y2="26" stroke="#C2AB93" stroke-width="1"/>
+      <text y="38" font-family="'Outfit', sans-serif" font-size="7.5" font-weight="600" fill="#8C6E4E" letter-spacing="1">HYDRATING TINT</text>
+      <text y="52" font-family="'Outfit', sans-serif" font-size="6.8" font-weight="600" fill="#A88B6C" letter-spacing="1">SPF30+ PA+++ • 40ml</text>
+      <circle cx="0" cy="72" r="10" fill="#E8D5C1" stroke="#BAA085" stroke-width="1"/>
+      <text y="75" font-family="'Outfit', sans-serif" font-size="6" font-weight="800" fill="#5E432A">01</text>
+    </g>
+
+    <!-- Tube Shoulder & Screw Cap (Bottom) -->
+    <path d="M 20,255 L 90,255 L 85,270 L 25,270 Z" fill="#BAA38A"/>
+    <rect x="25" y="270" width="60" height="55" rx="6" fill="url(#goldCap)"/>
+    <rect x="30" y="274" width="6" height="47" rx="3" fill="#FFFFFF" opacity="0.45"/>
+  </g>
+
+  <!-- Tag -->
+  <g transform="translate(42, 42)">
+    <rect width="115" height="26" rx="13" fill="#805B36"/>
+    <text x="57" y="17" font-family="'Outfit', sans-serif" font-size="10" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="1">✨ BB CREAM</text>
+  </g>
+</svg>

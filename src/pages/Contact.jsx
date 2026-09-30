@@ -66,7 +66,7 @@ function Contact({ onBack, onNavigateShop, onNavigateAbout }) {
               <div className="info-icon">📞</div>
               <div className="info-text">
                 <span className="info-label">Customer Hotline / Phone</span>
-                <a href="tel:015" className="info-value">015 (Direct Support)</a>
+                <a href="tel:015241471" className="info-value">015 241471 (Direct Support)</a>
               </div>
             </div>
 

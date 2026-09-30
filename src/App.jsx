@@ -22,6 +22,15 @@ function App() {
   });
 
   // Shopping Bag Cart State (persisted to localStorage)
+  const [currentUser, setCurrentUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem("skincare_current_user");
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
+
   const [cartItems, setCartItems] = useState(() => {
     try {
       const saved = localStorage.getItem("skincare_cart");
@@ -74,8 +83,11 @@ function App() {
     return () => window.removeEventListener("hashchange", handleHashChange);
   }, [isAuthenticated]);
 
-  const handleLoginSuccess = () => {
+  const handleLoginSuccess = (user) => {
     localStorage.setItem("isLoggedIn", "true");
+    if (user) {
+      setCurrentUser(user);
+    }
     setIsAuthenticated(true);
     setCurrentPage("home");
   };
@@ -83,6 +95,8 @@ function App() {
   const handleLogout = () => {
     confirmAndLogout(() => {
       localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("skincare_current_user");
+      setCurrentUser(null);
       setIsAuthenticated(false);
       setCurrentPage("home");
     });
@@ -146,6 +160,7 @@ function App() {
               onOpenCart={() => setIsCartOpen(true)}
               cartItemCount={totalCartCount}
               onAddToCart={handleAddToCart}
+              currentUser={currentUser}
             />
           )}
 
