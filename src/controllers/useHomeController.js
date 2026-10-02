@@ -10,7 +10,8 @@ export const CATEGORY_ICONS = {
   "Sunscreen": "☀️",
   "Mask": "🎭",
   "Lip Care": "💋",
-  "Makeup": "💄"
+  "Makeup": "💄",
+  "Skincare": "🌿"
 };
 
 /**

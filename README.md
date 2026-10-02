@@ -11,18 +11,27 @@
 
 ## ✨ Key Features
 
-### 1. 🔐 Dynamic Multi-User Authentication
+### 1. 🔐 Dynamic Multi-User Authentication & Profile Setup
 - **Dual Mode System**: Seamless toggle between **Sign In** and **Create Account (Sign Up)**.
-- **Dynamic Account Registration**: New users can register with their name, email, phone number, and password. Accounts are instantly stored in `localStorage` (`skincare_registered_users`).
+- **Dynamic Account Registration**: New users can register with their name, email, phone number, password, and **optional profile photo/avatar upload**. Accounts are instantly stored in `localStorage` (`skincare_registered_users`).
 - **Predefined Credentials**: Quick 1-click **⚡ Fill Demo Credentials** button for instant demonstration.
 - **Auto-Sync Customer Profile**: Newly signed-up users automatically populate the checkout delivery form.
 
-### 2. 📍 Real-Time Phnom Penh Weather & Clock Strip
+### 2. 👤 Customer Account Management & Data Upload
+- **Interactive Profile Hub**: Clickable user badge in the header displays avatar thumbnail, customer name, and opens the **Customer Profile Modal**.
+- **Photo / Avatar Upload**: Instant image file selector (JPG, PNG, WebP) with live preview and automatic Base64 encoding.
+- **Delivery Address Management**: Edit shipping address and select from all 25 Cambodian provinces; automatically syncs with the shopping bag checkout.
+- **Data Import & Export**:
+  - 📥 **Upload Customer Data**: Import customer contact details and preferences from a `.json` backup file.
+  - 📤 **Export Customer Data**: Download a full `.json` file backup of profile information and order metrics.
+  - 🧾 **Purchase History**: View past orders and tax invoice records.
+
+### 3. 📍 Real-Time Phnom Penh Weather & Clock Strip
 - **Strict Location Anchoring**: Displays `📍 Phnom Penh, Cambodia` and `🇰🇭 Phnom Penh (GMT+7)`.
 - **Live Open-Meteo Integration**: Fetches real-time temperature, condition (Clear, Partly Cloudy, Drizzle, etc.), and humidity for Phnom Penh coordinates (`11.5564, 104.9282`).
 - **Ticking Clock**: Precision second-by-second live local time.
 
-### 3. 💄 Authentic Korean & Asian Makeup Catalog
+### 4. 💄 Authentic Korean & Asian Makeup Catalog
 - Featuring genuine, high-resolution packshot photography from top brands:
   - **3CE Stylenanda**: Velvet Lip Tint (Taupe), Multi Eye Color Palette (Overtake), Face Blush (Rose Beige)
   - **Wakemake**: Soft Blurring Eye Palette (Daily Blurring)
@@ -32,25 +41,25 @@
 - Instant category filters: *All*, *Cleanser*, *Toner*, *Serum*, *Moisturizer*, *Sunscreen*, *Mask*, *Lip Care*, and *Makeup*.
 - Live real-time search with instant keyboard accessibility.
 
-### 4. 🛍️ Interactive Shopping Bag Drawer
+### 5. 🛍️ Interactive Shopping Bag Drawer
 - Slide-over drawer with 580px desktop width and smooth backdrop animation.
 - Pre-filled customer contact details and Cambodian provinces selector (Phnom Penh, Siem Reap, Battambang, Kandal, Sihanoukville, etc.).
 - Real-time order calculation with Pchum Ben 20% promotional discount (`PCHUMBEN20`).
 - Delivery calculation: Free delivery on orders over $50 across Cambodia.
 
-### 5. 🧾 Official Tax Invoice Modal & Downloader
+### 6. 🧾 Official Tax Invoice Modal & Downloader
 - Centered popup invoice generated immediately upon purchase checkout.
 - Itemized product breakdown with quantities, unit prices, subtotal, discount, shipping, and total.
 - Integrated **ABA Bank Mobile QR Code** for quick digital scan-to-pay.
 - Downloadable invoice receipt in `.txt` format and browser print-ready (`window.print()`).
 - All invoices are archived in `localStorage` under `skincare_invoices`.
 
-### 6. 🌸 Cultural Pchum Ben Promotion Banner
+### 7. 🌸 Cultural Pchum Ben Promotion Banner
 - Formal Khmer typography banner using Google Fonts (`Moul` and `Battambang`).
 - Promotional coupon code `PCHUMBEN20` (20% off all orders).
 - One-click dismissible banner with responsive spacing.
 
-### 7. 🌿 About & Contact Experience
+### 8. 🌿 About & Contact Experience
 - Dedicated About page honoring store founder **Ms Putheanita Prom**.
 - Contact page featuring direct store hotline `015 241471` and Facebook profile link.
 

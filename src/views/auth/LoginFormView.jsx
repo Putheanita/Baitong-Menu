@@ -9,7 +9,9 @@ export default function LoginFormView({
   onSubmit,
   isLoading,
   isSuccess,
-  onQuickDemo
+  onQuickDemo,
+  registeredUsers = [],
+  onSelectAccount
 }) {
   return (
     <form onSubmit={onSubmit} className="auth-form-body">
@@ -74,15 +76,41 @@ export default function LoginFormView({
 
       {/* Demo Quick Login */}
       <div className="quick-demo-box">
-        <span>Fast Testing?</span>
+        <span>Owner Login:</span>
         <button
           type="button"
           className="quick-demo-btn"
           onClick={onQuickDemo}
         >
-          ⚡ Fill Demo Credentials
+          ⚡ Puthea Nita (Admin)
         </button>
       </div>
+
+      {/* All Available Registered Customer Accounts */}
+      {registeredUsers && registeredUsers.length > 0 && (
+        <div className="registered-users-box">
+          <div className="reg-users-label">
+            <span>👥 Registered Accounts ({registeredUsers.length}):</span>
+            <small>Click to switch &amp; test</small>
+          </div>
+          <div className="reg-users-list">
+            {registeredUsers.map((u) => (
+              <button
+                key={u.id || u.email}
+                type="button"
+                className={`reg-user-pill ${identifier.toLowerCase() === u.email?.toLowerCase() ? "selected" : ""}`}
+                onClick={() => onSelectAccount && onSelectAccount(u)}
+                title={`Click to fill: ${u.email} (${u.role || "Customer"})`}
+              >
+                <span className="reg-user-name">{u.name}</span>
+                <span className="reg-user-badge">
+                  {u.role?.includes("Admin") ? "👑 Admin" : "👤 Customer"}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </form>
   );
 }

@@ -37,7 +37,10 @@ export default function HomeView({
   onOpenCart,
   cartItemCount,
   onAddToCart,
-  currentUser
+  currentUser,
+  onOpenCustomerProfile,
+  onOpenNotifications,
+  unreadNotifCount
 }) {
   return (
     <div className="home-page">
@@ -59,7 +62,10 @@ export default function HomeView({
         cartItemCount={cartItemCount}
         productCount={filteredProducts.length}
         currentUser={currentUser}
+        onOpenCustomerProfile={onOpenCustomerProfile}
         onLogout={onLogout}
+        onOpenNotifications={onOpenNotifications}
+        unreadNotifCount={unreadNotifCount}
       />
 
       {/* Main Content Area */}

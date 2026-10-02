@@ -18,9 +18,12 @@ export default function LoginView({
   signupPhone,
   signupPassword,
   confirmPassword,
+  signupAvatar,
   feedback,
   isLoading,
   isSuccess,
+  registeredUsers,
+  handleSelectAccount,
 
   // Setters & Actions
   setIdentifier,
@@ -30,6 +33,7 @@ export default function LoginView({
   setSignupPhone,
   setSignupPassword,
   setConfirmPassword,
+  setSignupAvatar,
   dismissFeedback,
   switchAuthMode,
   handleLogin,
@@ -91,6 +95,8 @@ export default function LoginView({
               isLoading={isLoading}
               isSuccess={isSuccess}
               onQuickDemo={handleQuickDemo}
+              registeredUsers={registeredUsers}
+              onSelectAccount={handleSelectAccount}
             />
           ) : (
             /* Tab 2: Sign Up View */
@@ -120,6 +126,8 @@ export default function LoginView({
                 setConfirmPassword(val);
                 if (feedback?.type === "error") dismissFeedback();
               }}
+              signupAvatar={signupAvatar}
+              onAvatarChange={setSignupAvatar}
               onSubmit={handleSignUp}
               isLoading={isLoading}
               isSuccess={isSuccess}

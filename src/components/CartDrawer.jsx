@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import InvoiceModal from "./InvoiceModal";
+import { notifyNewOrderPlaced } from "../services/notificationService";
 import "./CartDrawer.css";
 
 const VALID_PROMO_CODE  = "PCHUMBEN20";
@@ -231,6 +232,13 @@ function CartDrawer({
         const updated = [invoice, ...existing];
         localStorage.setItem("skincare_invoices", JSON.stringify(updated));
         setPastInvoices(updated);
+
+        // Real-time alert to store owner (Telegram, Desktop, Admin Log)
+        try {
+          notifyNewOrderPlaced(invoice);
+        } catch (notifErr) {
+          console.warn("Order notification dispatch error:", notifErr);
+        }
       } catch (err) {
         console.error("Failed to save invoice record:", err);
       }

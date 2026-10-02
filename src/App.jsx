@@ -4,6 +4,8 @@ import Login from "./pages/Login";
 import PutheanetaProfile from "./pages/abutUS/PutheanetaProfile";
 import Contact from "./pages/Contact";
 import CartDrawer from "./components/CartDrawer";
+import CustomerProfileModal from "./components/CustomerProfileModal";
+import NotificationSidebar from "./components/NotificationSidebar";
 import { confirmAndLogout } from "./utils/navigation";
 import "./App.css";
 
@@ -41,6 +43,35 @@ function App() {
   });
 
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isCustomerProfileOpen, setIsCustomerProfileOpen] = useState(false);
+  const [isNotificationSidebarOpen, setIsNotificationSidebarOpen] = useState(false);
+  const [unreadNotifCount, setUnreadNotifCount] = useState(() => {
+    try {
+      const saved = JSON.parse(
+        localStorage.getItem("skincare_admin_notifications") || "[]"
+      );
+      return saved.filter((n) => !n.read).length;
+    } catch {
+      return 0;
+    }
+  });
+
+  // Keep unread notification count synchronized in real time
+  useEffect(() => {
+    const updateUnread = () => {
+      try {
+        const saved = JSON.parse(
+          localStorage.getItem("skincare_admin_notifications") || "[]"
+        );
+        setUnreadNotifCount(saved.filter((n) => !n.read).length);
+      } catch {
+        setUnreadNotifCount(0);
+      }
+    };
+
+    window.addEventListener("admin_notifications_updated", updateUnread);
+    return () => window.removeEventListener("admin_notifications_updated", updateUnread);
+  }, []);
 
   // Persist cart items
   useEffect(() => {
@@ -93,13 +124,53 @@ function App() {
   };
 
   const handleLogout = () => {
-    confirmAndLogout(() => {
+    try {
       localStorage.removeItem("isLoggedIn");
       localStorage.removeItem("skincare_current_user");
-      setCurrentUser(null);
-      setIsAuthenticated(false);
-      setCurrentPage("home");
-    });
+    } catch (e) {
+      console.error("Error clearing storage on logout:", e);
+    }
+    setCurrentUser(null);
+    setIsAuthenticated(false);
+    setIsCustomerProfileOpen(false);
+    setIsCartOpen(false);
+    setCurrentPage("home");
+    window.location.hash = "/login";
+  };
+
+  // Update Customer Profile Data
+  const handleUpdateCurrentUser = (updatedUser) => {
+    setCurrentUser(updatedUser);
+    try {
+      localStorage.setItem("skincare_current_user", JSON.stringify(updatedUser));
+
+      // Update in registered users database
+      const registered = JSON.parse(
+        localStorage.getItem("skincare_registered_users") || "[]"
+      );
+      const idx = registered.findIndex(
+        (u) =>
+          (updatedUser.id && u.id === updatedUser.id) ||
+          (updatedUser.email && u.email?.toLowerCase() === updatedUser.email?.toLowerCase())
+      );
+      if (idx !== -1) {
+        registered[idx] = { ...registered[idx], ...updatedUser };
+        localStorage.setItem("skincare_registered_users", JSON.stringify(registered));
+      }
+
+      // Update in delivery customer info
+      localStorage.setItem(
+        "skincare_customer_info",
+        JSON.stringify({
+          name: updatedUser.name,
+          phone: updatedUser.phone,
+          address: updatedUser.address || "Phnom Penh, Cambodia",
+          province: updatedUser.province || "Phnom Penh"
+        })
+      );
+    } catch (e) {
+      console.error("Failed to update user profile", e);
+    }
   };
 
   // Cart operations
@@ -161,6 +232,9 @@ function App() {
               cartItemCount={totalCartCount}
               onAddToCart={handleAddToCart}
               currentUser={currentUser}
+              onOpenCustomerProfile={() => setIsCustomerProfileOpen(true)}
+              onOpenNotifications={() => setIsNotificationSidebarOpen(true)}
+              unreadNotifCount={unreadNotifCount}
             />
           )}
 
@@ -172,6 +246,21 @@ function App() {
             onUpdateQuantity={handleUpdateQuantity}
             onRemoveItem={handleRemoveItem}
             onClearCart={handleClearCart}
+          />
+
+          {/* Customer Account & Data Upload Modal */}
+          <CustomerProfileModal
+            isOpen={isCustomerProfileOpen}
+            onClose={() => setIsCustomerProfileOpen(false)}
+            currentUser={currentUser}
+            onUpdateCurrentUser={handleUpdateCurrentUser}
+            onLogout={handleLogout}
+          />
+
+          {/* Admin Alerts & Notifications Slide-over Sidebar Drawer */}
+          <NotificationSidebar
+            isOpen={isNotificationSidebarOpen}
+            onClose={() => setIsNotificationSidebarOpen(false)}
           />
         </>
       ) : (

@@ -38,7 +38,30 @@ function ProductModal({ product, onClose, onAddToCart }) {
             <h2 className="modal-title">{product.productName}</h2>
             <p className="modal-type-volume">{product.productType} • {product.volume}</p>
 
-            <div className="modal-price-tag">${product.price.toFixed(2)}</div>
+            <div className="modal-price-rating-row">
+              <div className="modal-price-tag">
+                ${product.price.toFixed(2)}
+                {product.originalPrice && product.originalPrice > product.price && (
+                  <span className="modal-original-price">${product.originalPrice.toFixed(2)}</span>
+                )}
+                {product.discount > 0 && (
+                  <span className="modal-discount-badge">-{product.discount}% OFF</span>
+                )}
+              </div>
+              {product.rating && (
+                <div className="modal-rating-badge">
+                  <span className="rating-star">★ {product.rating}</span>
+                  <span className="modal-reviews-count">({product.reviewCount} reviews)</span>
+                </div>
+              )}
+            </div>
+
+            {product.stock !== undefined && (
+              <div className="modal-stock-status">
+                <span className={`stock-dot ${product.stock < 25 ? "low" : "ok"}`}></span>
+                <span>{product.stock > 0 ? `In Stock (${product.stock} units available)` : "Out of Stock"}</span>
+              </div>
+            )}
 
             <div className="modal-description">
               <p>
@@ -46,18 +69,32 @@ function ProductModal({ product, onClose, onAddToCart }) {
               </p>
             </div>
 
+            {product.skinTypes && product.skinTypes.length > 0 && (
+              <div className="modal-section-block">
+                <span className="modal-section-label">Skin Types:</span>
+                <div className="skin-type-chips">
+                  {product.skinTypes.map((type, idx) => (
+                    <span key={idx} className="skin-chip">{type}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {product.ingredients && product.ingredients.length > 0 && (
+              <div className="modal-section-block">
+                <span className="modal-section-label">Key Ingredients:</span>
+                <p className="ingredients-list">{product.ingredients.join(" • ")}</p>
+              </div>
+            )}
+
             <div className="modal-highlights">
               <div className="highlight-item">
                 <span className="highlight-icon">🌿</span>
-                <span>Centella Asiatica extract for barrier healing</span>
-              </div>
-              <div className="highlight-item">
-                <span className="highlight-icon">💧</span>
-                <span>Non-comedogenic & dermatologist tested</span>
+                <span>Dermatologist tested clean formula</span>
               </div>
               <div className="highlight-item">
                 <span className="highlight-icon">✨</span>
-                <span>Cruelty-free, paraben-free & clean beauty</span>
+                <span>Cruelty-free & sustainably packaged</span>
               </div>
             </div>
 

@@ -12,7 +12,10 @@ export default function HeaderNavView({
   cartItemCount = 0,
   productCount = 0,
   currentUser,
-  onLogout
+  onOpenCustomerProfile,
+  onLogout,
+  onOpenNotifications,
+  unreadNotifCount = 0
 }) {
   return (
     <header className="main-header">
@@ -96,18 +99,54 @@ export default function HeaderNavView({
           )}
         </button>
 
+        {/* Alerts & Notifications Bell Button */}
+        <button
+          type="button"
+          className="notif-nav-btn"
+          onClick={onOpenNotifications}
+          title="Store Alerts & Notifications"
+          aria-label="Store Alerts"
+        >
+          <span className="notif-nav-icon">🔔</span>
+          <span className="notif-nav-label">Alerts</span>
+          {unreadNotifCount > 0 && (
+            <span className="notif-nav-badge">{unreadNotifCount}</span>
+          )}
+        </button>
+
         <span className="item-count-badge">
           {productCount} {productCount === 1 ? "Product" : "Products"}
         </span>
 
         {currentUser?.name && (
-          <span className="user-welcome-badge" title={currentUser.email || currentUser.phone}>
-            👤 {currentUser.name}
-          </span>
+          <button
+            type="button"
+            className="user-profile-header-btn"
+            onClick={onOpenCustomerProfile}
+            title="View & Edit Customer Profile Data"
+          >
+            {currentUser.avatar ? (
+              <img
+                src={currentUser.avatar}
+                alt={currentUser.name}
+                className="user-header-avatar"
+              />
+            ) : (
+              <span className="user-header-avatar-placeholder">👤</span>
+            )}
+            <span className="user-header-name">{currentUser.name}</span>
+            <span className="user-header-chevron">⚙️</span>
+          </button>
         )}
 
         {onLogout && (
-          <button onClick={onLogout} className="logout-btn">
+          <button
+            type="button"
+            id="header-logout-btn"
+            onClick={onLogout}
+            className="logout-btn"
+            title="Log out of your account"
+          >
             Logout
           </button>
         )}

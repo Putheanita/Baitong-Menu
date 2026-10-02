@@ -10,8 +10,7 @@
  * @param {function} onLogoutConfirmed - Callback to execute if the user confirms logout
  */
 export function confirmAndLogout(onLogoutConfirmed) {
-  const isConfirmed = window.confirm("Are you sure you want to log out of this account?");
-  if (isConfirmed && typeof onLogoutConfirmed === "function") {
+  if (typeof onLogoutConfirmed === "function") {
     onLogoutConfirmed();
   }
 }

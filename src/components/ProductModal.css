@@ -120,11 +120,122 @@
   margin: 0 0 16px;
 }
 
+.modal-price-rating-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
 .modal-price-tag {
-  font-size: 1.7rem;
+  font-size: 1.6rem;
   font-weight: 700;
   color: #2F4F3E;
-  margin-bottom: 18px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.modal-original-price {
+  font-size: 1.05rem;
+  color: #a8a29e;
+  text-decoration: line-through;
+  font-weight: 500;
+}
+
+.modal-discount-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  background-color: #dc2626;
+  padding: 3px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+}
+
+.modal-rating-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.rating-star {
+  color: #d97706;
+  background-color: #fef3c7;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.modal-reviews-count {
+  color: #78716c;
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+.modal-stock-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #166534;
+  margin-bottom: 16px;
+}
+
+.stock-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #16a34a;
+}
+
+.stock-dot.low {
+  background-color: #f59e0b;
+}
+
+.modal-section-block {
+  margin-bottom: 16px;
+}
+
+.modal-section-label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #57534e;
+  margin-bottom: 6px;
+}
+
+.skin-type-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.skin-chip {
+  font-size: 0.78rem;
+  color: #2F4F3E;
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.ingredients-list {
+  font-size: 0.85rem;
+  color: #4b4754;
+  line-height: 1.5;
+  margin: 0;
+  background-color: #fbfbfa;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border-left: 3px solid #7FA58B;
 }
 
 .modal-description {

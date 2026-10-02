@@ -25,6 +25,9 @@ export default function ProductGridView({
               {product.isNew && (
                 <span className="product-new-tag">NEW</span>
               )}
+              {product.discount > 0 && (
+                <span className="product-discount-tag">-{product.discount}%</span>
+              )}
               <img
                 src={product.image}
                 alt={product.productName}
@@ -50,8 +53,18 @@ export default function ProductGridView({
               <p className="product-type">{product.productType}</p>
 
               <div className="product-meta">
-                <span className="product-price">${product.price.toFixed(2)}</span>
-                <span className="product-volume">{product.volume}</span>
+                <div className="product-price-box">
+                  <span className="product-price">${product.price.toFixed(2)}</span>
+                  {product.originalPrice && product.originalPrice > product.price && (
+                    <span className="product-original-price">${product.originalPrice.toFixed(2)}</span>
+                  )}
+                </div>
+                <div className="product-sub-meta">
+                  {product.rating && (
+                    <span className="product-rating">★ {product.rating}</span>
+                  )}
+                  <span className="product-volume">{product.volume}</span>
+                </div>
               </div>
 
               <button

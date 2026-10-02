@@ -1,5 +1,8 @@
+import { useRef } from "react";
+
 /**
  * Pure Presentation Component: Create Account (Sign Up) Form
+ * Includes optional avatar photo upload when creating an account.
  */
 export default function SignUpFormView({
   signupName,
@@ -12,12 +15,80 @@ export default function SignUpFormView({
   onPasswordChange,
   confirmPassword,
   onConfirmPasswordChange,
+  signupAvatar,
+  onAvatarChange,
   onSubmit,
   isLoading,
   isSuccess
 }) {
+  const fileInputRef = useRef(null);
+
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      alert("Please upload a valid image file (JPG, PNG).");
+      return;
+    }
+
+    if (file.size > 3 * 1024 * 1024) {
+      alert("Photo must be less than 3MB.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      if (onAvatarChange) {
+        onAvatarChange(event.target?.result);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
   return (
     <form onSubmit={onSubmit} className="auth-form-body">
+      {/* Optional Photo Upload */}
+      <div className="signup-avatar-row">
+        <div
+          className="signup-avatar-preview"
+          onClick={() => fileInputRef.current?.click()}
+          title="Click to upload profile photo"
+        >
+          {signupAvatar ? (
+            <img src={signupAvatar} alt="Avatar" className="signup-avatar-img" />
+          ) : (
+            <span className="signup-avatar-icon">📷</span>
+          )}
+        </div>
+        <div className="signup-avatar-info">
+          <input
+            type="file"
+            ref={fileInputRef}
+            accept="image/*"
+            style={{ display: "none" }}
+            onChange={handleFileChange}
+          />
+          <button
+            type="button"
+            className="signup-photo-btn"
+            onClick={() => fileInputRef.current?.click()}
+          >
+            {signupAvatar ? "Change Photo" : "Upload Profile Photo (Optional)"}
+          </button>
+          {signupAvatar && (
+            <button
+              type="button"
+              className="signup-photo-remove"
+              onClick={() => onAvatarChange("")}
+            >
+              Remove
+            </button>
+          )}
+          <span className="signup-photo-hint">Adds your avatar to your customer account</span>
+        </div>
+      </div>
+
       <div className="form-group">
         <label>Full Name (ឈ្មោះ)</label>
         <input

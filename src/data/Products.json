@@ -4,166 +4,464 @@
     "productName": "Madagascar Centella Light Cleansing Oil",
     "category": "Cleanser",
     "productType": "Cleansing Oil",
+    "brand": "SKIN1004",
     "volume": "200ml",
     "price": 19.99,
+    "originalPrice": 24,
+    "discount": 17,
+    "stock": 45,
+    "rating": 4.8,
+    "reviewCount": 312,
     "usageDesc": "Massage onto dry skin, emulsify with water, then rinse thoroughly.",
-    "image": "/images/light-cleansing-oil.jpg"
+    "ingredients": [
+      "Centella Asiatica Extract",
+      "Helianthus Annuus Seed Oil",
+      "Citrus Aurantium Bergamia Fruit Oil",
+      "Simmondsia Chinensis Seed Oil"
+    ],
+    "skinTypes": [
+      "All Skin Types",
+      "Sensitive"
+    ],
+    "image": "/images/light-cleansing-oil.jpg",
+    "isNew": false,
+    "isFeatured": true
   },
   {
     "productCode": "SK1002",
     "productName": "Madagascar Centella Ampoule Foam",
     "category": "Cleanser",
     "productType": "Foam Cleanser",
+    "brand": "SKIN1004",
     "volume": "125ml",
     "price": 13.99,
+    "originalPrice": 16,
+    "discount": 13,
+    "stock": 38,
+    "rating": 4.7,
+    "reviewCount": 185,
     "usageDesc": "Lather with water, gently massage over the face, and rinse well.",
-    "image": "/images/ampoule-foam.jpg"
+    "ingredients": [
+      "Centella Asiatica Extract",
+      "Sodium Cocoyl Isethionate",
+      "Glycerin",
+      "Citric Acid"
+    ],
+    "skinTypes": [
+      "Oily",
+      "Combination",
+      "Sensitive"
+    ],
+    "image": "/images/ampoule-foam.jpg",
+    "isNew": false,
+    "isFeatured": false
   },
   {
     "productCode": "SK1003",
     "productName": "Madagascar Centella Toning Toner",
     "category": "Toner",
     "productType": "Exfoliating Toner",
+    "brand": "SKIN1004",
     "volume": "210ml",
     "price": 18.99,
+    "originalPrice": 22,
+    "discount": 14,
+    "stock": 50,
+    "rating": 4.8,
+    "reviewCount": 220,
     "usageDesc": "Apply with a cotton pad or hands after cleansing.",
-    "image": "/images/toning-toner.jpg"
+    "ingredients": [
+      "Centella Asiatica Extract",
+      "Gluconolactone (PHA)",
+      "Niacinamide",
+      "Adenosine",
+      "Hyaluronic Acid"
+    ],
+    "skinTypes": [
+      "Sensitive",
+      "Acne-Prone",
+      "Dull Skin"
+    ],
+    "image": "/images/toning-toner.jpg",
+    "isNew": false,
+    "isFeatured": false
   },
   {
     "productCode": "SK1004",
     "productName": "Madagascar Centella Ampoule",
     "category": "Serum",
     "productType": "Ampoule",
+    "brand": "SKIN1004",
     "volume": "100ml",
     "price": 21.99,
+    "originalPrice": 26,
+    "discount": 15,
+    "stock": 65,
+    "rating": 4.9,
+    "reviewCount": 540,
     "usageDesc": "Apply 2–3 drops after toner and gently pat until absorbed.",
-    "image": "/images/centella-ampoule.jpg"
+    "ingredients": [
+      "100% Centella Asiatica Extract"
+    ],
+    "skinTypes": [
+      "All Skin Types",
+      "Sensitive",
+      "Irritated"
+    ],
+    "image": "/images/centella-ampoule.jpg",
+    "isNew": false,
+    "isFeatured": true
   },
   {
     "productCode": "SK1005",
     "productName": "Madagascar Centella Probio-Cica Intensive Ampoule",
     "category": "Serum",
     "productType": "Ampoule",
+    "brand": "SKIN1004",
     "volume": "50ml",
     "price": 24.99,
+    "originalPrice": 29,
+    "discount": 14,
+    "stock": 28,
+    "rating": 4.9,
+    "reviewCount": 168,
     "usageDesc": "Use after toner to help nourish and strengthen the skin barrier.",
-    "image": "/images/probio-cica-ampoule.jpg"
+    "ingredients": [
+      "Centella Asiatica Ferment Filtrate",
+      "Ceramide NP",
+      "Phytosterols",
+      "Panthenol"
+    ],
+    "skinTypes": [
+      "Dry",
+      "Damaged Barrier",
+      "Sensitive"
+    ],
+    "image": "/images/probio-cica-ampoule.jpg",
+    "isNew": false,
+    "isFeatured": false
   },
   {
     "productCode": "SK1006",
     "productName": "Madagascar Centella Soothing Cream",
     "category": "Moisturizer",
     "productType": "Cream",
+    "brand": "SKIN1004",
     "volume": "75ml",
     "price": 22.99,
+    "originalPrice": 26,
+    "discount": 12,
+    "stock": 34,
+    "rating": 4.8,
+    "reviewCount": 195,
     "usageDesc": "Apply as the last step of your skincare routine.",
-    "image": "/images/soothing-cream.jpg"
+    "ingredients": [
+      "Centella Asiatica Extract",
+      "Ceramide NP",
+      "Cholesterol",
+      "Fatty Acids",
+      "Trehalose"
+    ],
+    "skinTypes": [
+      "Combination",
+      "Oily",
+      "Sensitive"
+    ],
+    "image": "/images/soothing-cream.jpg",
+    "isNew": false,
+    "isFeatured": false
   },
   {
     "productCode": "SK1007",
     "productName": "Hyalu-Cica Water-Fit Sun Serum SPF50+ PA++++",
     "category": "Sunscreen",
     "productType": "Sun Serum",
+    "brand": "SKIN1004",
     "volume": "50ml",
     "price": 16.99,
+    "originalPrice": 20,
+    "discount": 15,
+    "stock": 80,
+    "rating": 4.9,
+    "reviewCount": 620,
     "usageDesc": "Apply generously to the face and neck before sun exposure.",
-    "image": "/images/water-fit-sun-serum.jpg"
+    "ingredients": [
+      "Centella Asiatica Extract",
+      "Hyaluronic Acid",
+      "Niacinamide",
+      "Baby Green Complex"
+    ],
+    "skinTypes": [
+      "All Skin Types",
+      "Dry",
+      "Dehydrated"
+    ],
+    "image": "/images/water-fit-sun-serum.jpg",
+    "isNew": false,
+    "isFeatured": true
   },
   {
     "productCode": "SK1008",
     "productName": "Hyalu-Cica Silky-Fit Sun Stick SPF50+ PA++++",
     "category": "Sunscreen",
     "productType": "Sun Stick",
+    "brand": "SKIN1004",
     "volume": "20g",
     "price": 17.99,
+    "originalPrice": 21,
+    "discount": 14,
+    "stock": 42,
+    "rating": 4.7,
+    "reviewCount": 142,
     "usageDesc": "Glide evenly over the face and reapply throughout the day.",
-    "image": "/images/sun-stick.jpg"
+    "ingredients": [
+      "Centella Asiatica Extract",
+      "Hyaluronic Acid",
+      "Tannin Complex",
+      "Sebum-Control Powder"
+    ],
+    "skinTypes": [
+      "All Skin Types",
+      "Oily",
+      "Active"
+    ],
+    "image": "/images/sun-stick.jpg",
+    "isNew": false,
+    "isFeatured": false
   },
   {
     "productCode": "SK1009",
     "productName": "Madagascar Centella Quick Calming Pad",
     "category": "Toner",
     "productType": "Toner Pad",
+    "brand": "SKIN1004",
     "volume": "70 Pads",
     "price": 20.99,
+    "originalPrice": 24,
+    "discount": 13,
+    "stock": 30,
+    "rating": 4.7,
+    "reviewCount": 110,
     "usageDesc": "Wipe gently across the skin after cleansing to soothe and hydrate.",
-    "image": "/images/calming-pad.jpg"
+    "ingredients": [
+      "Centella Asiatica Extract (49%)",
+      "Panthenol",
+      "Hyaluronic Acid",
+      "Allantoin"
+    ],
+    "skinTypes": [
+      "Sensitive",
+      "Redness-Prone",
+      "Irritated"
+    ],
+    "image": "/images/calming-pad.jpg",
+    "isNew": false,
+    "isFeatured": false
   },
   {
     "productCode": "SK1010",
     "productName": "Madagascar Centella Watergel Sheet Ampoule Mask",
     "category": "Mask",
     "productType": "Sheet Mask",
+    "brand": "SKIN1004",
     "volume": "25ml",
     "price": 3.99,
+    "originalPrice": 5,
+    "discount": 20,
+    "stock": 150,
+    "rating": 4.8,
+    "reviewCount": 95,
     "usageDesc": "Apply the mask for 15–20 minutes, then pat in the remaining essence.",
-    "image": "/images/sheet-mask.jpg"
+    "ingredients": [
+      "Centella Asiatica Extract",
+      "Corn Mint Oil",
+      "Glycerin",
+      "Betaine"
+    ],
+    "skinTypes": [
+      "All Skin Types",
+      "Dehydrated",
+      "Stressed"
+    ],
+    "image": "/images/sheet-mask.jpg",
+    "isNew": false,
+    "isFeatured": false
   },
   {
     "productCode": "SK1011",
     "productName": "Round Lab Birch Juice Moisturizing Toner",
     "category": "Toner",
     "productType": "Hydrating Toner",
+    "brand": "Round Lab",
     "volume": "300ml",
     "price": 22.99,
+    "originalPrice": 27,
+    "discount": 15,
+    "stock": 36,
+    "rating": 4.9,
+    "reviewCount": 380,
     "usageDesc": "Apply generously after cleansing. Pat gently until fully absorbed.",
+    "ingredients": [
+      "Betula Platyphylla Japonica Juice",
+      "Hyaluronic Acid",
+      "Panthenol",
+      "Ascorbic Acid"
+    ],
+    "skinTypes": [
+      "Dry",
+      "Dehydrated",
+      "Sensitive"
+    ],
     "image": "/images/birch-toner.jpg",
-    "isNew": true
+    "isNew": true,
+    "isFeatured": true
   },
   {
     "productCode": "SK1012",
     "productName": "COSRX Snail Mucin 96% Power Repairing Essence",
     "category": "Serum",
     "productType": "Essence",
+    "brand": "COSRX",
     "volume": "100ml",
     "price": 25.99,
+    "originalPrice": 28,
+    "discount": 7,
+    "stock": 55,
+    "rating": 4.9,
+    "reviewCount": 890,
     "usageDesc": "Apply a few drops after toner and before moisturizer for intense hydration.",
+    "ingredients": [
+      "Snail Secretion Filtrate (96%)",
+      "Sodium Hyaluronate",
+      "Allantoin",
+      "Panthenol",
+      "Arginine"
+    ],
+    "skinTypes": [
+      "All Skin Types",
+      "Dull",
+      "Damaged Barrier"
+    ],
     "image": "/images/snail-essence.jpg",
-    "isNew": true
+    "isNew": true,
+    "isFeatured": true
   },
   {
     "productCode": "SK1013",
     "productName": "Laneige Lip Sleeping Mask Berry",
     "category": "Lip Care",
     "productType": "Sleeping Mask",
+    "brand": "Laneige",
     "volume": "20g",
-    "price": 24.00,
+    "price": 24,
+    "originalPrice": 26,
+    "discount": 8,
+    "stock": 48,
+    "rating": 4.9,
+    "reviewCount": 750,
     "usageDesc": "Apply a generous layer to lips at bedtime. Rinse off in the morning.",
+    "ingredients": [
+      "Berry Fruit Complex",
+      "Vitamin C",
+      "Coconut Oil",
+      "Shea Butter",
+      "Murumuru Seed Butter"
+    ],
+    "skinTypes": [
+      "All Skin Types",
+      "Dry Lips"
+    ],
     "image": "/images/lip-mask.jpg",
-    "isNew": true
+    "isNew": true,
+    "isFeatured": true
   },
   {
     "productCode": "SK1014",
     "productName": "Anua Heartleaf 77% Soothing Toner",
     "category": "Toner",
     "productType": "Soothing Toner",
+    "brand": "Anua",
     "volume": "250ml",
-    "price": 19.50,
+    "price": 19.5,
+    "originalPrice": 23,
+    "discount": 15,
+    "stock": 60,
+    "rating": 4.8,
+    "reviewCount": 512,
     "usageDesc": "Saturate a cotton pad and swipe across the face to calm and balance skin.",
+    "ingredients": [
+      "Houttuynia Cordata Extract (77%)",
+      "Centella Asiatica Extract",
+      "Panthenol",
+      "Sugarcane Extract"
+    ],
+    "skinTypes": [
+      "Sensitive",
+      "Acne-Prone",
+      "Combination"
+    ],
     "image": "/images/heartleaf-toner.jpg",
-    "isNew": true
+    "isNew": true,
+    "isFeatured": true
   },
   {
     "productCode": "SK1015",
     "productName": "SOME BY MI AHA BHA PHA 30 Days Miracle Cream",
     "category": "Moisturizer",
     "productType": "Exfoliating Cream",
+    "brand": "SOME BY MI",
     "volume": "60ml",
     "price": 18.99,
+    "originalPrice": 22,
+    "discount": 14,
+    "stock": 32,
+    "rating": 4.7,
+    "reviewCount": 290,
     "usageDesc": "Apply as a final step in your PM skincare routine on clean, dry skin.",
+    "ingredients": [
+      "Centella Asiatica Extract (70.78%)",
+      "Tea Tree Leaf Water",
+      "AHA",
+      "BHA",
+      "PHA"
+    ],
+    "skinTypes": [
+      "Acne-Prone",
+      "Oily",
+      "Blemish-Prone"
+    ],
     "image": "/images/miracle-cream.jpg",
-    "isNew": true
+    "isNew": true,
+    "isFeatured": false
   },
   {
     "productCode": "SK1016",
     "productName": "Beauty of Joseon Glow Serum Propolis + Niacinamide",
     "category": "Serum",
     "productType": "Brightening Serum",
+    "brand": "Beauty of Joseon",
     "volume": "30ml",
-    "price": 21.00,
+    "price": 21,
+    "originalPrice": 24,
+    "discount": 13,
+    "stock": 52,
+    "rating": 4.8,
+    "reviewCount": 460,
     "usageDesc": "Apply 2–3 drops after toner. Suitable for morning and evening routines.",
+    "ingredients": [
+      "Propolis Extract (60%)",
+      "Niacinamide (2%)",
+      "Tamanu Oil",
+      "Betaine Salicylate"
+    ],
+    "skinTypes": [
+      "All Skin Types",
+      "Acne-Prone",
+      "Enlarged Pores"
+    ],
     "image": "/images/glow-serum.jpg",
-    "isNew": true
+    "isNew": true,
+    "isFeatured": true
   },
   {
     "productCode": "FR001",
@@ -173,9 +471,26 @@
     "brand": "Face Republic",
     "volume": "30ml",
     "price": 28.99,
+    "originalPrice": 32,
+    "discount": 9,
+    "stock": 26,
+    "rating": 4.7,
+    "reviewCount": 88,
     "usageDesc": "Apply 2–3 drops after toner. Gently pat until fully absorbed for a luminous, radiant glow.",
+    "ingredients": [
+      "Hippophae Rhamnoides Water",
+      "Niacinamide (5%)",
+      "Vitamin C Capsules",
+      "Citrus Limon Peel Oil"
+    ],
+    "skinTypes": [
+      "Dull",
+      "Uneven Tone",
+      "All Skin Types"
+    ],
     "image": "/images/fr-vita-serum.jpg",
-    "isNew": true
+    "isNew": true,
+    "isFeatured": false
   },
   {
     "productCode": "FR002",
@@ -184,10 +499,27 @@
     "productType": "Hydrating Toner",
     "brand": "Face Republic",
     "volume": "150ml",
-    "price": 22.50,
+    "price": 22.5,
+    "originalPrice": 25,
+    "discount": 10,
+    "stock": 35,
+    "rating": 4.6,
+    "reviewCount": 64,
     "usageDesc": "Apply with a cotton pad or hands after cleansing. Pat in gently to lock in hydration.",
+    "ingredients": [
+      "Mineral Water",
+      "Triple Hyaluronic Acid",
+      "Betaine",
+      "Allantoin"
+    ],
+    "skinTypes": [
+      "Dehydrated",
+      "Sensitive",
+      "Combination"
+    ],
     "image": "/images/fr-hydro-toner.jpg",
-    "isNew": true
+    "isNew": true,
+    "isFeatured": false
   },
   {
     "productCode": "FR003",
@@ -197,9 +529,26 @@
     "brand": "Face Republic",
     "volume": "50ml",
     "price": 25.99,
+    "originalPrice": 29,
+    "discount": 10,
+    "stock": 40,
+    "rating": 4.8,
+    "reviewCount": 92,
     "usageDesc": "Apply as the last step of your routine. Suitable for sensitive and redness-prone skin.",
+    "ingredients": [
+      "Centella Asiatica Extract",
+      "Madecassoside",
+      "Tea Tree Extract",
+      "Aloe Barbadensis Leaf Water"
+    ],
+    "skinTypes": [
+      "Oily",
+      "Acne-Prone",
+      "Sensitive"
+    ],
     "image": "/images/fr-cica-moisturizer.jpg",
-    "isNew": true
+    "isNew": true,
+    "isFeatured": false
   },
   {
     "productCode": "FR004",
@@ -208,10 +557,27 @@
     "productType": "Nourishing Serum",
     "brand": "Face Republic",
     "volume": "30ml",
-    "price": 31.00,
+    "price": 31,
+    "originalPrice": 35,
+    "discount": 11,
+    "stock": 22,
+    "rating": 4.8,
+    "reviewCount": 76,
     "usageDesc": "Gently press 2–3 drops onto cleansed skin morning and evening for a revitalized, dewy complexion.",
+    "ingredients": [
+      "Rosa Damascena Flower Water",
+      "Peptide Complex",
+      "Adenosine",
+      "Squalane"
+    ],
+    "skinTypes": [
+      "Dry",
+      "Mature",
+      "Dull"
+    ],
     "image": "/images/fr-rose-serum.jpg",
-    "isNew": true
+    "isNew": true,
+    "isFeatured": false
   },
   {
     "productCode": "FR005",
@@ -220,10 +586,27 @@
     "productType": "Barrier Repair Cream",
     "brand": "Face Republic",
     "volume": "50ml",
-    "price": 29.50,
+    "price": 29.5,
+    "originalPrice": 34,
+    "discount": 13,
+    "stock": 30,
+    "rating": 4.9,
+    "reviewCount": 115,
     "usageDesc": "Apply generously to the face and neck as the last step of your PM routine to repair and strengthen the skin barrier.",
+    "ingredients": [
+      "Ceramide NP",
+      "Panthenol",
+      "Shea Butter",
+      "Hydrogenated Lecithin"
+    ],
+    "skinTypes": [
+      "Dry",
+      "Sensitive",
+      "Damaged Barrier"
+    ],
     "image": "/images/fr-ceramide-cream.jpg",
-    "isNew": true
+    "isNew": true,
+    "isFeatured": false
   },
   {
     "productCode": "MK3001",
@@ -232,10 +615,25 @@
     "productType": "Velvet Lip Tint",
     "brand": "3CE",
     "volume": "4g",
-    "price": 17.50,
+    "price": 17.5,
+    "originalPrice": 20,
+    "discount": 13,
+    "stock": 45,
+    "rating": 4.8,
+    "reviewCount": 230,
     "usageDesc": "Gently apply from the inner lips outwards for an iconic matte, velvety blurred MLBB gradient look.",
+    "ingredients": [
+      "Dimethicone",
+      "Cyclopentasiloxane",
+      "Polyglyceryl-2 Triisostearate",
+      "Titanium Dioxide"
+    ],
+    "skinTypes": [
+      "All Skin Types"
+    ],
     "image": "/images/3ce-velvet-lip-tint.jpg",
-    "isNew": true
+    "isNew": true,
+    "isFeatured": false
   },
   {
     "productCode": "MK3002",
@@ -244,10 +642,26 @@
     "productType": "Eyeshadow Palette",
     "brand": "3CE",
     "volume": "8.5g / 9 shades",
-    "price": 34.00,
+    "price": 34,
+    "originalPrice": 38,
+    "discount": 11,
+    "stock": 24,
+    "rating": 4.9,
+    "reviewCount": 310,
     "usageDesc": "Blend matte shades over the eyelid and dab glitter toppers on the center for a dazzling, multi-dimensional eye look.",
+    "ingredients": [
+      "Talc",
+      "Mica",
+      "Silica",
+      "Boron Nitride",
+      "Dimethicone"
+    ],
+    "skinTypes": [
+      "All Skin Types"
+    ],
     "image": "/images/3ce-eye-palette.jpg",
-    "isNew": true
+    "isNew": true,
+    "isFeatured": true
   },
   {
     "productCode": "MK3003",
@@ -256,10 +670,26 @@
     "productType": "Face Blush",
     "brand": "3CE",
     "volume": "5.5g",
-    "price": 19.00,
+    "price": 19,
+    "originalPrice": 22,
+    "discount": 14,
+    "stock": 35,
+    "rating": 4.7,
+    "reviewCount": 165,
     "usageDesc": "Lightly sweep across cheekbones with a blush brush. Contains sebum-control powder for a soft-focus watercolor flush.",
+    "ingredients": [
+      "Talc",
+      "Silica",
+      "Mica",
+      "Mineral Oil",
+      "Iron Oxides"
+    ],
+    "skinTypes": [
+      "All Skin Types"
+    ],
     "image": "/images/3ce-face-blush.jpg",
-    "isNew": true
+    "isNew": true,
+    "isFeatured": false
   },
   {
     "productCode": "MK3004",
@@ -268,10 +698,25 @@
     "productType": "16-Shade Eye Palette",
     "brand": "WAKEMAKE",
     "volume": "14g",
-    "price": 28.50,
+    "price": 28.5,
+    "originalPrice": 32,
+    "discount": 11,
+    "stock": 28,
+    "rating": 4.8,
+    "reviewCount": 198,
     "usageDesc": "#1 Olive Young best-selling personal color palette. Layer tones from light base to deep defining shades for effortless daily eye makeup.",
+    "ingredients": [
+      "Mica",
+      "Talc",
+      "Titanium Dioxide",
+      "Synthetic Fluorphlogopite"
+    ],
+    "skinTypes": [
+      "All Skin Types"
+    ],
     "image": "/images/wakemake-eye-palette.jpg",
-    "isNew": true
+    "isNew": true,
+    "isFeatured": false
   },
   {
     "productCode": "MK3005",
@@ -281,9 +726,23 @@
     "brand": "Joocyee",
     "volume": "3.2g",
     "price": 18.99,
+    "originalPrice": 22,
+    "discount": 14,
+    "stock": 32,
+    "rating": 4.8,
+    "reviewCount": 145,
     "usageDesc": "Swipe onto lips for a high-shine mirror finish with oil-film technology that locks in color and hydration up to 8 hours.",
+    "ingredients": [
+      "Diisostearyl Malate",
+      "Bis-Diglyceryl Polyacyladipate-2",
+      "Hydrogenated Polyisobutene"
+    ],
+    "skinTypes": [
+      "All Skin Types"
+    ],
     "image": "/images/joocyee-glossy-rouge.jpg",
-    "isNew": true
+    "isNew": true,
+    "isFeatured": false
   },
   {
     "productCode": "MK3006",
@@ -292,10 +751,24 @@
     "productType": "Lip & Cheek Cream",
     "brand": "Joocyee",
     "volume": "4.5g",
-    "price": 16.50,
+    "price": 16.5,
+    "originalPrice": 19,
+    "discount": 13,
+    "stock": 30,
+    "rating": 4.7,
+    "reviewCount": 112,
     "usageDesc": "Tap with fingertips onto lips and apples of cheeks for an airy, diffused monochromatic glow.",
+    "ingredients": [
+      "Dimethicone",
+      "Isononyl Isononanoate",
+      "Vinyl Dimethicone Crosspolymer"
+    ],
+    "skinTypes": [
+      "All Skin Types"
+    ],
     "image": "/images/joocyee-lip-cheek.jpg",
-    "isNew": true
+    "isNew": true,
+    "isFeatured": false
   },
   {
     "productCode": "MK3007",
@@ -305,9 +778,25 @@
     "brand": "Rom&nd",
     "volume": "5.5g",
     "price": 13.99,
+    "originalPrice": 16,
+    "discount": 13,
+    "stock": 70,
+    "rating": 4.9,
+    "reviewCount": 680,
     "usageDesc": "The viral cult-favorite Korean candied fruit lip tint that creates a plump glass-like film over pigmented color.",
+    "ingredients": [
+      "Water",
+      "Octyldodecanol",
+      "Dimethicone",
+      "Kiwi Fruit Extract",
+      "Papaya Fruit Extract"
+    ],
+    "skinTypes": [
+      "All Skin Types"
+    ],
     "image": "/images/romand-juicy-tint.jpg",
-    "isNew": true
+    "isNew": true,
+    "isFeatured": true
   },
   {
     "productCode": "MK3008",
@@ -316,9 +805,192 @@
     "productType": "Mesh Cushion Foundation",
     "brand": "CLIO",
     "volume": "15g + Refill",
-    "price": 26.00,
+    "price": 26,
+    "originalPrice": 30,
+    "discount": 13,
+    "stock": 40,
+    "rating": 4.8,
+    "reviewCount": 320,
     "usageDesc": "Press puff into the ultra-fine mesh screen and tap over skin for lightweight, buildable crystal radiance that lasts 54 hours.",
+    "ingredients": [
+      "Chamomilla Recutita Flower Water",
+      "D-Panthenol",
+      "8 Types of Hyaluronic Acid",
+      "Niacinamide"
+    ],
+    "skinTypes": [
+      "Dry",
+      "Normal",
+      "Combination"
+    ],
     "image": "/images/clio-glow-cushion.jpg",
-    "isNew": true
+    "isNew": true,
+    "isFeatured": true
+  },
+  {
+    "productCode": "GB1001",
+    "productName": "Skin Reset Serum",
+    "category": "Skincare",
+    "productType": "Face Serum",
+    "brand": "Glisten Blossoms",
+    "volume": "30ml",
+    "price": 18,
+    "originalPrice": 20,
+    "discount": 10,
+    "stock": 25,
+    "rating": 4.8,
+    "reviewCount": 126,
+    "usageDesc": "A gentle daily serum designed to help calm irritated skin, balance excess oil, and support the skin barrier.",
+    "ingredients": [],
+    "skinTypes": [
+      "Oily",
+      "Acne-Prone"
+    ],
+    "image": "/images/glisten-skin-reset-serum.jpg",
+    "isNew": true,
+    "isFeatured": true
+  },
+  {
+    "productCode": "GB1002",
+    "productName": "Post-Acne Mark Serum",
+    "category": "Skincare",
+    "productType": "Face Serum",
+    "brand": "Glisten Blossoms",
+    "volume": "30ml",
+    "price": 20,
+    "originalPrice": 24,
+    "discount": 17,
+    "stock": 22,
+    "rating": 4.7,
+    "reviewCount": 98,
+    "usageDesc": "A daily serum designed to support the appearance of post-acne marks and uneven-looking skin tone.",
+    "ingredients": [
+      "Tranexamic Acid",
+      "Niacinamide",
+      "Alpha Arbutin",
+      "Licorice Root Extract"
+    ],
+    "skinTypes": [
+      "Blemish-Prone",
+      "Uneven Tone",
+      "Combination"
+    ],
+    "image": "/images/glisten-post-acne-serum.jpg",
+    "isNew": true,
+    "isFeatured": false
+  },
+  {
+    "productCode": "GB1003",
+    "productName": "Hydrating Toner",
+    "category": "Skincare",
+    "productType": "Facial Toner",
+    "brand": "Glisten Blossoms",
+    "volume": "150ml",
+    "price": 15,
+    "originalPrice": 18,
+    "discount": 17,
+    "stock": 35,
+    "rating": 4.6,
+    "reviewCount": 84,
+    "usageDesc": "A lightweight toner that helps replenish moisture and prepare the skin for the next steps of your skincare routine.",
+    "ingredients": [
+      "Hyaluronic Acid",
+      "Rosewater",
+      "Glycerin",
+      "Centella Asiatica Extract"
+    ],
+    "skinTypes": [
+      "Dry",
+      "Dehydrated",
+      "Normal"
+    ],
+    "image": "/images/glisten-hydrating-toner.jpg",
+    "isNew": false,
+    "isFeatured": false
+  },
+  {
+    "productCode": "PU1001",
+    "productName": "Pura Gentle Cleanser",
+    "category": "Skincare",
+    "productType": "Facial Cleanser",
+    "brand": "Pura",
+    "volume": "100ml",
+    "price": 12,
+    "originalPrice": 15,
+    "discount": 20,
+    "stock": 40,
+    "rating": 4.7,
+    "reviewCount": 110,
+    "usageDesc": "A gentle facial cleanser designed to remove daily impurities while leaving the skin feeling fresh and comfortable.",
+    "ingredients": [
+      "Cocamidopropyl Betaine",
+      "Green Tea Extract",
+      "Glycerin",
+      "Chamomile Extract"
+    ],
+    "skinTypes": [
+      "Sensitive",
+      "Normal",
+      "Combination"
+    ],
+    "image": "/images/pura-gentle-cleanser.jpg",
+    "isNew": false,
+    "isFeatured": false
+  },
+  {
+    "productCode": "PU1002",
+    "productName": "Pura Hydrating Serum",
+    "category": "Skincare",
+    "productType": "Face Serum",
+    "brand": "Pura",
+    "volume": "30ml",
+    "price": 16,
+    "originalPrice": 20,
+    "discount": 20,
+    "stock": 30,
+    "rating": 4.8,
+    "reviewCount": 75,
+    "usageDesc": "A lightweight serum formulated for everyday hydration and a soft, comfortable skin feel.",
+    "ingredients": [
+      "Hyaluronic Acid Complex",
+      "Panthenol (B5)",
+      "Centella Asiatica Extract"
+    ],
+    "skinTypes": [
+      "All Skin Types",
+      "Dry",
+      "Dehydrated"
+    ],
+    "image": "/images/pura-hydrating-serum.jpg",
+    "isNew": true,
+    "isFeatured": false
+  },
+  {
+    "productCode": "PU1003",
+    "productName": "Pura Daily Sunscreen",
+    "category": "Skincare",
+    "productType": "Facial Sunscreen",
+    "brand": "Pura",
+    "volume": "50ml",
+    "price": 14,
+    "originalPrice": 17,
+    "discount": 18,
+    "stock": 50,
+    "rating": 4.7,
+    "reviewCount": 92,
+    "usageDesc": "A daily facial sunscreen designed to protect skin from UV exposure while providing a lightweight finish.",
+    "ingredients": [
+      "Zinc Oxide",
+      "Titanium Dioxide",
+      "Niacinamide",
+      "Vitamin E"
+    ],
+    "skinTypes": [
+      "All Skin Types",
+      "Sensitive"
+    ],
+    "image": "/images/pura-daily-sunscreen.jpg",
+    "isNew": false,
+    "isFeatured": false
   }
 ]
