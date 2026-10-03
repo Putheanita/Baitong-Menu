@@ -88,10 +88,10 @@ export default function Footer({ onNavigateShop, onNavigateAbout, onNavigateCont
             <ul className="footer-links" style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}>
               <li><span>អាម៉ុកត្រីស្លឹកចេក</span></li>
               <li><span>ឡុកឡាក់សាច់គោខ្ទះក្តៅ</span></li>
-              <li><span>នំបញ្ចុកសម្លខ្មែរ</span></li>
-              <li><span>ឆាមឹកម្រេចខ្ចីកំពត</span></li>
-              <li><span>សម្លកកូរត្រីឆ្លូញ</span></li>
-              <li><span>បាយដំណើបស្វាយទុំ</span></li>
+              <li><span>បាយដំណើបធុរេនកំពត 🥭</span></li>
+              <li><span>សង់ខ្យាល្ពៅបុរាណ 🎃</span></li>
+              <li><span>តែបៃតងទឹកដោះគោខ្ទិះដូង 🌿</span></li>
+              <li><span>កាហ្វេទឹកដោះគោភ្នំពេញ ☕</span></li>
             </ul>
           </div>
 
