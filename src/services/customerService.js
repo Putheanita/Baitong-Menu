@@ -4,78 +4,44 @@
  * Seeds initial customer profiles so the store owner can see who has accounts.
  */
 
-export const DEFAULT_CUSTOMERS = [
-  {
-    id: "USR-001",
-    name: "Puthea Nita Prom",
-    email: "admin@gmail.com",
-    phone: "015 241471",
-    role: "Store Owner (Admin)",
-    province: "Phnom Penh",
-    address: "St. 2004, Sen Sok, Phnom Penh",
-    avatar: "",
-    createdAt: "2026-09-15T08:00:00.000Z",
-    password: "password123"
-  },
-  {
-    id: "USR-002",
-    name: "Sreymom Seng",
-    email: "sreymom.kh@gmail.com",
-    phone: "012 889 977",
-    role: "Loyal Customer",
-    province: "Siem Reap",
-    address: "Wat Bo Village, Siem Reap",
-    avatar: "",
-    createdAt: "2026-09-22T10:30:00.000Z",
-    password: "password123"
-  },
-  {
-    id: "USR-003",
-    name: "Dara Sok",
-    email: "dara.beauty@gmail.com",
-    phone: "098 776 554",
-    role: "Verified Customer",
-    province: "Phnom Penh",
-    address: "Toul Kork, Phnom Penh",
-    avatar: "",
-    createdAt: "2026-09-28T14:15:00.000Z",
-    password: "password123"
-  },
-  {
-    id: "USR-004",
-    name: "Bopha Chea",
-    email: "bopha.skin@gmail.com",
-    phone: "077 443 322",
-    role: "Verified Customer",
-    province: "Battambang",
-    address: "Street 3, Svay Por, Battambang",
-    avatar: "",
-    createdAt: "2026-09-30T16:40:00.000Z",
-    password: "password123"
-  }
-];
+export const DEFAULT_CUSTOMERS = [];
 
 const STORAGE_KEY = "skincare_registered_users";
+const LEGACY_DEMO_IDS = ["USR-001", "USR-002", "USR-003", "USR-004"];
+const DEMO_NAMES = [
+  "Sophea Chea",
+  "Dara Rathana",
+  "Vannak Meas",
+  "Kalyan Lim",
+  "Channary Keo",
+  "Pisey Heng",
+  "Sreymom Seng",
+  "Dara Sok",
+  "Bopha Chea"
+];
 
 /**
- * Get all registered customers from localStorage, seeding default profiles if empty
+ * Get all registered customers from localStorage (strictly real registered users)
  */
 export function getRegisteredCustomers() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_CUSTOMERS));
-      return DEFAULT_CUSTOMERS;
-    }
+    if (!raw) return [];
+    
     const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed) || parsed.length === 0) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_CUSTOMERS));
-      return DEFAULT_CUSTOMERS;
+    if (!Array.isArray(parsed)) return [];
+
+    // Filter out legacy demo accounts and test simulator accounts
+    const realCustomers = parsed.filter(
+      (c) => !LEGACY_DEMO_IDS.includes(c.id) && !DEMO_NAMES.includes(c.name)
+    );
+    if (realCustomers.length !== parsed.length) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(realCustomers));
     }
-    return parsed;
+    return realCustomers;
   } catch (e) {
     console.error("Failed to parse registered customers from storage", e);
-    return DEFAULT_CUSTOMERS;
+    return [];
   }
 }
 

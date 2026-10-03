@@ -1,0 +1,573 @@
+/* ════════════════════════════════════════════════════════════════════
+   Welcome Popup Modal — Split 2-Column with Chef Reveal Transition
+   ════════════════════════════════════════════════════════════════════ */
+
+.welcome-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(10, 24, 17, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  padding: 20px;
+  animation: wmFadeIn 0.35s ease-out;
+}
+
+@keyframes wmFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.welcome-modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 580px; /* Initially title only */
+  min-height: 560px;
+  background: #152e22;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+  display: flex;
+  transition: max-width 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.5s ease;
+}
+
+/* When chef photo is revealed, card expands smoothly */
+.welcome-modal-card.chef-revealed {
+  max-width: 1060px;
+  box-shadow: 0 30px 75px rgba(0, 0, 0, 0.65);
+}
+
+/* Close Button */
+.welcome-modal-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  background: rgba(0, 0, 0, 0.4);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-size: 1.4rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 30;
+  transition: all 0.2s ease;
+}
+
+.welcome-modal-close-btn:hover {
+  background: rgba(239, 68, 68, 0.9);
+  border-color: #ef4444;
+  transform: rotate(90deg);
+}
+
+/* Transition Teaser (when in title-only mode) */
+.wm-transition-teaser {
+  position: absolute;
+  top: 14px;
+  left: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 209, 102, 0.16);
+  border: 1px solid rgba(255, 209, 102, 0.35);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 0.8rem;
+  color: #ffd166;
+  cursor: pointer;
+  z-index: 25;
+  transition: all 0.25s ease;
+  animation: teaserPulse 2s infinite ease-in-out;
+}
+
+.wm-transition-teaser:hover {
+  background: rgba(255, 209, 102, 0.26);
+  transform: translateY(-1px);
+}
+
+.wm-teaser-pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ffd166;
+  animation: pulseDot 1.2s infinite ease-in-out;
+}
+
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.6; }
+}
+
+@keyframes teaserPulse {
+  0%, 100% { opacity: 0.9; }
+  50% { opacity: 1; }
+}
+
+.welcome-modal-grid {
+  display: flex;
+  width: 100%;
+  transition: all 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ════════════════════════════════════════════════
+   LEFT PANEL (Title & Brand)
+   ════════════════════════════════════════════════ */
+.wm-left-panel {
+  flex: 1 1 100%;
+  background: linear-gradient(135deg, #1C3A2B 0%, #2F4F3E 100%);
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #E8F0EA;
+  position: relative;
+  transition: flex 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+              padding 0.5s ease;
+}
+
+.welcome-modal-card.chef-revealed .wm-left-panel {
+  flex: 1 1 52%;
+}
+
+.wm-left-panel::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  right: -20%;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(circle, rgba(127, 165, 139, 0.18) 0%, rgba(0, 0, 0, 0) 70%);
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+/* Brand Logo */
+.wm-brand-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #7FA58B;
+  margin-top: 14px;
+  margin-bottom: 18px;
+}
+
+.wm-brand-icon {
+  font-size: 1.35rem;
+}
+
+.wm-brand-name {
+  font-family: 'Dangrek', 'Battambang', cursive;
+  letter-spacing: 1px;
+}
+
+.wm-brand-sub {
+  font-family: 'Dangrek', 'Battambang', cursive;
+  color: #ffd166;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+}
+
+/* Title */
+.wm-title-wrap {
+  margin-bottom: 12px;
+}
+
+.wm-main-title {
+  font-family: 'Dangrek', 'Playfair Display', cursive;
+  font-size: clamp(2.1rem, 3.4vw, 2.9rem);
+  font-weight: 600;
+  line-height: 1.25;
+  color: #FFFFFF;
+  margin: 0 0 8px 0;
+}
+
+.wm-title-emoji {
+  font-size: 2.2rem;
+  vertical-align: middle;
+  display: inline-block;
+  margin-left: 6px;
+}
+
+.wm-khmer-title {
+  font-family: 'Dangrek', cursive;
+  font-size: clamp(1.4rem, 2vw, 1.8rem);
+  color: #ffd166;
+  font-weight: 400;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+/* Subtitle */
+.wm-subtitle-en {
+  font-family: 'Dangrek', 'Outfit', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 400;
+  line-height: 1.55;
+  color: #B2C8B9;
+  margin: 0 0 4px 0;
+}
+
+.wm-subtitle-kh {
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: #E8F0EA;
+  margin: 0 0 20px 0;
+  opacity: 0.95;
+}
+
+/* Action Buttons */
+.wm-action-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.wm-enter-btn {
+  background: #52b788;
+  color: #081c12;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 12px;
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(82, 183, 136, 0.35);
+}
+
+.wm-enter-btn:hover {
+  background: #74c69d;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(82, 183, 136, 0.45);
+}
+
+.wm-reveal-chef-btn {
+  background: rgba(255, 209, 102, 0.18);
+  color: #ffd166;
+  border: 1.5px solid #ffd166;
+  padding: 11px 18px;
+  border-radius: 12px;
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+}
+
+.wm-reveal-chef-btn:hover {
+  background: #ffd166;
+  color: #12281d;
+  transform: translateY(-2px);
+}
+
+.wm-arrow-anim {
+  transition: transform 0.2s ease;
+}
+
+.wm-reveal-chef-btn:hover .wm-arrow-anim {
+  transform: translateX(4px);
+}
+
+.wm-chef-revealed-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 0.85rem;
+  color: #a7f3d0;
+}
+
+.wm-live-sparkle {
+  color: #ffd166;
+}
+
+/* Founder Footer */
+.wm-founder-box {
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 0.92rem;
+  color: #B2C8B9;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.wm-founder-row,
+.wm-manager-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.wm-founder-lbl {
+  color: #8da48e;
+}
+
+.wm-founder-val {
+  color: #FFFFFF;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 4px;
+}
+
+.wm-founder-phone {
+  color: #ffd166;
+  font-weight: 600;
+}
+
+.wm-manager-link {
+  color: #FFFFFF;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s;
+}
+
+.wm-manager-link:hover {
+  color: #74c69d;
+}
+
+/* ════════════════════════════════════════════════
+   RIGHT PANEL (Chef Photo & Dish Slideshow)
+   Transitions smoothly into view
+   ════════════════════════════════════════════════ */
+.wm-right-slideshow-panel {
+  flex: 0 0 0%;
+  width: 0;
+  max-width: 0;
+  opacity: 0;
+  transform: translateX(50px) scale(0.96);
+  pointer-events: none;
+  overflow: hidden;
+  background: #0f241a;
+  position: relative;
+  display: flex;
+  transition: flex 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+              width 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+              max-width 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.welcome-modal-card.chef-revealed .wm-right-slideshow-panel {
+  flex: 1 1 48%;
+  width: 48%;
+  max-width: 100%;
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  pointer-events: auto;
+}
+
+.wm-slideshow-viewport {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Slide Image */
+.wm-slide-image-wrap {
+  position: relative;
+  width: 100%;
+  height: 72%;
+  overflow: hidden;
+  background: #0b1a13;
+}
+
+.wm-slide-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+  transition: opacity 0.5s ease;
+}
+
+.wm-slide-img.fade-in {
+  animation: wmSlideFade 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes wmSlideFade {
+  from {
+    opacity: 0.3;
+    transform: scale(1.05);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Caption */
+.wm-slide-caption {
+  height: 28%;
+  background: #12281d;
+  padding: 16px 22px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.wm-slide-badge {
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #95d5b2;
+}
+
+.wm-slide-title {
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 1.25rem;
+  color: #ffd166;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.wm-slide-desc {
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: #d8f3dc;
+  margin: 0;
+  opacity: 0.92;
+}
+
+/* Navigation Arrows */
+.wm-slide-arrow {
+  position: absolute;
+  top: 36%;
+  background: rgba(0, 0, 0, 0.45);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s ease;
+}
+
+.wm-slide-arrow.left {
+  left: 12px;
+}
+
+.wm-slide-arrow.right {
+  right: 12px;
+}
+
+.wm-slide-arrow:hover {
+  background: rgba(82, 183, 136, 0.9);
+  border-color: #52b788;
+  color: #081c12;
+}
+
+/* Dots Indicators */
+.wm-slide-dots {
+  position: absolute;
+  bottom: 8px;
+  right: 20px;
+  display: flex;
+  gap: 6px;
+  z-index: 10;
+}
+
+.wm-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.wm-dot.active {
+  background: #ffd166;
+  width: 18px;
+  border-radius: 4px;
+}
+
+/* ════════════════════════════════════════════════
+   RESPONSIVE DESIGN
+   ════════════════════════════════════════════════ */
+@media (max-width: 860px) {
+  .welcome-modal-card {
+    flex-direction: column;
+    max-width: 95vw;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .welcome-modal-grid {
+    flex-direction: column;
+  }
+
+  .wm-left-panel {
+    flex: 1 1 auto;
+    width: 100%;
+    padding: 32px 24px;
+  }
+
+  .wm-right-slideshow-panel {
+    flex: 0 0 0px;
+    width: 100%;
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .welcome-modal-card.chef-revealed .wm-right-slideshow-panel {
+    flex: 1 1 auto;
+    width: 100%;
+    min-height: 380px;
+    max-height: 600px;
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

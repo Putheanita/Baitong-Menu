@@ -95,45 +95,39 @@ export function recordAdminNotification(notification) {
   }
 }
 
+import { formatKhmerDateTime } from "../utils/khmerDate";
+
 /**
  * ── EVENT 1: Triggered when a new user registers ──
  */
 export function notifyNewUserRegistration(user) {
-  const time = new Date().toLocaleTimeString("en-US", {
-    hour: "2-digit",
-    minute: "2-digit"
-  });
-  const date = new Date().toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric"
-  });
+  const khmerNow = formatKhmerDateTime(new Date());
 
   // 1. Record In-App Admin Notification
   recordAdminNotification({
     type: "new_user",
-    title: "New Customer Registered",
-    message: `${user.name} (${user.email || user.phone}) registered a new account.`,
+    title: "អតិថិជនថ្មីបានចុះឈ្មោះ",
+    message: `${user.name} (${user.email || user.phone}) បានចុះឈ្មោះបង្កើតគណនីជោគជ័យ។`,
     user
   });
 
   // 2. Desktop Push Notification
   sendBrowserNotification(
-    "👤 New Customer Registered!",
-    `${user.name} just created an account on SkinCare Co.`
+    "👤 អតិថិជនថ្មីបានចុះឈ្មោះ!",
+    `${user.name} ទើបតែបានបង្កើតគណនីនៅលើ ភោជនីយដ្ឋាន ផ្ទះបៃតង (Baitong House)`
   );
 
   // 3. Telegram Message to Owner's Phone
   const telegramMessage = `
-🎉 <b>NEW CUSTOMER REGISTRATION</b>
+🎉 <b>អតិថិជនថ្មីបានចុះឈ្មោះ / NEW CUSTOMER REGISTRATION</b>
 ━━━━━━━━━━━━━━━━━━
-👤 <b>Name:</b> ${escapeHtml(user.name)}
-📧 <b>Email:</b> ${escapeHtml(user.email || "N/A")}
-📞 <b>Phone:</b> ${escapeHtml(user.phone || "N/A")}
-📍 <b>Location:</b> ${escapeHtml(user.province || "Phnom Penh")}, Cambodia
-⏰ <b>Time:</b> ${time} • ${date}
+👤 <b>ឈ្មោះ / Name:</b> ${escapeHtml(user.name)}
+📧 <b>អ៊ីមែល / Email:</b> ${escapeHtml(user.email || "N/A")}
+📞 <b>ទូរស័ព្ទ / Phone:</b> ${escapeHtml(user.phone || "N/A")}
+📍 <b>ទីតាំង / Location:</b> ${escapeHtml(user.province || "Phnom Penh")}, Cambodia
+⏰ <b>កាលបរិច្ឆេទ / Date & Time:</b> ${khmerNow}
 ━━━━━━━━━━━━━━━━━━
-🏪 <i>SkinCare Co. Storefront</i>
+🏪 <i>ភោជនីយដ្ឋាន ផ្ទះបៃតង (Baitong House) • ម្ចាស់ហាង: CHUM BUNTHARY</i>
 `.trim();
 
   sendTelegramAlert(telegramMessage);
@@ -150,36 +144,36 @@ export function notifyNewOrderPlaced(invoice) {
   // 1. Record In-App Admin Notification
   recordAdminNotification({
     type: "new_order",
-    title: `New Order #${invoice.invoiceNumber}`,
-    message: `Received $${invoice.total?.toFixed(2)} order via ${invoice.paymentMethod} from ${invoice.customerName || "Customer"}.`,
+    title: `New Food Order #${invoice.invoiceNumber || invoice.id}`,
+    message: `Received $${invoice.total?.toFixed(2)} order via ${invoice.paymentMethod} from ${invoice.customerName || invoice.customer?.name || "Customer"}.`,
     invoice
   });
 
   // 2. Desktop Push Notification
   sendBrowserNotification(
-    `🛍️ New Order Received! ($${invoice.total?.toFixed(2)})`,
-    `Invoice #${invoice.invoiceNumber} paid via ${invoice.paymentMethod}`
+    `🍲 New Food Order Received! ($${invoice.total?.toFixed(2)})`,
+    `Invoice #${invoice.invoiceNumber || invoice.id} paid via ${invoice.paymentMethod}`
   );
 
   // 3. Telegram Message to Owner's Phone
   const telegramMessage = `
-🛍️ <b>NEW ORDER RECEIVED!</b>
+🍲 <b>NEW FOOD ORDER RECEIVED!</b>
 ━━━━━━━━━━━━━━━━━━
-🧾 <b>Invoice:</b> ${escapeHtml(invoice.invoiceNumber)}
+🧾 <b>Invoice:</b> ${escapeHtml(invoice.invoiceNumber || invoice.id)}
 💰 <b>Total Amount:</b> <b>$${invoice.total?.toFixed(2)}</b>
 💳 <b>Payment:</b> ${escapeHtml(invoice.paymentMethod)}
 
 👤 <b>Customer Details:</b>
-• <b>Name:</b> ${escapeHtml(invoice.customerName || "Customer")}
-• <b>Phone:</b> ${escapeHtml(invoice.customerPhone || "N/A")}
-• <b>Delivery:</b> ${escapeHtml(invoice.customerAddress || "")}, ${escapeHtml(invoice.customerProvince || "Phnom Penh")}
+• <b>Name:</b> ${escapeHtml(invoice.customerName || invoice.customer?.name || "Customer")}
+• <b>Phone:</b> ${escapeHtml(invoice.customerPhone || invoice.customer?.phone || "N/A")}
+• <b>Delivery:</b> ${escapeHtml(invoice.customerAddress || invoice.customer?.address || "")}, ${escapeHtml(invoice.customerProvince || invoice.customer?.province || "Phnom Penh")}
 
-📦 <b>Purchased Items:</b>
+🍱 <b>Dishes Ordered:</b>
 ${escapeHtml(itemsSummary || "N/A")}
 
-⏰ <b>Date & Time:</b> ${invoice.date || new Date().toLocaleString()}
+⏰ <b>Date & Time:</b> ${invoice.date || formatKhmerDateTime(new Date())}
 ━━━━━━━━━━━━━━━━━━
-🏪 <i>SkinCare Co. E-Commerce</i>
+🏪 <i>ភោជនីយដ្ឋាន ផ្ទះបៃតង (Baitong House) • ម្ចាស់ហាង: CHUM BUNTHARY</i>
 `.trim();
 
   sendTelegramAlert(telegramMessage);

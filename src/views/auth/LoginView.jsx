@@ -22,8 +22,6 @@ export default function LoginView({
   feedback,
   isLoading,
   isSuccess,
-  registeredUsers,
-  handleSelectAccount,
 
   // Setters & Actions
   setIdentifier,
@@ -38,7 +36,7 @@ export default function LoginView({
   switchAuthMode,
   handleLogin,
   handleSignUp,
-  handleQuickDemo
+  onBack
 }) {
   return (
     <div className="login-page">
@@ -48,30 +46,57 @@ export default function LoginView({
       {/* Right Form Card View */}
       <div className="login-form-container">
         <div className="login-card">
+          {/* Back to Home Button */}
+          {onBack && (
+            <button
+              type="button"
+              onClick={onBack}
+              style={{
+                background: "none",
+                border: "none",
+                color: "#2d6a4f",
+                fontFamily: "'Battambang', sans-serif",
+                fontSize: "0.92rem",
+                fontWeight: 600,
+                cursor: "pointer",
+                padding: "0 0 16px 0",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px"
+              }}
+            >
+              ← ត្រឡប់ទៅមើលមុខម្ហូប (ទំព័រដើម)
+            </button>
+          )}
+
           {/* Mode Switcher Tabs */}
           <div className="auth-tab-group">
             <button
               type="button"
               className={`auth-tab-btn ${authMode === "login" ? "active" : ""}`}
               onClick={() => switchAuthMode("login")}
+              style={{ fontFamily: "'Battambang', sans-serif" }}
             >
-              Sign In
+              ចូលគណនី
             </button>
             <button
               type="button"
               className={`auth-tab-btn ${authMode === "signup" ? "active" : ""}`}
               onClick={() => switchAuthMode("signup")}
+              style={{ fontFamily: "'Battambang', sans-serif" }}
             >
-              Create Account ✨
+              ចុះឈ្មោះថ្មី ✨
             </button>
           </div>
 
           <div className="login-header">
-            <h2>{authMode === "login" ? "Welcome Back" : "Create Account"}</h2>
-            <p>
+            <h2 style={{ fontFamily: "'Moul', 'Battambang', serif" }}>
+              {authMode === "login" ? "សូមស្វាគមន៍មកកាន់ ផ្ទះបៃតង" : "បង្កើតគណនីថ្មី"}
+            </h2>
+            <p style={{ fontFamily: "'Battambang', sans-serif" }}>
               {authMode === "login"
-                ? "Enter your details or register a dynamic new account."
-                : "Sign up in 30 seconds to track orders & save invoices."}
+                ? "សូមបញ្ចូលព័ត៌មានរបស់អ្នកដើម្បីចូលគណនី និងកុម្ម៉ង់ម្ហូប"
+                : "ចុះឈ្មោះត្រឹមតែ ៣០ វិនាទី ដើម្បីតាមដានការកុម្ម៉ង់ និងវិក្កយបត្រ"}
             </p>
           </div>
 
@@ -94,9 +119,6 @@ export default function LoginView({
               onSubmit={handleLogin}
               isLoading={isLoading}
               isSuccess={isSuccess}
-              onQuickDemo={handleQuickDemo}
-              registeredUsers={registeredUsers}
-              onSelectAccount={handleSelectAccount}
             />
           ) : (
             /* Tab 2: Sign Up View */
@@ -135,28 +157,30 @@ export default function LoginView({
           )}
 
           {/* View Footer: Switch Mode Links */}
-          <div className="login-footer">
+          <div className="login-footer" style={{ fontFamily: "'Battambang', sans-serif" }}>
             <p>
               {authMode === "login" ? (
                 <>
-                  Don&apos;t have an account?{" "}
+                  មិនទាន់មានគណនីមែនទេ?{" "}
                   <button
                     type="button"
                     className="auth-link-btn"
                     onClick={() => switchAuthMode("signup")}
+                    style={{ fontFamily: "'Battambang', sans-serif" }}
                   >
-                    Create one here →
+                    ចុះឈ្មោះនៅទីនេះ →
                   </button>
                 </>
               ) : (
                 <>
-                  Already have an account?{" "}
+                  មានគណនីរួចហើយមែនទេ?{" "}
                   <button
                     type="button"
                     className="auth-link-btn"
                     onClick={() => switchAuthMode("login")}
+                    style={{ fontFamily: "'Battambang', sans-serif" }}
                   >
-                    Sign In here →
+                    ចូលគណនីនៅទីនេះ →
                   </button>
                 </>
               )}

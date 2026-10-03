@@ -1,3 +1,4 @@
+import { toKhmerDigits } from "../utils/khmerDate";
 import "./Footer.css";
 
 export default function Footer({ onNavigateShop, onNavigateAbout, onNavigateContact, onOpenCart }) {
@@ -6,31 +7,31 @@ export default function Footer({ onNavigateShop, onNavigateAbout, onNavigateCont
       <div className="footer-top-strip">
         <div className="footer-container footer-features">
           <div className="footer-feature-item">
-            <span className="feature-icon">✨</span>
+            <span className="feature-icon">🍲</span>
             <div>
-              <h4>100% Authentic Products</h4>
-              <p>Direct from top Korean &amp; Asian beauty brands</p>
+              <h4 style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}>រូបមន្តម្ហូបខ្មែរបុរាណពិតៗ</h4>
+              <p style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}>គ្រឿងបុកត្បាល់ថ្មស្រស់ៗ មិនប្រើសារធាតុគីមី</p>
             </div>
           </div>
           <div className="footer-feature-item">
-            <span className="feature-icon">🚚</span>
+            <span className="feature-icon">🚀</span>
             <div>
-              <h4>Fast Delivery in Cambodia</h4>
-              <p>Phnom Penh same-day &amp; all 25 provinces</p>
+              <h4 style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}>ដឹកជញ្ជូនរហ័សទាន់ចិត្ត</h4>
+              <p style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}>ចម្អិនក្តៅៗលើខ្ទះ ដឹកជូនផ្ទាល់ក្នុងភ្នំពេញ</p>
             </div>
           </div>
           <div className="footer-feature-item">
             <span className="feature-icon">🏦</span>
             <div>
-              <h4>Instant ABA Bank QR Pay</h4>
-              <p>Fast, secure, and cash on delivery available</p>
+              <h4 style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}>ទូទាត់រហ័ស ABA KHQR</h4>
+              <p style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}>ងាយស្រួល សុវត្ថិភាព និងទូទាត់ពេលដឹកមកដល់</p>
             </div>
           </div>
           <div className="footer-feature-item">
             <span className="feature-icon">🧾</span>
             <div>
-              <h4>Official Tax Invoices</h4>
-              <p>Instant PDF &amp; downloadable transaction receipts</p>
+              <h4 style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}>វិក្កយបត្រម្ហូបផ្លូវការ</h4>
+              <p style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}>ទាញយកឯកសារ ឬរក្សាទុកជា PDF ភ្លាមៗ</p>
             </div>
           </div>
         </div>
@@ -43,55 +44,66 @@ export default function Footer({ onNavigateShop, onNavigateAbout, onNavigateCont
           <div className="footer-col brand-col">
             <div className="footer-logo">
               <span className="footer-logo-icon">🌿</span>
-              <span className="footer-logo-text">SkinCare Co.</span>
+              <span className="footer-logo-text" style={{ fontFamily: "'Moul', 'Battambang', serif" }}>
+                ផ្ទះបៃតង (Baitong House)
+              </span>
             </div>
-            <p className="footer-tagline">
-              Your destination for clean, soothing botanical skincare and authentic makeup from Madagascar Centella, 3CE, Wakemake, Joocyee, and Rom&amp;nd.
+            <p className="footer-tagline" style={{ fontFamily: "'Dangrek', 'Battambang', cursive", lineHeight: "1.7" }}>
+              នាំមកជូននូវរសជាតិម្ហូបខ្មែរប្រពៃណីពិតៗ ឈ្ងុយឆ្ងាញ់ ចម្អិនស្រស់ៗថ្មីៗរាល់ថ្ងៃ ជាមួយគ្រឿងផ្សំក្នុងស្រុកគុណភាពខ្ពស់ ពីខេត្តកំពត បាត់ដំបង និងទន្លេសាប។
             </p>
-            <div className="footer-founder-tag">
-              Founder: <strong>Ms Putheanita Prom</strong>
+            <div className="footer-founder-tag" style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}>
+              <div>ម្ចាស់ហាង: <strong style={{ color: "#ffd166" }}>CHUM BUNTHARY</strong> (ជុំ ប៊ុនថារី)</div>
+              <div style={{ marginTop: "4px", fontSize: "0.85rem", opacity: 0.9 }}>
+                អ្នកគ្រប់គ្រងគេហទំព័រ: Putheanita Prom (putheanitaprom@gmail.com)
+              </div>
             </div>
           </div>
 
           {/* Col 2: Navigation */}
           <div className="footer-col">
-            <h4 className="footer-col-title">Navigation</h4>
-            <ul className="footer-links">
-              <li><button type="button" onClick={onNavigateShop}>Shop All Products</button></li>
-              <li><button type="button" onClick={onNavigateAbout}>About the Founder</button></li>
-              <li><button type="button" onClick={onNavigateContact}>Contact &amp; Support</button></li>
-              <li><button type="button" onClick={onOpenCart}>View Shopping Bag</button></li>
+            <h4 className="footer-col-title" style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}>
+              រុករកទំព័រ
+            </h4>
+            <ul className="footer-links" style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}>
+              <li><button type="button" onClick={onNavigateShop}>មុខម្ហូបខ្មែរទាំងអស់</button></li>
+              <li><button type="button" onClick={onNavigateAbout}>អំពីម្ចាស់ហាង &amp; ថ្នាក់ដឹកនាំ</button></li>
+              <li><button type="button" onClick={onNavigateContact}>កក់តុ &amp; ទំនាក់ទំនង</button></li>
+              <li><button type="button" onClick={onOpenCart}>មើលកន្ត្រកម្ហូប</button></li>
             </ul>
           </div>
 
-          {/* Col 3: Popular Brands */}
+          {/* Col 3: Signature Specialties */}
           <div className="footer-col">
-            <h4 className="footer-col-title">Featured Brands</h4>
-            <ul className="footer-links">
-              <li><span>Madagascar Centella</span></li>
-              <li><span>Face Republic</span></li>
-              <li><span>3CE Stylenanda</span></li>
-              <li><span>WAKEMAKE Korea</span></li>
-              <li><span>JOOCYEE Beauty</span></li>
-              <li><span>ROM&amp;ND &amp; CLIO</span></li>
+            <h4 className="footer-col-title" style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}>
+              មុខម្ហូបពិសេសប្រចាំហាង
+            </h4>
+            <ul className="footer-links" style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}>
+              <li><span>អាម៉ុកត្រីស្លឹកចេក</span></li>
+              <li><span>ឡុកឡាក់សាច់គោខ្ទះក្តៅ</span></li>
+              <li><span>នំបញ្ចុកសម្លខ្មែរ</span></li>
+              <li><span>ឆាមឹកម្រេចខ្ចីកំពត</span></li>
+              <li><span>សម្លកកូរត្រីឆ្លូញ</span></li>
+              <li><span>បាយដំណើបស្វាយទុំ</span></li>
             </ul>
           </div>
 
           {/* Col 4: Store Contact & Hotline */}
           <div className="footer-col">
-            <h4 className="footer-col-title">Store &amp; Hotline</h4>
-            <div className="footer-contact-info">
+            <h4 className="footer-col-title" style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}>
+              ផ្ទះបាយ &amp; ការកុម្ម៉ង់
+            </h4>
+            <div className="footer-contact-info" style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}>
               <p className="contact-line">
-                📞 Hotline: <a href="tel:015241471" className="phone-highlight">015 241471</a>
+                📞 ខ្សែទូរស័ព្ទកុម្ម៉ង់: <a href="tel:015241471" className="phone-highlight">015 241471</a>
               </p>
               <p className="contact-line">
-                📍 Location: <span>Phnom Penh, Cambodia</span>
+                📍 ទីតាំង: <span>រាជធានីភ្នំពេញ កម្ពុជា</span>
               </p>
               <p className="contact-line">
-                ⏰ Hours: <span>Mon – Sat: 8:00 AM – 6:00 PM</span>
+                ⏰ ម៉ោងបម្រើការ: <span>រៀងរាល់ថ្ងៃ: ៧:០០ ព្រឹក – ៩:៣០ យប់</span>
               </p>
               <p className="contact-line">
-                ✉️ Support: <span>putheanitaprom@gmail.com</span>
+                ✉️ អ៊ីមែល: <span>putheanitaprom@gmail.com</span>
               </p>
             </div>
           </div>
@@ -101,11 +113,11 @@ export default function Footer({ onNavigateShop, onNavigateAbout, onNavigateCont
 
       {/* Bottom Bar */}
       <div className="footer-bottom">
-        <div className="footer-container footer-bottom-content">
-          <p>© {new Date().getFullYear()} SkinCare Co. Founded by Ms Putheanita Prom. All rights reserved.</p>
+        <div className="footer-container footer-bottom-content" style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}>
+          <p>© ឆ្នាំ{toKhmerDigits(new Date().getFullYear())} ផ្ទះបៃតង (Baitong House)។ ម្ចាស់ហាង: CHUM BUNTHARY (ជុំ ប៊ុនថារី) • អ្នកគ្រប់គ្រងគេហទំព័រ: Putheanita Prom។ រក្សាសិទ្ធិគ្រប់យ៉ាង។</p>
           <div className="footer-badges">
-            <span className="badge-tag">🇰🇭 Phnom Penh, Cambodia</span>
-            <span className="badge-tag">Official Store</span>
+            <span className="badge-tag">🇰🇭 រាជធានីភ្នំពេញ កម្ពុជា</span>
+            <span className="badge-tag">ភោជនីយដ្ឋានម្ហូបខ្មែរពិតៗ</span>
           </div>
         </div>
       </div>

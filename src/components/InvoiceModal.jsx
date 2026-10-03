@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { formatKhmerDateTime } from "../utils/khmerDate";
 import "./InvoiceModal.css";
 
 export default function InvoiceModal({ invoice, isOpen, onClose }) {
@@ -6,52 +7,59 @@ export default function InvoiceModal({ invoice, isOpen, onClose }) {
 
   if (!isOpen || !invoice) return null;
 
-  const customerName = invoice.customer?.name || "Puthea Nita";
+  const customerName = invoice.customer?.name || "អតិថិជន ផ្ទះបៃតង";
   const customerPhone = invoice.customer?.phone || "015 241471";
-  const customerAddress = invoice.customer?.address || "Phnom Penh, Cambodia";
+  const customerAddress = invoice.customer?.address || "រាជធានីភ្នំពេញ កម្ពុជា";
   const customerProvince = invoice.customer?.province || "Phnom Penh";
   const storePhone = invoice.storePhone || "015 241471";
+  const storeName = invoice.storeName || "ផ្ទះបៃតង (Baitong House)";
+  const storeOwner = invoice.storeOwner || "CHUM BUNTHARY (ជុំ ប៊ុនថារី)";
+  const storeManager = invoice.storeManager || "Putheanita Prom";
+  const displayDate = formatKhmerDateTime(invoice.date || invoice.timestamp || new Date());
 
   // 1. Download formatted text receipt file (.txt)
   const handleDownloadFile = () => {
     const invoiceText = `
 =====================================================
-         SKINCARE CO. - OFFICIAL TAX INVOICE
-               វិក្កយបត្រផ្លូវការ / RECEIPT
+            ភោជនីយដ្ឋាន ផ្ទះបៃតង (BAITONG HOUSE)
+               វិក្កយបត្រម្ហូបអាហារ / RECEIPT
 =====================================================
-Invoice No:    ${invoice.id}
-Date & Time:   ${invoice.date}
-Payment:       ${invoice.paymentMethod}
-Status:        ${invoice.status}
+លេខវិក្កយបត្រ:      ${invoice.id}
+កាលបរិច្ឆេទ & ម៉ោង: ${displayDate}
+វិធីសាស្ត្រទូទាត់:    ${invoice.paymentMethod}
+ស្ថានភាព:          ${invoice.status}
 
 -----------------------------------------------------
-STORE DETAILS (អ្នកលក់):
-Store:         ${invoice.storeName || "SkinCare Co."}
-Hotline:       ${storePhone}
-Location:      ${invoice.storeCity || "Phnom Penh, Cambodia"}
+ព័ត៌មានភោជនីយដ្ឋាន (អ្នកលក់):
+ហាង:             ${storeName}
+ម្ចាស់ហាង:         ${storeOwner}
+អ្នកគ្រប់គ្រងវេបសាយ: ${storeManager}
+លេខទូរស័ព្ទ:       ${storePhone}
+អ៊ីមែល:           putheanitaprom@gmail.com
+ទីតាំង:           ${invoice.storeCity || "រាជធានីភ្នំពេញ កម្ពុជា"}
 
-CUSTOMER & DELIVERY (អតិថិជន):
-Name:          ${customerName}
-Phone:         ${customerPhone}
-Address:       ${customerAddress} (${customerProvince})
+ព័ត៌មានអតិថិជន & ដឹកជញ្ជូន:
+ឈ្មោះ:            ${customerName}
+លេខទូរស័ព្ទ:       ${customerPhone}
+អាសយដ្ឋាន:        ${customerAddress} (${customerProvince})
 =====================================================
-ITEMS PURCHASED:
+មុខម្ហូបដែលបានកុម្ម៉ង់:
 -----------------------------------------------------
 ${invoice.items
   .map(
     (item, index) =>
-      `${index + 1}. ${item.productName} (${item.volume || "Standard"})
-   Qty: ${item.quantity}  x  $${item.price.toFixed(2)}  =  $${(item.price * item.quantity).toFixed(2)}`
+      `${index + 1}. ${item.productName} (${item.volume || "១ចាន"})
+   ចំនួន: ${item.quantity}  x  $${item.price.toFixed(2)}  =  $${(item.price * item.quantity).toFixed(2)}`
   )
   .join("\n-----------------------------------------------------\n")}
 =====================================================
-Subtotal:       $${invoice.subtotal.toFixed(2)}
-${invoice.discount > 0 ? `Promo Discount (${invoice.promoCode || "PCHUMBEN20"}): -$${invoice.discount.toFixed(2)}\n` : ""}Shipping:       ${invoice.shipping === 0 ? "FREE" : `$${invoice.shipping.toFixed(2)}`}
+តម្លៃសរុបរង:       $${invoice.subtotal.toFixed(2)}
+${invoice.discount > 0 ? `បញ្ចុះតម្លៃកូដ (${invoice.promoCode || "BAITONG"}): -$${invoice.discount.toFixed(2)}\n` : ""}សេវាដឹកជញ្ជូន:     ${invoice.shipping === 0 ? "ឥតគិតថ្លៃ" : `$${invoice.shipping.toFixed(2)}`}
 -----------------------------------------------------
-GRAND TOTAL:    $${invoice.total.toFixed(2)}
+ទឹកប្រាក់សរុបត្រូវបង់: $${invoice.total.toFixed(2)}
 =====================================================
-🙏 សូមអរគុណសម្រាប់ការគាំទ្រហាងយើងខ្ញុំ!
-Thank you for your purchase from SkinCare Co.!
+🙏 សូមថ្លែងអំណរគុណយ៉ាងជ្រាលជ្រៅចំពោះការកុម្ម៉ង់ពី ផ្ទះបៃតង (Baitong House)!
+ម្ចាស់ហាង: CHUM BUNTHARY • អ្នកគ្រប់គ្រង: Putheanita Prom
 =====================================================
 `.trim();
 
@@ -74,15 +82,16 @@ Thank you for your purchase from SkinCare Co.!
   // 3. Copy Summary
   const handleCopy = () => {
     const text = `
-🧾 ${invoice.storeName || "SkinCare Co."} TAX INVOICE
-Invoice No: ${invoice.id}
-Date: ${invoice.date}
-Customer: ${customerName} (${customerPhone})
-Address: ${customerAddress}
-Payment: ${invoice.paymentMethod}
-Items: ${invoice.items.length} item(s)
-Total Paid: $${invoice.total.toFixed(2)}
-Store Hotline: ${storePhone}
+🧾 វិក្កយបត្រម្ហូបអាហារ - ${storeName}
+លេខវិក្កយបត្រ: ${invoice.id}
+កាលបរិច្ឆេទ: ${displayDate}
+ម្ចាស់ហាង: ${storeOwner}
+អតិថិជន: ${customerName} (${customerPhone})
+អាសយដ្ឋាន: ${customerAddress}
+ការទូទាត់: ${invoice.paymentMethod}
+ចំនួនមុខម្ហូប: ${invoice.items.length} មុខ
+ទឹកប្រាក់សរុប: $${invoice.total.toFixed(2)}
+លេខទូរស័ព្ទទាក់ទង: ${storePhone}
     `.trim();
 
     navigator.clipboard.writeText(text).then(() => {
@@ -103,82 +112,95 @@ Store Hotline: ${storePhone}
             <div className="inv-brand">
               <span className="inv-brand-icon">🌿</span>
               <div>
-                <h2 className="inv-brand-name">{invoice.storeName || "SkinCare Co."}</h2>
-                <p className="inv-brand-info">Phnom Penh, Cambodia • Hotline: {storePhone}</p>
+                <h2 className="inv-brand-name" style={{ fontFamily: "'Moul', 'Battambang', serif" }}>
+                  {storeName}
+                </h2>
+                <p className="inv-brand-info" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                  ម្ចាស់ហាង: <strong>{storeOwner}</strong> • ទូរស័ព្ទ: <strong>{storePhone}</strong>
+                </p>
+                <p className="inv-brand-info" style={{ fontFamily: "'Battambang', sans-serif", fontSize: "0.85rem", opacity: 0.85 }}>
+                  អ្នកគ្រប់គ្រងគេហទំព័រ: {storeManager}
+                </p>
               </div>
             </div>
 
             <div className="inv-badge-wrap">
-              <span className="inv-badge-paid">✓ PAID &amp; CONFIRMED</span>
+              <span className="inv-badge-paid" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                ✓ បានបញ្ជាក់ &amp; កំពុងចម្អិន
+              </span>
             </div>
           </div>
 
           {/* Khmer Official Title Banner */}
           <div className="inv-title-banner">
-            <h3 className="inv-title-kh">វិក្កយបត្រផ្លូវការ</h3>
-            <span className="inv-title-en">OFFICIAL TAX INVOICE / RECEIPT</span>
+            <h3 className="inv-title-kh" style={{ fontFamily: "'Moul', 'Battambang', serif" }}>
+              វិក្កយបត្រម្ហូបអាហារ
+            </h3>
+            <span className="inv-title-en" style={{ fontFamily: "'Battambang', sans-serif" }}>
+              OFFICIAL FOOD ORDER INVOICE &amp; RECEIPT
+            </span>
           </div>
 
           {/* Meta Details Grid */}
-          <div className="inv-meta-grid">
+          <div className="inv-meta-grid" style={{ fontFamily: "'Battambang', sans-serif" }}>
             <div className="inv-meta-col">
-              <span className="inv-meta-lbl">INVOICE NO:</span>
+              <span className="inv-meta-lbl">លេខវិក្កយបត្រ:</span>
               <strong className="inv-meta-id">{invoice.id}</strong>
             </div>
             <div className="inv-meta-col">
-              <span className="inv-meta-lbl">DATE &amp; TIME:</span>
-              <span>{invoice.date}</span>
+              <span className="inv-meta-lbl">កាលបរិច្ឆេទ &amp; ម៉ោង:</span>
+              <span>{displayDate}</span>
             </div>
             <div className="inv-meta-col">
-              <span className="inv-meta-lbl">PAYMENT METHOD:</span>
+              <span className="inv-meta-lbl">វិធីសាស្ត្រទូទាត់:</span>
               <span className="inv-payment-text">
-                {invoice.paymentMethod === "ABA Bank QR" ? "🏦 ABA Bank QR (Paid)" : "💵 Cash on Delivery"}
+                {invoice.paymentMethod === "ABA Bank KHQR" ? "🏦 ABA Bank KHQR (ទូទាត់រួច)" : "💵 ទូទាត់ប្រាក់ពេលដឹកមកដល់"}
               </span>
             </div>
             <div className="inv-meta-col">
-              <span className="inv-meta-lbl">STORE HOTLINE:</span>
+              <span className="inv-meta-lbl">ខ្សែទូរស័ព្ទហាង:</span>
               <strong className="inv-phone-text">{storePhone}</strong>
             </div>
           </div>
 
           {/* Customer & Delivery Information Block */}
-          <div className="inv-parties-box">
+          <div className="inv-parties-box" style={{ fontFamily: "'Battambang', sans-serif" }}>
             <div className="inv-party-col store-party-col">
               <div className="inv-party-header">
-                <span className="inv-party-badge">FROM (អ្នកលក់)</span>
-                <span className="inv-store-tag">Official Store</span>
+                <span className="inv-party-badge">អ្នកលក់ (ភោជនីយដ្ឋាន)</span>
+                <span className="inv-store-tag">ផ្ទះបាយផ្លូវការ</span>
               </div>
-              <h4 className="inv-party-name">{invoice.storeName || "SkinCare Co."}</h4>
-              <p className="inv-party-line">📍 {invoice.storeCity || "Phnom Penh, Cambodia"}</p>
-              <p className="inv-party-line">📞 Hotline: <strong>{storePhone}</strong></p>
+              <h4 className="inv-party-name">{storeName}</h4>
+              <p className="inv-party-line">👤 ម្ចាស់ហាង: <strong>{storeOwner}</strong></p>
+              <p className="inv-party-line">📍 ទីតាំង: <span>{invoice.storeCity || "រាជធានីភ្នំពេញ កម្ពុជា"}</span></p>
+              <p className="inv-party-line">📞 ទូរស័ព្ទ: <strong>{storePhone}</strong></p>
             </div>
 
             <div className="inv-party-col customer-party-col">
               <div className="inv-party-header">
-                <span className="inv-party-badge customer-badge">DELIVER TO (អតិថិជន)</span>
-                <span className="inv-deliver-tag">🚚 Express Delivery</span>
+                <span className="inv-party-badge customer-badge">ដឹកជញ្ជូនជូន (អតិថិជន)</span>
+                <span className="inv-deliver-tag">🚚 ដឹកជញ្ជូនរហ័សទាន់ចិត្ត</span>
               </div>
               <h4 className="inv-party-name customer-name-title">👤 {customerName}</h4>
-              <p className="inv-party-line">📞 Phone: <strong className="customer-phone-highlight">{customerPhone}</strong></p>
+              <p className="inv-party-line">📞 ទូរស័ព្ទ: <strong className="customer-phone-highlight">{customerPhone}</strong></p>
               <p className="inv-party-line">
-                📍 Address: <span>{customerAddress}</span>
-                {customerProvince && <span className="inv-province-pill">{customerProvince}</span>}
+                📍 អាសយដ្ឋាន: <span>{customerAddress}</span>
               </p>
               {invoice.customer?.notes && (
-                <p className="inv-party-notes">📝 Note: {invoice.customer.notes}</p>
+                <p className="inv-party-notes">📝 ចំណាំ: {invoice.customer.notes}</p>
               )}
             </div>
           </div>
 
           {/* Items Purchased Table */}
           <div className="inv-table-wrap">
-            <table className="inv-table">
+            <table className="inv-table" style={{ fontFamily: "'Battambang', sans-serif" }}>
               <thead>
                 <tr>
-                  <th className="th-item">Product Description</th>
-                  <th className="th-center">Qty</th>
-                  <th className="th-right">Unit Price</th>
-                  <th className="th-right">Amount</th>
+                  <th className="th-item">មុខម្ហូបខ្មែរ</th>
+                  <th className="th-center">ចំនួន</th>
+                  <th className="th-right">តម្លៃរាយ</th>
+                  <th className="th-right">តម្លៃសរុប</th>
                 </tr>
               </thead>
               <tbody>
@@ -187,7 +209,7 @@ Store Hotline: ${storePhone}
                     <td className="td-item">
                       <div className="inv-item-info">
                         <span className="inv-item-title">{item.productName}</span>
-                        <span className="inv-item-vol">{item.volume || "Standard"}</span>
+                        <span className="inv-item-vol">{item.volume || "១ចាន"}</span>
                       </div>
                     </td>
                     <td className="th-center">{item.quantity}</td>
@@ -200,55 +222,57 @@ Store Hotline: ${storePhone}
           </div>
 
           {/* Calculation Breakdown */}
-          <div className="inv-totals-box">
+          <div className="inv-totals-box" style={{ fontFamily: "'Battambang', sans-serif" }}>
             <div className="inv-total-row">
-              <span>Subtotal:</span>
+              <span>តម្លៃសរុបរង:</span>
               <span>${invoice.subtotal.toFixed(2)}</span>
             </div>
             {invoice.discount > 0 && (
               <div className="inv-total-row inv-row-discount">
-                <span>🏷️ Promo Discount ({invoice.promoCode || "PCHUMBEN20"} -20%):</span>
+                <span>🏷️ បញ្ចុះតម្លៃកូដ ({invoice.promoCode || "BAITONG"} -20%):</span>
                 <span>−${invoice.discount.toFixed(2)}</span>
               </div>
             )}
             <div className="inv-total-row">
-              <span>Shipping &amp; Delivery:</span>
-              <span>{invoice.shipping === 0 ? "FREE" : `$${invoice.shipping.toFixed(2)}`}</span>
+              <span>សេវាដឹកជញ្ជូន &amp; ខ្ចប់:</span>
+              <span>{invoice.shipping === 0 ? "ឥតគិតថ្លៃ" : `$${invoice.shipping.toFixed(2)}`}</span>
             </div>
             <div className="inv-total-row inv-row-grand">
-              <span>TOTAL PAID (USD):</span>
+              <span>ទឹកប្រាក់សរុបត្រូវបង់ (ដុល្លារ):</span>
               <span className="inv-grand-amount">${invoice.total.toFixed(2)}</span>
             </div>
           </div>
 
           {/* Blessing & Note */}
           <div className="inv-footer-blessing">
-            <p className="inv-kh-blessing">🙏 សូមអរគុណសម្រាប់ការគាំទ្រ និងទំនុកចិត្តមកលើហាងយើងខ្ញុំ!</p>
-            <p className="inv-en-blessing">
-              Thank you for shopping with SkinCare Co.! Delivery courier will contact <strong>{customerPhone}</strong>.
+            <p className="inv-kh-blessing" style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}>
+              🙏 សូមថ្លែងអំណរគុណយ៉ាងជ្រាលជ្រៅចំពោះការកុម្ម៉ង់ និងការគាំទ្រម្ហូបខ្មែរនៅ ផ្ទះបៃតង!
+            </p>
+            <p className="inv-en-blessing" style={{ fontFamily: "'Battambang', sans-serif" }}>
+              បុគ្គលិកដឹកជញ្ជូននឹងទាក់ទងមកកាន់លេខ <strong>{customerPhone}</strong> ពេលម្ហូបយកទៅដល់។
             </p>
           </div>
 
         </div>
 
-        {/* ── Action Buttons Bar (Always on screen, hidden during print) ── */}
+        {/* ── Action Buttons Bar ── */}
         <div className="invoice-modal-actions no-print">
-          <button className="inv-btn inv-btn-pdf" onClick={handlePrintPdf} title="Print or Save as PDF">
-            🖨️ Save as PDF / Print
+          <button className="inv-btn inv-btn-pdf" onClick={handlePrintPdf} title="បោះពុម្ព ឬរក្សាទុកជា PDF" style={{ fontFamily: "'Battambang', sans-serif" }}>
+            🖨️ បោះពុម្ព / រក្សាទុកជា PDF
           </button>
-          <button className="inv-btn inv-btn-save" onClick={handleDownloadFile} title="Download text invoice file">
-            💾 Download File (.txt)
+          <button className="inv-btn inv-btn-save" onClick={handleDownloadFile} title="ទាញយកឯកសារវិក្កយបត្រ (.txt)" style={{ fontFamily: "'Battambang', sans-serif" }}>
+            💾 ទាញយកឯកសារ (.txt)
           </button>
-          <button className="inv-btn inv-btn-copy" onClick={handleCopy} title="Copy invoice summary">
-            {copied ? "✓ Copied!" : "📋 Copy"}
+          <button className="inv-btn inv-btn-copy" onClick={handleCopy} title="ចម្លងព័ត៌មានសង្ខេប" style={{ fontFamily: "'Battambang', sans-serif" }}>
+            {copied ? "✓ បានចម្លង!" : "📋 ចម្លងព័ត៌មាន"}
           </button>
-          <button className="inv-btn inv-btn-close" onClick={onClose}>
-            Done
+          <button className="inv-btn inv-btn-close" onClick={onClose} style={{ fontFamily: "'Battambang', sans-serif" }}>
+            រួចរាល់
           </button>
         </div>
 
         {/* Top-Right Close Button */}
-        <button className="inv-modal-close-icon no-print" onClick={onClose} aria-label="Close invoice">
+        <button className="inv-modal-close-icon no-print" onClick={onClose} aria-label="បិទវិក្កយបត្រ">
           &times;
         </button>
 

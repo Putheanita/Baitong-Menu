@@ -1,0 +1,395 @@
+/* ════════════════════════════════════════════════════════════════════
+   Welcome Hero Section — Split 2-Column Layout
+   - Left: Authentic Branding & Typography in Dangrek font
+   - Right: Signature Dishes Showcase (NO chef photo on home page)
+   ════════════════════════════════════════════════════════════════════ */
+
+.welcome-split-hero {
+  background: linear-gradient(135deg, #1C3A2B 0%, #2F4F3E 100%);
+  color: #E8F0EA;
+  padding: 60px 32px 50px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.welcome-split-hero::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  right: -20%;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(circle, rgba(127, 165, 139, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+.welcome-split-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 48px;
+  position: relative;
+  z-index: 2;
+}
+
+/* ════════════════════════════════════════════════
+   LEFT PANEL (Branding & Slogan)
+   ════════════════════════════════════════════════ */
+.welcome-left-panel {
+  flex: 1 1 54%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Top brand tag: 🍲 SOVANNAPHUM KHMER CUISINE */
+.welcome-top-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  color: #7FA58B;
+}
+
+.welcome-brand-emoji {
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.welcome-brand-subtag {
+  color: #E8F0EA;
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  font-size: 1rem;
+}
+
+/* Title */
+.welcome-title-wrap {
+  margin-bottom: 18px;
+}
+
+.welcome-main-title {
+  font-family: 'Dangrek', 'Playfair Display', cursive;
+  font-size: clamp(2.3rem, 3.8vw, 3.5rem);
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0 0 10px 0;
+  color: #FFFFFF;
+}
+
+.title-emoji {
+  font-size: 2.6rem;
+  vertical-align: middle;
+  display: inline-block;
+  margin-left: 8px;
+}
+
+.welcome-khmer-title {
+  font-family: 'Dangrek', cursive;
+  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  color: #ffd166;
+  font-weight: 400;
+  line-height: 1.35;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+/* Subtitles */
+.welcome-subtitle {
+  font-family: 'Dangrek', 'Outfit', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 300;
+  line-height: 1.6;
+  color: #B2C8B9;
+  max-width: 520px;
+  margin: 0 0 6px 0;
+}
+
+.welcome-subtitle-kh {
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: #E8F0EA;
+  margin: 0 0 26px 0;
+  opacity: 0.95;
+}
+
+/* Action Buttons */
+.welcome-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 30px;
+}
+
+.welcome-explore-btn {
+  background: #52b788;
+  color: #081c12;
+  border: none;
+  padding: 13px 26px;
+  border-radius: 12px;
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(82, 183, 136, 0.35);
+}
+
+.welcome-explore-btn:hover {
+  background: #74c69d;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(82, 183, 136, 0.45);
+}
+
+.welcome-slideshow-btn {
+  background: rgba(255, 209, 102, 0.16);
+  color: #ffd166;
+  border: 1.5px solid #ffd166;
+  padding: 12px 22px;
+  border-radius: 12px;
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 0.96rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+}
+
+.welcome-slideshow-btn:hover {
+  background: #ffd166;
+  color: #12281d;
+  transform: translateY(-2px);
+}
+
+.welcome-contact-btn {
+  background: rgba(255, 255, 255, 0.09);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 13px 22px;
+  border-radius: 12px;
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 0.98rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+}
+
+.welcome-contact-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.45);
+  transform: translateY(-2px);
+}
+
+/* Founder Footer */
+.welcome-founder-footer {
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 0.95rem;
+  color: #B2C8B9;
+  letter-spacing: 0.5px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  width: 100%;
+}
+
+.founder-row,
+.manager-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.founder-label {
+  color: #8da48e;
+}
+
+.founder-name {
+  color: #FFFFFF;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 4px;
+}
+
+.founder-phone {
+  color: #ffd166;
+  font-weight: 600;
+}
+
+.manager-email {
+  color: #FFFFFF;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s;
+}
+
+.manager-email:hover {
+  color: #74c69d;
+}
+
+/* ════════════════════════════════════════════════
+   RIGHT PANEL: Signature Food Dishes Showcase
+   (NO CHEF PHOTO ON HOME PAGE)
+   ════════════════════════════════════════════════ */
+.welcome-right-dishes-panel {
+  flex: 1 1 46%;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-dishes-card {
+  width: 100%;
+  max-width: 480px;
+  background: rgba(18, 40, 29, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 20px;
+  padding: 22px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.hero-dishes-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.hero-dishes-badge {
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 0.95rem;
+  color: #ffd166;
+  font-weight: 600;
+}
+
+.hero-dishes-fresh {
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 0.8rem;
+  color: #a7f3d0;
+  background: rgba(52, 211, 153, 0.14);
+  border: 1px solid rgba(52, 211, 153, 0.3);
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.hero-dish-featured {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 16px;
+}
+
+.hero-dish-img-wrap {
+  position: relative;
+  width: 100%;
+  height: 230px;
+  overflow: hidden;
+}
+
+.hero-dish-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.hero-dish-featured:hover .hero-dish-cover {
+  transform: scale(1.05);
+}
+
+.hero-dish-price-tag {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: #2d6a4f;
+  color: #ffd166;
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 1.15rem;
+  font-weight: 700;
+  padding: 5px 14px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 209, 102, 0.4);
+}
+
+.hero-dish-info {
+  padding: 16px 18px;
+}
+
+.hero-dish-title {
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 1.25rem;
+  color: #FFFFFF;
+  margin: 0 0 6px 0;
+}
+
+.hero-dish-desc {
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: #c4d9cb;
+  margin: 0;
+}
+
+.hero-perks-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.hero-perk-pill {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 0.82rem;
+  color: #d8f3dc;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ════════════════════════════════════════════════
+   RESPONSIVE DESIGN
+   ════════════════════════════════════════════════ */
+@media (max-width: 960px) {
+  .welcome-split-container {
+    flex-direction: column;
+    gap: 36px;
+  }
+
+  .welcome-left-panel,
+  .welcome-right-dishes-panel {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+
+  .hero-dishes-card {
+    max-width: 100%;
+  }
+}

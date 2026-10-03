@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import {
   getTelegramConfig,
-  saveTelegramConfig
+  saveTelegramConfig,
+  clearTelegramConfig
 } from "../config/notificationConfig.js";
 import {
   sendTelegramAlert,
@@ -11,8 +12,9 @@ import {
 import {
   getRegisteredCustomers,
   deleteCustomerRecord,
-  addCustomerRecord
+  saveRegisteredCustomers
 } from "../services/customerService.js";
+import { formatKhmerDateTime, formatKhmerDateOnly, formatKhmerTime } from "../utils/khmerDate.js";
 import "./NotificationSidebar.css";
 
 export default function NotificationSidebar({ isOpen, onClose }) {
@@ -27,7 +29,7 @@ export default function NotificationSidebar({ isOpen, onClose }) {
   const [telegramEnabled, setTelegramEnabled] = useState(false);
   const [botToken, setBotToken] = useState("");
   const [chatId, setChatId] = useState("");
-  const [telegramStatus, setTelegramStatus] = useState(null); // { type: 'success' | 'error', message: '' }
+  const [telegramStatus, setTelegramStatus] = useState(null);
   const [isTestingTelegram, setIsTestingTelegram] = useState(false);
 
   // Load notifications from localStorage
@@ -102,7 +104,7 @@ export default function NotificationSidebar({ isOpen, onClose }) {
   };
 
   const handleClearAll = () => {
-    if (window.confirm("Clear all notification logs?")) {
+    if (window.confirm("តើអ្នកប្រាកដជាចង់សម្អាតដំណឹងទាំងអស់មែនទេ?")) {
       localStorage.removeItem("skincare_admin_notifications");
       setNotifications([]);
       window.dispatchEvent(new Event("admin_notifications_updated"));
@@ -127,17 +129,32 @@ export default function NotificationSidebar({ isOpen, onClose }) {
     });
     setTelegramStatus({
       type: "success",
-      message: "Telegram settings saved successfully!"
+      message: "បានរក្សាទុកការកំណត់ Telegram ដោយជោគជ័យ!"
     });
     setTimeout(() => setTelegramStatus(null), 3500);
   };
 
-  // Test Telegram Connection
+  // Remove / Clear Telegram Credentials
+  const handleRemoveTelegram = () => {
+    if (window.confirm("តើអ្នកចង់លុប Bot Token និង Chat ID ចេញមែនទេ?")) {
+      clearTelegramConfig();
+      setTelegramEnabled(false);
+      setBotToken("");
+      setChatId("");
+      setTelegramStatus({
+        type: "success",
+        message: "✓ បានលុប Telegram Token & Chat ID រួចរាល់។"
+      });
+      setTimeout(() => setTelegramStatus(null), 3500);
+    }
+  };
+
+  // Test Telegram Alert
   const handleTestTelegram = async () => {
     if (!botToken.trim() || !chatId.trim()) {
       setTelegramStatus({
         type: "error",
-        message: "Please enter both Bot Token and Chat ID first."
+        message: "សូមបញ្ចូល Telegram Bot Token និង Chat ID ជាមុនសិន។"
       });
       return;
     }
@@ -145,23 +162,13 @@ export default function NotificationSidebar({ isOpen, onClose }) {
     setIsTestingTelegram(true);
     setTelegramStatus(null);
 
-    // Save current inputs first
-    saveTelegramConfig({
-      enabled: true,
-      token: botToken.trim(),
-      chatId: chatId.trim()
-    });
-    setTelegramEnabled(true);
-
     const testMsg = `
-🔔 <b>TEST ALERT: SkinCare Co. Notification System</b>
-━━━━━━━━━━━━━━━━━━
-✅ <b>Connection:</b> <b>SUCCESSFUL!</b>
-🏪 <b>Store:</b> SkinCare Co. Phnom Penh
-⏰ <b>Time:</b> ${new Date().toLocaleTimeString()}
-━━━━━━━━━━━━━━━━━━
-<i>Your Telegram bot is now active and ready to alert you on every new user registration and order!</i>
-`.trim();
+🔔 *ដំណឹងសាកល្បងពី ផ្ទះបៃតង (Baitong House)*
+⏰ កាលបរិច្ឆេទ & ម៉ោង: ${formatKhmerDateTime(new Date())}
+ម្ចាស់ហាង: CHUM BUNTHARY (ជុំ ប៊ុនថារី)
+អ្នកគ្រប់គ្រង: Putheanita Prom
+✅ ប្រព័ន្ធជូនដំណឹងដំណើរការល្អឥតខ្ចោះ!
+    `.trim();
 
     const result = await sendTelegramAlert(testMsg);
     setIsTestingTelegram(false);
@@ -169,78 +176,56 @@ export default function NotificationSidebar({ isOpen, onClose }) {
     if (result?.ok) {
       setTelegramStatus({
         type: "success",
-        message: "✓ Test alert sent! Please check your Telegram app now."
+        message: "✓ បានផ្ញើសារដំណឹងសាកល្បង! សូមពិនិត្យកម្មវិធី Telegram របស់អ្នក។"
       });
     } else {
       setTelegramStatus({
         type: "error",
-        message: `Failed: ${result?.error || "Check your Bot Token & Chat ID."}`
+        message: `បរាជ័យ: ${result?.error || "សូមពិនិត្យមើល Bot Token & Chat ID ម្តងទៀត។"}`
       });
     }
   };
 
   // Simulate Quick Test Actions
   const handleSimulateOrder = () => {
-    const randomInv = `INV-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+    const randomInv = `INV-BT-${Math.floor(1000 + Math.random() * 9000)}`;
     const sampleInvoice = {
       invoiceNumber: randomInv,
-      date: new Date().toLocaleString(),
-      customerName: "Sophea Meng",
+      date: formatKhmerDateTime(new Date()),
+      customerName: "សុខា ម៉េង",
       customerPhone: "012 998 776",
-      customerAddress: "Street 271, Sangkat Boeung Salang",
-      customerProvince: "Phnom Penh",
+      customerAddress: "ផ្លូវ ២៧១ សង្កាត់បឹងសាឡាង",
+      customerProvince: "រាជធានីភ្នំពេញ",
       items: [
-        { productName: "Madagascar Centella Ampoule", quantity: 1, price: 21.99 },
-        { productName: "Skin Reset Serum", quantity: 1, price: 18.0 }
+        { productName: "អាម៉ុកត្រីស្លឹកចេក", quantity: 1, price: 5.50 },
+        { productName: "ឡុកឡាក់សាច់គោខ្ទះក្តៅ", quantity: 1, price: 6.00 }
       ],
-      total: 39.99,
-      paymentMethod: "ABA Bank QR"
+      total: 11.50,
+      paymentMethod: "ABA Bank KHQR"
     };
 
     notifyNewOrderPlaced(sampleInvoice);
   };
 
-  const handleSimulateSignup = () => {
-    const randomId = Math.floor(100 + Math.random() * 900);
-    const sampleNames = ["Dara Rathana", "Sophea Chea", "Vannak Meas", "Kalyan Lim", "Channary Keo", "Pisey Heng"];
-    const randomName = sampleNames[Math.floor(Math.random() * sampleNames.length)];
-    const sampleProvinces = ["Phnom Penh", "Siem Reap", "Battambang", "Kampot", "Sihanoukville"];
-    const randomProv = sampleProvinces[Math.floor(Math.random() * sampleProvinces.length)];
-
-    const sampleUser = {
-      id: `USR-${Date.now()}`,
-      name: randomName,
-      email: `${randomName.toLowerCase().replace(/\s+/g, ".")}${randomId}@gmail.com`,
-      phone: `0${Math.floor(10 + Math.random() * 89)} ${Math.floor(100 + Math.random() * 900)} ${Math.floor(100 + Math.random() * 900)}`,
-      province: randomProv,
-      address: `Street ${Math.floor(100 + Math.random() * 400)}, ${randomProv}`,
-      role: "Registered Customer",
-      createdAt: new Date().toISOString()
-    };
-
-    addCustomerRecord(sampleUser);
-    notifyNewUserRegistration(sampleUser);
-  };
-
   return (
     <div className="notif-sidebar-overlay" onClick={onClose}>
-      <div className="notif-sidebar-panel" onClick={(e) => e.stopPropagation()}>
+      <div className="notif-sidebar-panel" onClick={(e) => e.stopPropagation()} style={{ fontFamily: "'Battambang', sans-serif" }}>
         
         {/* Header */}
         <div className="notif-sidebar-header">
           <div className="notif-header-title">
             <span className="notif-header-icon">🔔</span>
             <div>
-              <h3>Store Alerts</h3>
+              <h3 style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}>ការជូនដំណឹងហាង</h3>
               <p className="notif-header-sub">
-                Real-time alerts for registrations &amp; orders
+                ដំណឹងជាក់ស្តែងសម្រាប់ការចុះឈ្មោះ &amp; ការកុម្ម៉ង់ម្ហូប
               </p>
             </div>
             {unreadCount > 0 && (
-              <span className="notif-unread-pill">{unreadCount} New</span>
+              <span className="notif-unread-pill">{unreadCount} ថ្មី</span>
             )}
           </div>
-          <button className="notif-close-btn" onClick={onClose} aria-label="Close">
+          <button className="notif-close-btn" onClick={onClose} aria-label="បិទ">
             &times;
           </button>
         </div>
@@ -251,19 +236,19 @@ export default function NotificationSidebar({ isOpen, onClose }) {
             className={`notif-tab ${activeTab === "all" ? "active" : ""}`}
             onClick={() => setActiveTab("all")}
           >
-            All Alerts ({notifications.length})
+            ដំណឹងទាំងអស់ ({notifications.length})
           </button>
           <button
             className={`notif-tab ${activeTab === "orders" ? "active" : ""}`}
             onClick={() => setActiveTab("orders")}
           >
-            🛍️ Orders ({ordersCount})
+            🛍️ ការកុម្ម៉ង់ ({ordersCount})
           </button>
           <button
             className={`notif-tab ${activeTab === "customers" ? "active" : ""}`}
             onClick={() => setActiveTab("customers")}
           >
-            👥 Customers ({customers.length})
+            👥 អតិថិជន ({customers.length})
           </button>
           <button
             className={`notif-tab ${activeTab === "telegram" ? "active" : ""}`}
@@ -279,18 +264,33 @@ export default function NotificationSidebar({ isOpen, onClose }) {
             <div className="toolbar-left">
               {activeTab !== "customers" && unreadCount > 0 && (
                 <button className="tb-btn" onClick={handleMarkAllRead}>
-                  ✓ Mark read
+                  ✓ អានទាំងអស់
                 </button>
               )}
               {activeTab !== "customers" && notifications.length > 0 && (
                 <button className="tb-btn text-danger" onClick={handleClearAll}>
-                  🗑️ Clear
+                  🗑️ សម្អាត
                 </button>
               )}
               {activeTab === "customers" && (
-                <span style={{ fontSize: "0.78rem", color: "#64748b", fontWeight: 600 }}>
-                  Showing {filteredCustomers.length} registered accounts
-                </span>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                  <span style={{ fontSize: "0.78rem", color: "#64748b", fontWeight: 600 }}>
+                    បង្ហាញ {filteredCustomers.length} គណនី
+                  </span>
+                  {customers.length > 0 && (
+                    <button
+                      className="tb-btn text-danger"
+                      onClick={() => {
+                        if (window.confirm("តើចង់សម្អាតបញ្ជីអតិថិជនទាំងអស់មែនទេ?")) {
+                          saveRegisteredCustomers([]);
+                          setCustomers([]);
+                        }
+                      }}
+                    >
+                      🗑️ សម្អាតទាំងអស់
+                    </button>
+                  )}
+                </div>
               )}
             </div>
             <div className="toolbar-right">
@@ -298,25 +298,18 @@ export default function NotificationSidebar({ isOpen, onClose }) {
                 <button
                   className="tb-btn test-btn"
                   onClick={handleSimulateOrder}
-                  title="Create a sample order to test the alert system"
+                  title="បង្កើតការកុម្ម៉ង់សាកល្បង"
                 >
-                  + Test Order
+                  + សាកល្បងកុម្ម៉ង់
                 </button>
               )}
-              <button
-                className="tb-btn test-btn"
-                onClick={handleSimulateSignup}
-                title="Register a sample customer account and trigger alert"
-              >
-                + Add Customer
-              </button>
             </div>
           </div>
         )}
 
         {/* Content Body */}
         <div className="notif-body">
-          {/* TAB 1 & 2: Alerts List (All / Orders) */}
+          {/* TAB 1 & 2: Alerts List */}
           {(activeTab === "all" || activeTab === "orders") && (
             <>
               {filteredNotifications.length > 0 ? (
@@ -328,14 +321,14 @@ export default function NotificationSidebar({ isOpen, onClose }) {
                     >
                       <div className="notif-card-header">
                         <div className="notif-type-tag">
-                          {item.type === "new_order" ? "🛍️ New Order" : "👤 New Customer"}
+                          {item.type === "new_order" ? "🛍️ ការកុម្ម៉ង់ថ្មី" : "👤 អតិថិជនថ្មី"}
                         </div>
                         <div className="notif-time">
-                          {item.timestamp ? new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "Just now"}
+                          {item.timestamp ? formatKhmerTime(item.timestamp, false) : "អម្បាញ់មិញ"}
                           <button
                             className="notif-del-item-btn"
                             onClick={(e) => handleDeleteItem(item.id, e)}
-                            title="Delete"
+                            title="លុប"
                           >
                             &times;
                           </button>
@@ -349,24 +342,24 @@ export default function NotificationSidebar({ isOpen, onClose }) {
                       {item.type === "new_order" && item.invoice && (
                         <div className="notif-detail-box order-box">
                           <div className="detail-row">
-                            <span>Amount:</span>
+                            <span>ទឹកប្រាក់:</span>
                             <strong className="amount-highlight">
                               ${item.invoice.total?.toFixed(2)}
                             </strong>
                           </div>
                           <div className="detail-row">
-                            <span>Payment:</span>
+                            <span>ការទូទាត់:</span>
                             <span className="badge-pay">{item.invoice.paymentMethod}</span>
                           </div>
                           {item.invoice.customerPhone && (
                             <div className="detail-row">
-                              <span>Phone:</span>
+                              <span>ទូរស័ព្ទ:</span>
                               <strong>{item.invoice.customerPhone}</strong>
                             </div>
                           )}
                           {item.invoice.customerProvince && (
                             <div className="detail-row">
-                              <span>Province:</span>
+                              <span>រាជធានី/ខេត្ត:</span>
                               <span>{item.invoice.customerProvince}</span>
                             </div>
                           )}
@@ -377,20 +370,20 @@ export default function NotificationSidebar({ isOpen, onClose }) {
                       {item.type === "new_user" && item.user && (
                         <div className="notif-detail-box user-box">
                           <div className="detail-row">
-                            <span>Customer:</span>
+                            <span>អតិថិជន:</span>
                             <strong>{item.user.name}</strong>
                           </div>
                           <div className="detail-row">
-                            <span>Email:</span>
+                            <span>អ៊ីមែល:</span>
                             <span>{item.user.email}</span>
                           </div>
                           <div className="detail-row">
-                            <span>Phone:</span>
+                            <span>ទូរស័ព្ទ:</span>
                             <strong>{item.user.phone}</strong>
                           </div>
                           <div className="detail-row">
-                            <span>Province:</span>
-                            <span>{item.user.province || "Phnom Penh"}</span>
+                            <span>រាជធានី/ខេត្ត:</span>
+                            <span>{item.user.province || "រាជធានីភ្នំពេញ"}</span>
                           </div>
                         </div>
                       )}
@@ -400,14 +393,13 @@ export default function NotificationSidebar({ isOpen, onClose }) {
               ) : (
                 <div className="notif-empty-state">
                   <span className="empty-icon">🔕</span>
-                  <h4>No Alerts Yet</h4>
+                  <h4 style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}>មិនទាន់មានការជូនដំណឹងនៅឡើយទេ</h4>
                   <p>
-                    When customers register or place orders, real-time alerts will
-                    appear here and ping your Telegram bot.
+                    នៅពេលមានអតិថិជនចុះឈ្មោះ ឬកុម្ម៉ង់ម្ហូប ដំណឹងជាក់ស្តែងនឹងបង្ហាញនៅទីនេះ និងផ្ញើទៅកាន់ Telegram របស់អ្នក។
                   </p>
                   <div className="empty-actions">
                     <button className="tb-btn test-btn" onClick={handleSimulateOrder}>
-                      + Send Sample Order Alert
+                      + ផ្ញើដំណឹងកុម្ម៉ង់សាកល្បង
                     </button>
                   </div>
                 </div>
@@ -415,15 +407,14 @@ export default function NotificationSidebar({ isOpen, onClose }) {
             </>
           )}
 
-          {/* TAB 3: Registered Customers Directory */}
+          {/* TAB 3: Registered Customers */}
           {activeTab === "customers" && (
             <div className="customers-container">
-              {/* Search Bar */}
               <div className="customer-search-bar">
                 <span className="customer-search-icon">🔍</span>
                 <input
                   type="text"
-                  placeholder="Search customer by name, email, phone, city..."
+                  placeholder="ស្វែងរកតាមឈ្មោះ អ៊ីមែល លេខទូរស័ព្ទ..."
                   value={customerSearch}
                   onChange={(e) => setCustomerSearch(e.target.value)}
                   className="customer-search-input"
@@ -440,22 +431,15 @@ export default function NotificationSidebar({ isOpen, onClose }) {
               </div>
 
               <div className="customer-list-summary">
-                <span>Total Customers: <strong>{customers.length}</strong></span>
-                <span>Filtered: <strong>{filteredCustomers.length}</strong></span>
+                <span>អតិថិជនសរុប: <strong>{customers.length}</strong></span>
+                <span>លទ្ធផល: <strong>{filteredCustomers.length}</strong></span>
               </div>
 
               {filteredCustomers.length > 0 ? (
                 <div className="customer-cards-list">
                   {filteredCustomers.map((cust) => {
                     const isAdmin = cust.role?.includes("Admin") || cust.email === "admin@gmail.com";
-                    const initials = cust.name
-                      ? cust.name
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")
-                          .substring(0, 2)
-                          .toUpperCase()
-                      : "U";
+                    const initials = cust.name ? cust.name.slice(0, 2) : "បត";
 
                     return (
                       <div key={cust.id || cust.email} className="customer-card-item">
@@ -467,7 +451,7 @@ export default function NotificationSidebar({ isOpen, onClose }) {
                             <div className="customer-names-group">
                               <h4>{cust.name}</h4>
                               <span className={`customer-role-tag ${isAdmin ? "admin" : "customer"}`}>
-                                {isAdmin ? "👑 Store Owner" : "👤 Customer"}
+                                {isAdmin ? "👑 ម្ចាស់ហាង" : "👤 អតិថិជន"}
                               </span>
                             </div>
                           </div>
@@ -475,9 +459,9 @@ export default function NotificationSidebar({ isOpen, onClose }) {
                             <button
                               type="button"
                               className="customer-delete-btn"
-                              title="Delete customer account"
+                              title="លុបគណនីអតិថិជន"
                               onClick={() => {
-                                if (window.confirm(`Delete customer "${cust.name}"?`)) {
+                                if (window.confirm(`តើអ្នកចង់លុបគណនី "${cust.name}" មែនទេ?`)) {
                                   deleteCustomerRecord(cust.id);
                                 }
                               }}
@@ -490,11 +474,11 @@ export default function NotificationSidebar({ isOpen, onClose }) {
                         <div className="customer-details-grid">
                           <div className="cust-detail-cell">
                             <span>📞</span>
-                            <strong>{cust.phone || "No phone"}</strong>
+                            <strong>{cust.phone || "គ្មានលេខ"}</strong>
                           </div>
                           <div className="cust-detail-cell">
                             <span>📍</span>
-                            <span>{cust.province || "Phnom Penh"}</span>
+                            <span>{cust.province || "រាជធានីភ្នំពេញ"}</span>
                           </div>
                           <div className="cust-detail-cell full-width">
                             <span>📧</span>
@@ -507,7 +491,7 @@ export default function NotificationSidebar({ isOpen, onClose }) {
                             </div>
                           )}
                           <div className="cust-join-date full-width">
-                            Joined: {cust.createdAt ? new Date(cust.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "Active Customer"}
+                            ចុះឈ្មោះ: {cust.createdAt ? formatKhmerDateOnly(cust.createdAt) : "គណនីសកម្ម"}
                           </div>
                         </div>
                       </div>
@@ -517,23 +501,22 @@ export default function NotificationSidebar({ isOpen, onClose }) {
               ) : (
                 <div className="notif-empty-state">
                   <span className="empty-icon">🔍</span>
-                  <h4>No Customers Found</h4>
-                  <p>No customer matching "{customerSearch}".</p>
+                  <h4 style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}>រកមិនឃើញអតិថិជនទេ</h4>
+                  <p>គ្មានអតិថិជនណាត្រូវនឹងពាក្យ "{customerSearch}" ឡើយ។</p>
                 </div>
               )}
             </div>
           )}
 
-          {/* TAB 4: Telegram Bot Integration Settings */}
+          {/* TAB 4: Telegram Bot Integration */}
           {activeTab === "telegram" && (
             <div className="telegram-settings-panel">
               <div className="tg-banner-card">
                 <div className="tg-banner-icon">✈️</div>
                 <div className="tg-banner-text">
-                  <h4>Instant Telegram Phone Alerts</h4>
+                  <h4 style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}>ការជូនដំណឹងតាម Telegram លើទូរស័ព្ទ</h4>
                   <p>
-                    Receive instant push notifications with sound on your phone
-                    whenever someone registers or makes a purchase!
+                    ទទួលបានសារជូនដំណឹងភ្លាមៗលើទូរស័ព្ទរបស់អ្នករាល់ពេលមានអ្នកចុះឈ្មោះ ឬកុម្ម៉ង់ម្ហូបពី ផ្ទះបៃតង!
                   </p>
                 </div>
               </div>
@@ -548,8 +531,8 @@ export default function NotificationSidebar({ isOpen, onClose }) {
               <form onSubmit={handleSaveTelegram} className="tg-config-form">
                 <div className="tg-switch-row">
                   <label htmlFor="tg-enable-toggle" className="tg-switch-label">
-                    <strong>Enable Telegram Alerts</strong>
-                    <small>Send alerts to your Telegram chat</small>
+                    <strong>បើកដំណើរការការជូនដំណឹងតាម Telegram</strong>
+                    <small>ផ្ញើសារជូនដំណឹងទៅកាន់ Telegram របស់អ្នក</small>
                   </label>
                   <input
                     id="tg-enable-toggle"
@@ -563,11 +546,11 @@ export default function NotificationSidebar({ isOpen, onClose }) {
                 <div className="tg-input-group">
                   <label>
                     Telegram Bot Token
-                    <span className="tg-tip">From @BotFather</span>
+                    <span className="tg-tip">ពី @BotFather</span>
                   </label>
                   <input
                     type="text"
-                    placeholder="e.g. 7123456789:AAHq_xyz123..."
+                    placeholder="ឧ. 7123456789:AAHq_xyz123..."
                     value={botToken}
                     onChange={(e) => setBotToken(e.target.value)}
                     className="tg-text-input"
@@ -577,11 +560,11 @@ export default function NotificationSidebar({ isOpen, onClose }) {
                 <div className="tg-input-group">
                   <label>
                     Telegram Chat ID
-                    <span className="tg-tip">From @userinfobot</span>
+                    <span className="tg-tip">ពី @userinfobot</span>
                   </label>
                   <input
                     type="text"
-                    placeholder="e.g. 123456789"
+                    placeholder="ឧ. 123456789"
                     value={chatId}
                     onChange={(e) => setChatId(e.target.value)}
                     className="tg-text-input"
@@ -590,7 +573,7 @@ export default function NotificationSidebar({ isOpen, onClose }) {
 
                 <div className="tg-button-group">
                   <button type="submit" className="tg-save-btn">
-                    💾 Save Settings
+                    💾 រក្សាទុកការកំណត់
                   </button>
                   <button
                     type="button"
@@ -598,27 +581,38 @@ export default function NotificationSidebar({ isOpen, onClose }) {
                     onClick={handleTestTelegram}
                     disabled={isTestingTelegram}
                   >
-                    {isTestingTelegram ? "Pinging Telegram..." : "⚡ Test & Send Alert"}
+                    {isTestingTelegram ? "កំពុងទាក់ទង Telegram..." : "⚡ សាកល្បងផ្ញើសារដំណឹង"}
                   </button>
+                  {(botToken || chatId) && (
+                    <button
+                      type="button"
+                      className="tb-btn text-danger"
+                      onClick={handleRemoveTelegram}
+                      style={{ padding: "8px 12px", borderRadius: "8px", fontWeight: 700 }}
+                      title="លុប Token និង Chat ID"
+                    >
+                      🗑️ លុប Token ចេញ
+                    </button>
+                  )}
                 </div>
               </form>
 
               {/* 3-Step Setup Guide */}
               <div className="tg-guide-card">
-                <h5>How to set up in 2 minutes:</h5>
+                <h5 style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}>របៀបដំឡើងងាយៗក្នុងរយៈពេល ២ នាទី:</h5>
                 <ol className="tg-guide-steps">
                   <li>
-                    Open <strong>Telegram</strong> on your phone or PC and search for{" "}
-                    <code>@BotFather</code>.
+                    បើកកម្មវិធី <strong>Telegram</strong> លើទូរស័ព្ទ ឬកុំព្យូទ័រ ហើយស្វែងរក{" "}
+                    <code>@BotFather</code>។
                   </li>
                   <li>
-                    Send <code>/newbot</code>, give it a name (e.g. <em>SkinCare Co Alerts</em>),
-                    and copy the <strong>HTTP API Token</strong> into the field above.
+                    ផ្ញើសារ <code>/newbot</code> ដាក់ឈ្មោះ (ឧ. <em>Baitong House Alerts</em>)
+                    ហើយចម្លង <strong>HTTP API Token</strong> ដាក់ក្នុងប្រអប់ខាងលើ។
                   </li>
                   <li>
-                    Search for <code>@userinfobot</code> in Telegram, send <code>/start</code>,
-                    copy your <strong>Id</strong> into the Chat ID field above, and click{" "}
-                    <strong>Test &amp; Send Alert</strong>!
+                    ស្វែងរក <code>@userinfobot</code> ក្នុង Telegram ផ្ញើសារ <code>/start</code>
+                    ហើយចម្លងលេខ <strong>Id</strong> ដាក់ក្នុងប្រអប់ Chat ID រួចចុច{" "}
+                    <strong>សាកល្បងផ្ញើសារដំណឹង</strong>!
                   </li>
                 </ol>
               </div>

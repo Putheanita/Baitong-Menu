@@ -1,8 +1,10 @@
+import { useState } from "react";
 import HeaderNavView from "./HeaderNavView";
+import WelcomeHeroView from "./WelcomeHeroView";
+import WelcomeModal from "../../components/WelcomeModal";
 import CategoryFilterView from "./CategoryFilterView";
 import ProductGridView from "./ProductGridView";
 import WeatherTimeBar from "../../components/WeatherTimeBar";
-import PchumBenBanner from "../../components/PchumBenBanner";
 import Footer from "../../components/Footer";
 import ProductModal from "../../components/ProductModal";
 
@@ -17,7 +19,6 @@ export default function HomeView({
   searchTerm,
   isSearchOpen,
   selectedProductModal,
-  showBanner,
   categories,
   filteredProducts,
   categoryIcons,
@@ -28,7 +29,6 @@ export default function HomeView({
   clearSearch,
   openProductModal,
   closeProductModal,
-  dismissBanner,
 
   // App Level Props
   onLogout,
@@ -42,13 +42,13 @@ export default function HomeView({
   onOpenNotifications,
   unreadNotifCount
 }) {
+  // Automatically show the Welcome Popup Modal on load (with left branding and right photo slideshow)
+  const [isWelcomeModalOpen, setIsWelcomeModalOpen] = useState(true);
+
   return (
     <div className="home-page">
       {/* Real-time Weather & Timezone Banner */}
       <WeatherTimeBar />
-
-      {/* Pchum Ben Promotion Banner */}
-      {showBanner && <PchumBenBanner onClose={dismissBanner} />}
 
       {/* Header and Navigation Bar */}
       <HeaderNavView
@@ -70,13 +70,28 @@ export default function HomeView({
 
       {/* Main Content Area */}
       <main style={{ flexGrow: 1 }}>
-        {/* Category Filters */}
-        <CategoryFilterView
-          categories={categories}
-          selectedCategory={selectedCategory}
-          onSelectCategory={setSelectedCategory}
-          categoryIcons={categoryIcons}
+        {/* Authentic Khmer Cuisine Welcome Banner matching Owner CHUM BUNTHARY & Manager Putheanita Prom */}
+        <WelcomeHeroView
+          onExploreMenu={() => {
+            const menuElement = document.getElementById("khmer-menu-section");
+            if (menuElement) {
+              menuElement.scrollIntoView({ behavior: "smooth" });
+            }
+          }}
+          onNavigateContact={onViewContact}
+          onNavigateAbout={onViewAbout}
+          onOpenSlideshow={() => setIsWelcomeModalOpen(true)}
         />
+
+        {/* Category Filters */}
+        <div id="khmer-menu-section">
+          <CategoryFilterView
+            categories={categories}
+            selectedCategory={selectedCategory}
+            onSelectCategory={setSelectedCategory}
+            categoryIcons={categoryIcons}
+          />
+        </div>
 
         {/* Product Cards Grid */}
         <ProductGridView
@@ -104,6 +119,21 @@ export default function HomeView({
           onAddToCart={onAddToCart}
         />
       )}
+
+      {/* First-load Welcome Popup Modal with Screenshot branding on Left & Photo Slideshow on Right */}
+      <WelcomeModal
+        isOpen={isWelcomeModalOpen}
+        onClose={() => setIsWelcomeModalOpen(false)}
+        onExploreMenu={() => {
+          setIsWelcomeModalOpen(false);
+          setTimeout(() => {
+            const menuElement = document.getElementById("khmer-menu-section");
+            if (menuElement) {
+              menuElement.scrollIntoView({ behavior: "smooth" });
+            }
+          }, 200);
+        }}
+      />
     </div>
   );
 }

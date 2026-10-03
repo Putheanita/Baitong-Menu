@@ -9,10 +9,10 @@ import "./Login.css";
  * - Controller (state, actions, validation, auth): src/controllers/useLoginController.js
  * - Views (presentation, layout, subviews): src/views/auth/
  */
-function Login({ onLoginSuccess }) {
+function Login({ onLoginSuccess, onBack }) {
   const controller = useLoginController({ onLoginSuccess });
 
-  return <LoginView {...controller} />;
+  return <LoginView {...controller} onBack={onBack} />;
 }
 
 export default Login;

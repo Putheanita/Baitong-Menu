@@ -2,16 +2,13 @@ import { useState, useMemo } from "react";
 import products from "../data/Products.json";
 
 export const CATEGORY_ICONS = {
-  "All": "✨",
-  "Cleanser": "🫧",
-  "Toner": "💧",
-  "Serum": "🧪",
-  "Moisturizer": "🧴",
-  "Sunscreen": "☀️",
-  "Mask": "🎭",
-  "Lip Care": "💋",
-  "Makeup": "💄",
-  "Skincare": "🌿"
+  "ទាំងអស់": "✨",
+  "សម្ល & ការី": "🍲",
+  "ឆា & អាំង": "🥩",
+  "គុយទាវ & នំ": "🍜",
+  "ញាំ & ណែម": "🥗",
+  "បង្អែមខ្មែរ": "🍮",
+  "ភេសជ្ជៈ": "🥤"
 };
 
 /**
@@ -20,7 +17,7 @@ export const CATEGORY_ICONS = {
  * banner dismissal, and product modal selection.
  */
 export function useHomeController({ onViewAbout, onViewContact }) {
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState("ទាំងអស់");
   const [activeMenu, setActiveMenu] = useState("Shop");
   const [searchTerm, setSearchTerm] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -29,16 +26,16 @@ export function useHomeController({ onViewAbout, onViewContact }) {
 
   // Extract unique categories from product catalog
   const categories = useMemo(() => {
-    return ["All", "🏷️ New Arrivals", ...new Set(products.map((p) => p.category))];
+    return ["ទាំងអស់", "🏷️ មុខម្ហូបពិសេស", ...new Set(products.map((p) => p.category))];
   }, []);
 
   // Filter products by selected category and active search query
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
-      const isNewArrivals = selectedCategory === "🏷️ New Arrivals";
+      const isNewArrivals = selectedCategory === "🏷️ មុខម្ហូបពិសេស";
       let matchesCategory;
 
-      if (selectedCategory === "All") {
+      if (selectedCategory === "ទាំងអស់") {
         matchesCategory = true;
       } else if (isNewArrivals) {
         matchesCategory = product.isNew === true;
@@ -51,7 +48,8 @@ export function useHomeController({ onViewAbout, onViewContact }) {
         !term ||
         product.productName.toLowerCase().includes(term) ||
         product.productType.toLowerCase().includes(term) ||
-        product.category.toLowerCase().includes(term);
+        product.category.toLowerCase().includes(term) ||
+        (product.ingredients && product.ingredients.some(ing => ing.toLowerCase().includes(term)));
 
       return matchesCategory && matchesSearch;
     });
@@ -61,7 +59,7 @@ export function useHomeController({ onViewAbout, onViewContact }) {
   const handleMenuClick = (menu) => {
     setActiveMenu(menu);
     if (menu === "Shop") {
-      setSelectedCategory("All");
+      setSelectedCategory("ទាំងអស់");
       setSearchTerm("");
     } else if (menu === "About" && typeof onViewAbout === "function") {
       onViewAbout();

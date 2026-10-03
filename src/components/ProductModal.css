@@ -1,8 +1,13 @@
+/* ════════════════════════════════════════════════════════════════════
+   Product Detail Modal — Large Clear Food Photo & Topping Selection
+   ════════════════════════════════════════════════════════════════════ */
+
 .product-modal-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(5px);
+  background-color: rgba(10, 24, 17, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   z-index: 10000;
   display: flex;
   align-items: center;
@@ -11,353 +16,462 @@
   animation: modalFadeIn 0.25s ease-out;
 }
 
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .product-modal-card {
   background-color: #ffffff;
-  border-radius: 16px;
+  border-radius: 24px;
   width: 100%;
-  max-width: 820px;
+  max-width: 1140px; /* Extra wide modal so food image is expansive and clear */
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
-  animation: modalScaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 25px 65px rgba(0, 0, 0, 0.38);
+  border: 1px solid rgba(47, 79, 62, 0.15);
 }
 
+/* Close Button */
 .modal-close-btn {
   position: absolute;
   top: 16px;
   right: 18px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid #E5E4E7;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1.5px solid #d8e2dc;
   border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  font-size: 1.4rem;
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
   line-height: 1;
-  color: #2F4F3E;
+  color: #1b4332;
   cursor: pointer;
-  z-index: 10;
+  z-index: 20;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
 }
 
 .modal-close-btn:hover {
-  background-color: #2F4F3E;
+  background-color: #ef4444;
   color: #ffffff;
+  border-color: #ef4444;
   transform: rotate(90deg);
 }
 
+/* ════════════════════════════════════════════════
+   MODAL 2-COLUMN GRID (Wider Image: 1.6fr | Details: 1fr)
+   ════════════════════════════════════════════════ */
 .modal-grid {
   display: grid;
-  grid-template-columns: 1fr 1.2fr;
+  grid-template-columns: 1.6fr 1fr; /* Image is 62% of modal width */
+  min-height: 560px;
 }
 
-.modal-image-wrap {
+/* ── Left: Extra Large Food Image Showcase (Wide & Clear) ── */
+.modal-image-showcase {
   position: relative;
-  background-color: #F8FAF9;
+  background-color: #0b1d13;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
-  padding: 40px 30px;
-  border-right: 1px solid #E5E4E7;
+  overflow: hidden;
+  border-top-left-radius: 24px;
+  border-bottom-left-radius: 24px;
+  width: 100%;
+  min-height: 540px;
+}
+
+.modal-food-hero-img {
+  width: 100%;
+  height: 100%;
+  min-height: 540px;
+  object-fit: cover;
+  object-position: center center;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  display: block;
+}
+
+.modal-image-showcase:hover .modal-food-hero-img {
+  transform: scale(1.05);
 }
 
 .modal-category-tag {
   position: absolute;
-  top: 20px;
-  left: 20px;
-  background-color: #E8F0EA;
-  color: #2F4F3E;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  padding: 4px 10px;
+  top: 18px;
+  left: 18px;
+  background-color: rgba(28, 58, 43, 0.88);
+  color: #ffd166;
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 5px 12px;
   border-radius: 20px;
-  letter-spacing: 0.6px;
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 209, 102, 0.3);
+  z-index: 5;
 }
 
-.modal-product-image {
-  max-width: 100%;
-  max-height: 380px;
-  object-fit: contain;
-  border-radius: 12px;
-  transition: transform 0.4s ease;
+.modal-discount-tag {
+  position: absolute;
+  bottom: 18px;
+  left: 18px;
+  background: #c2410c;
+  color: #ffffff;
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  z-index: 5;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
 }
 
-.modal-product-image:hover {
-  transform: scale(1.04);
-}
-
-.modal-details-wrap {
-  padding: 40px 36px;
+/* ── Right: Clean Details & Selection ── */
+.modal-details-showcase {
+  padding: 32px 30px 28px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  background: #ffffff;
+}
+
+.modal-header-meta {
+  margin-bottom: 4px;
 }
 
 .modal-brand-label {
-  font-size: 0.78rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: #7FA58B;
-  letter-spacing: 1px;
-  margin-bottom: 8px;
-}
-
-.modal-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: #2F4F3E;
-  line-height: 1.25;
-  margin: 0 0 6px;
-}
-
-.modal-type-volume {
-  font-size: 0.9rem;
-  color: #8C8A97;
-  margin: 0 0 16px;
-}
-
-.modal-price-rating-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-.modal-price-tag {
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: #2F4F3E;
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-}
-
-.modal-original-price {
-  font-size: 1.05rem;
-  color: #a8a29e;
-  text-decoration: line-through;
-  font-weight: 500;
-}
-
-.modal-discount-badge {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #ffffff;
-  background-color: #dc2626;
-  padding: 3px 8px;
-  border-radius: 6px;
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 0.85rem;
+  color: #2d6a4f;
   letter-spacing: 0.5px;
 }
 
-.modal-rating-badge {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+.modal-food-title {
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 1.65rem;
+  color: #1b4332;
+  line-height: 1.25;
+  margin: 0 0 4px 0;
+}
+
+.modal-food-subtitle {
+  font-family: 'Dangrek', 'Battambang', cursive;
   font-size: 0.88rem;
-  font-weight: 600;
+  color: #6b7280;
+  margin: 0 0 14px 0;
 }
 
-.rating-star {
-  color: #d97706;
-  background-color: #fef3c7;
-  padding: 3px 8px;
-  border-radius: 6px;
-}
-
-.modal-reviews-count {
-  color: #78716c;
-  font-size: 0.82rem;
-  font-weight: 500;
-}
-
-.modal-stock-status {
+/* Price & Rating */
+.modal-price-rating-row {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed #e5e7eb;
+}
+
+.modal-price-box {
+  display: flex;
+  align-items: baseline;
   gap: 8px;
-  font-size: 0.82rem;
+}
+
+.modal-price {
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #2d6a4f;
+}
+
+.modal-original-price {
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 1.05rem;
+  color: #9ca3af;
+  text-decoration: line-through;
+}
+
+.modal-rating-pill {
+  background: #fef3c7;
+  color: #b45309;
+  border: 1px solid #fde68a;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.modal-rating-count {
+  font-size: 0.78rem;
+  color: #78350f;
+}
+
+/* Short Description Box */
+.modal-short-desc-box {
+  background: #f8faf9;
+  border-left: 3px solid #2d6a4f;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+.modal-short-desc {
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: #374151;
+  margin: 0;
+}
+
+/* ── Toppings Selection Section ── */
+.modal-toppings-section {
+  margin-bottom: 14px;
+}
+
+.toppings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.toppings-title {
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 0.94rem;
+  color: #1b4332;
   font-weight: 600;
-  color: #166534;
-  margin-bottom: 16px;
 }
 
-.stock-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: #16a34a;
+.toppings-hint {
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 0.76rem;
+  color: #6b7280;
 }
 
-.stock-dot.low {
-  background-color: #f59e0b;
+.toppings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 7px;
+  max-height: 155px;
+  overflow-y: auto;
+  padding-right: 4px;
 }
 
-.modal-section-block {
-  margin-bottom: 16px;
+.topping-chip-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  background: #f9fafb;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 0.82rem;
+  color: #374151;
+  user-select: none;
 }
 
-.modal-section-label {
-  display: block;
+.topping-chip-btn:hover {
+  border-color: #52b788;
+  background: #f0fdf4;
+}
+
+.topping-chip-btn.active {
+  background: #d8f3dc;
+  border-color: #2d6a4f;
+  color: #1b4332;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(45, 106, 79, 0.15);
+}
+
+.topping-icon {
+  font-size: 0.95rem;
+  margin-right: 4px;
+}
+
+.topping-name {
+  flex-grow: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.topping-price {
   font-size: 0.78rem;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  color: #57534e;
-  margin-bottom: 6px;
+  color: #2d6a4f;
+  margin-left: 4px;
 }
 
-.skin-type-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.skin-chip {
-  font-size: 0.78rem;
-  color: #2F4F3E;
-  background-color: #f0fdf4;
-  border: 1px solid #bbf7d0;
-  padding: 3px 10px;
-  border-radius: 20px;
-  font-weight: 500;
-}
-
-.ingredients-list {
-  font-size: 0.85rem;
-  color: #4b4754;
-  line-height: 1.5;
-  margin: 0;
-  background-color: #fbfbfa;
-  padding: 8px 12px;
-  border-radius: 8px;
-  border-left: 3px solid #7FA58B;
-}
-
-.modal-description {
-  font-size: 0.92rem;
-  line-height: 1.6;
-  color: #4b4754;
-  margin-bottom: 20px;
-  padding-bottom: 18px;
-  border-bottom: 1px dashed #E5E4E7;
-}
-
-.modal-highlights {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 26px;
-}
-
-.highlight-item {
+/* ── Spiciness Section ── */
+.modal-spice-section {
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-bottom: 18px;
+}
+
+.spice-title {
+  font-family: 'Dangrek', 'Battambang', cursive;
   font-size: 0.88rem;
-  color: #2F4F3E;
+  color: #1b4332;
+  white-space: nowrap;
 }
 
-.highlight-icon {
-  font-size: 1rem;
+.spice-btn-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
 }
 
-.modal-action-bar {
+.spice-btn {
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  color: #4b5563;
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.spice-btn:hover {
+  background: #e5e7eb;
+}
+
+.spice-btn.active {
+  background: #ffedd5;
+  border-color: #f97316;
+  color: #c2410c;
+  font-weight: 700;
+}
+
+/* ── Quantity & Add to Cart Footer ── */
+.modal-action-footer {
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-top: auto;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid #e5e7eb;
 }
 
-.modal-qty-selector {
-  display: flex;
+.modal-qty-counter {
+  display: inline-flex;
   align-items: center;
-  border: 1.5px solid #E5E4E7;
-  border-radius: 8px;
-  overflow: hidden;
-  height: 46px;
-}
-
-.modal-qty-selector button {
-  width: 36px;
-  height: 100%;
+  border: 1.5px solid #d1d5db;
+  border-radius: 10px;
   background: #ffffff;
+  overflow: hidden;
+}
+
+.modal-qty-counter button {
+  background: transparent;
   border: none;
-  font-size: 1.1rem;
-  color: #2F4F3E;
+  width: 36px;
+  height: 40px;
+  font-size: 1.2rem;
+  color: #1b4332;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-qty-counter button:hover {
+  background: #f3f4f6;
+}
+
+.modal-qty-counter span {
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+  min-width: 28px;
+  text-align: center;
+}
+
+.modal-order-btn {
+  flex-grow: 1;
+  background: #2d6a4f;
+  color: #ffffff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-family: 'Dangrek', 'Battambang', cursive;
+  font-size: 1.02rem;
+  font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.2s;
-}
-
-.modal-qty-selector button:hover {
-  background-color: #E8F0EA;
-}
-
-.modal-qty-selector span {
-  width: 36px;
-  text-align: center;
-  font-weight: 600;
-  font-size: 0.95rem;
-}
-
-.modal-add-btn {
-  flex: 1;
-  height: 46px;
-  background-color: #2F4F3E;
-  color: #ffffff;
-  border: none;
-  border-radius: 8px;
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
+  gap: 6px;
   transition: all 0.25s ease;
-  box-shadow: 0 4px 12px rgba(47, 79, 62, 0.18);
+  box-shadow: 0 4px 14px rgba(45, 106, 79, 0.35);
 }
 
-.modal-add-btn:hover {
-  background-color: #3C634E;
-  transform: translateY(-1.5px);
-  box-shadow: 0 6px 18px rgba(47, 79, 62, 0.25);
+.modal-order-btn:hover {
+  background: #1b4332;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(45, 106, 79, 0.45);
 }
 
-.modal-add-btn.btn-added {
-  background-color: #15803D !important;
+.modal-order-btn.btn-added {
+  background: #15803d;
+  animation: pulseSuccess 0.4s ease;
 }
 
-@keyframes modalFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+@keyframes pulseSuccess {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
 }
 
-@keyframes modalScaleUp {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
-}
+/* ════════════════════════════════════════════════
+   RESPONSIVE DESIGN
+   ════════════════════════════════════════════════ */
+@media (max-width: 940px) {
+  .product-modal-card {
+    max-width: 95vw;
+  }
 
-@media (max-width: 720px) {
   .modal-grid {
     grid-template-columns: 1fr;
   }
 
-  .modal-image-wrap {
-    border-right: none;
-    border-bottom: 1px solid #E5E4E7;
-    padding: 30px 20px;
+  .modal-image-showcase {
+    border-radius: 24px 24px 0 0;
+    min-height: 340px;
+    max-height: 420px;
+    width: 100%;
   }
 
-  .modal-details-wrap {
+  .modal-food-hero-img {
+    min-height: 340px;
+    max-height: 420px;
+  }
+
+  .modal-details-showcase {
     padding: 24px 20px;
   }
 
-  .modal-title {
-    font-size: 1.5rem;
+  .toppings-grid {
+    grid-template-columns: 1fr;
   }
 }

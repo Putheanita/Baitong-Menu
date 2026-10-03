@@ -27,45 +27,54 @@ export const NOTIFICATION_CONFIG = {
 };
 
 /**
- * Get current active Telegram configuration (from localStorage or defaults)
+ * Get current active Telegram configuration (always empty by default)
  */
 export function getTelegramConfig() {
-  try {
-    const saved = localStorage.getItem(NOTIFICATION_CONFIG.TELEGRAM_STORAGE_KEY);
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      return {
-        enabled: Boolean(parsed.enabled),
-        token: parsed.token || NOTIFICATION_CONFIG.TELEGRAM_BOT_TOKEN || "",
-        chatId: parsed.chatId || NOTIFICATION_CONFIG.TELEGRAM_CHAT_ID || ""
-      };
-    }
-  } catch {
-    // fallback to config defaults
-  }
-
   return {
-    enabled: NOTIFICATION_CONFIG.TELEGRAM_ENABLED,
-    token: NOTIFICATION_CONFIG.TELEGRAM_BOT_TOKEN,
-    chatId: NOTIFICATION_CONFIG.TELEGRAM_CHAT_ID
+    enabled: false,
+    token: "",
+    chatId: ""
   };
 }
 
 /**
- * Save Telegram configuration to localStorage
+ * Save Telegram configuration to localStorage (session only, or cleared)
  */
 export function saveTelegramConfig(config) {
   try {
-    localStorage.setItem(
-      NOTIFICATION_CONFIG.TELEGRAM_STORAGE_KEY,
-      JSON.stringify({
-        enabled: Boolean(config.enabled),
-        token: (config.token || "").trim(),
-        chatId: (config.chatId || "").trim()
-      })
-    );
+    if (!config || !config.token) {
+      localStorage.removeItem(NOTIFICATION_CONFIG.TELEGRAM_STORAGE_KEY);
+    } else {
+      localStorage.setItem(
+        NOTIFICATION_CONFIG.TELEGRAM_STORAGE_KEY,
+        JSON.stringify({
+          enabled: Boolean(config.enabled),
+          token: (config.token || "").trim(),
+          chatId: (config.chatId || "").trim()
+        })
+      );
+    }
     window.dispatchEvent(new Event("telegram_config_updated"));
   } catch (err) {
     console.error("Failed to save telegram config:", err);
   }
+}
+
+/**
+ * Clear/Remove Telegram configuration from localStorage
+ */
+export function clearTelegramConfig() {
+  try {
+    localStorage.removeItem(NOTIFICATION_CONFIG.TELEGRAM_STORAGE_KEY);
+    window.dispatchEvent(new Event("telegram_config_updated"));
+  } catch (err) {
+    console.error("Failed to clear telegram config:", err);
+  }
+}
+
+// Always ensure Telegram credentials are wiped clean on load
+try {
+  localStorage.removeItem(NOTIFICATION_CONFIG.TELEGRAM_STORAGE_KEY);
+} catch {
+  // Ignore
 }

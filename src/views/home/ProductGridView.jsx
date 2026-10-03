@@ -1,5 +1,5 @@
 /**
- * Pure Presentation Component: Products Grid & Empty State
+ * Pure Presentation Component: Products Grid & Empty State (Khmer Language)
  */
 export default function ProductGridView({
   products,
@@ -16,14 +16,14 @@ export default function ProductGridView({
             key={product.productCode}
             className="product-card"
             onClick={() => onProductClick(product)}
-            title="Click to view details"
+            title="ចុចដើម្បីមើលព័ត៌មានលម្អិត"
           >
             <div className="product-image-container">
               <span className="product-category-tag">
                 {product.category}
               </span>
               {product.isNew && (
-                <span className="product-new-tag">NEW</span>
+                <span className="product-new-tag">ថ្មី</span>
               )}
               {product.discount > 0 && (
                 <span className="product-discount-tag">-{product.discount}%</span>
@@ -39,7 +39,7 @@ export default function ProductGridView({
                   if (!e.target.parentElement.querySelector(".img-fallback")) {
                     const fb = document.createElement("span");
                     fb.className = "img-fallback";
-                    fb.textContent = "🧴";
+                    fb.textContent = "🍲";
                     e.target.parentElement.appendChild(fb);
                   }
                 }}
@@ -74,7 +74,7 @@ export default function ProductGridView({
                   if (onAddToCart) onAddToCart(product, 1);
                 }}
               >
-                Add to Bag
+                + បន្ថែមទៅកន្ត្រក
               </button>
             </div>
           </div>
@@ -83,16 +83,16 @@ export default function ProductGridView({
 
       {products.length === 0 && (
         <div style={{ textAlign: "center", padding: "50px 20px", color: "#6b6375" }}>
-          <p style={{ fontSize: "1.05rem", marginBottom: "12px" }}>
-            No products found {searchTerm ? `matching "${searchTerm}"` : "in this category"}.
+          <p style={{ fontSize: "1.05rem", marginBottom: "12px", fontFamily: "'Dangrek', 'Battambang', cursive" }}>
+            មិនមានមុខម្ហូប {searchTerm ? `ដែលត្រូវនឹង "${searchTerm}" ទេ` : "ក្នុងផ្នែកនេះទេ"}។
           </p>
           {searchTerm && (
             <button
               className="category-chip"
               onClick={onClearSearch}
-              style={{ cursor: "pointer" }}
+              style={{ cursor: "pointer", fontFamily: "'Dangrek', 'Battambang', cursive" }}
             >
-              Clear Search
+              សម្អាតការស្វែងរក
             </button>
           )}
         </div>

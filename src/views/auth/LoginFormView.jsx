@@ -8,19 +8,16 @@ export default function LoginFormView({
   onPasswordChange,
   onSubmit,
   isLoading,
-  isSuccess,
-  onQuickDemo,
-  registeredUsers = [],
-  onSelectAccount
+  isSuccess
 }) {
   return (
     <form onSubmit={onSubmit} className="auth-form-body">
       <div className="form-group">
-        <label htmlFor="identifier">Email or Phone Number</label>
+        <label htmlFor="identifier" style={{ fontFamily: "'Battambang', sans-serif" }}>អ៊ីមែល ឬ លេខទូរស័ព្ទ</label>
         <input
           id="identifier"
           type="text"
-          placeholder="e.g. putheanitaprom@gmail.com or 015 241471"
+          placeholder="ឧ. 015 241471 ឬ putheanitaprom@gmail.com"
           value={identifier}
           onChange={(e) => onIdentifierChange(e.target.value)}
           className="login-input"
@@ -30,7 +27,7 @@ export default function LoginFormView({
       </div>
 
       <div className="form-group">
-        <label htmlFor="password">Password</label>
+        <label htmlFor="password" style={{ fontFamily: "'Battambang', sans-serif" }}>ពាក្យសម្ងាត់</label>
         <input
           id="password"
           type="password"
@@ -47,6 +44,7 @@ export default function LoginFormView({
         type="submit"
         className={`login-btn ${isSuccess ? "login-btn-success" : ""}`}
         disabled={isLoading || isSuccess}
+        style={{ fontFamily: "'Battambang', sans-serif", fontSize: "1rem" }}
       >
         {isSuccess ? (
           <span className="btn-status">
@@ -62,55 +60,17 @@ export default function LoginFormView({
             >
               <polyline points="20 6 9 17 4 12" />
             </svg>
-            Verified &amp; Entering...
+            ជោគជ័យ! កំពុងចូល...
           </span>
         ) : isLoading ? (
           <span className="btn-status">
             <span className="btn-spinner"></span>
-            Authenticating...
+            កំពុងផ្ទៀងផ្ទាត់...
           </span>
         ) : (
-          "Sign In"
+          "ចូលគណនី"
         )}
       </button>
-
-      {/* Demo Quick Login */}
-      <div className="quick-demo-box">
-        <span>Owner Login:</span>
-        <button
-          type="button"
-          className="quick-demo-btn"
-          onClick={onQuickDemo}
-        >
-          ⚡ Puthea Nita (Admin)
-        </button>
-      </div>
-
-      {/* All Available Registered Customer Accounts */}
-      {registeredUsers && registeredUsers.length > 0 && (
-        <div className="registered-users-box">
-          <div className="reg-users-label">
-            <span>👥 Registered Accounts ({registeredUsers.length}):</span>
-            <small>Click to switch &amp; test</small>
-          </div>
-          <div className="reg-users-list">
-            {registeredUsers.map((u) => (
-              <button
-                key={u.id || u.email}
-                type="button"
-                className={`reg-user-pill ${identifier.toLowerCase() === u.email?.toLowerCase() ? "selected" : ""}`}
-                onClick={() => onSelectAccount && onSelectAccount(u)}
-                title={`Click to fill: ${u.email} (${u.role || "Customer"})`}
-              >
-                <span className="reg-user-name">{u.name}</span>
-                <span className="reg-user-badge">
-                  {u.role?.includes("Admin") ? "👑 Admin" : "👤 Customer"}
-                </span>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
     </form>
   );
 }

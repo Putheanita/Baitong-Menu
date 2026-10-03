@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import InvoiceModal from "./InvoiceModal";
 import { notifyNewOrderPlaced } from "../services/notificationService";
+import { formatKhmerDateTime } from "../utils/khmerDate";
 import "./CartDrawer.css";
 
-const VALID_PROMO_CODE  = "PCHUMBEN20";
+const VALID_PROMO_CODES = ["PCHUMBEN20", "KHMERFOOD", "BAITONG"];
 const PROMO_DISCOUNT    = 0.20; // 20%
 const ABA_QR_URL = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&margin=8&data=${encodeURIComponent("https://pay.ababank.com/oRF8/8ffqaxig")}`;
 const ABA_PAY_LINK = "https://pay.ababank.com/oRF8/8ffqaxig";
@@ -11,59 +12,59 @@ const ABA_PAY_LINK = "https://pay.ababank.com/oRF8/8ffqaxig";
 const PRESET_ADDRESSES = [
   {
     id: "preset_home",
-    label: "🏠 Home (ផ្ទះ)",
-    subtitle: "Toul Kork, Phnom Penh",
-    name: "Puthea Nita",
+    label: "🏠 ផ្ទះ (ទួលគោក)",
+    subtitle: "រាជធានីភ្នំពេញ",
+    name: "ពុធធានីតា ព្រំ",
     phone: "015 241471",
     province: "Phnom Penh",
-    address: "Street 271, Sangkat Boeung Salang, Khan Toul Kork"
+    address: "ផ្លូវលេខ ២៧១ សង្កាត់បឹងសាឡាង ខណ្ឌទួលគោក"
   },
   {
     id: "preset_office",
-    label: "🏢 Office (កន្លែងធ្វើការ)",
-    subtitle: "BKK1, Phnom Penh",
-    name: "Puthea Nita",
+    label: "🏢 កន្លែងធ្វើការ (បឹងកេងកង)",
+    subtitle: "រាជធានីភ្នំពេញ",
+    name: "ពុធធានីតា ព្រំ",
     phone: "015 241471",
     province: "Phnom Penh",
-    address: "Building #45, St. 57, Sangkat Boeung Keng Kang 1"
+    address: "អគារលេខ ៤៥ ផ្លូវ ៥៧ សង្កាត់បឹងកេងកង១"
   },
   {
     id: "preset_siemreap",
-    label: "🏡 Siem Reap (សៀមរាប)",
-    subtitle: "Sala Kamreuk",
-    name: "Puthea Nita",
+    label: "🏡 សៀមរាប (សាលាកំរើក)",
+    subtitle: "ខេត្តសៀមរាប",
+    name: "ពុធធានីតា ព្រំ",
     phone: "015 241471",
     province: "Siem Reap",
-    address: "Wat Bo Road, Sangkat Sala Kamreuk, Krong Siem Reap"
+    address: "ផ្លូវវត្តបូព៌ សង្កាត់សាលាកំរើក ក្រុងសៀមរាប"
   }
 ];
 
 const CAMBODIA_PROVINCES = [
-  "Phnom Penh",
-  "Kandal",
-  "Siem Reap",
-  "Battambang",
-  "Sihanoukville",
-  "Kampot",
-  "Kampong Cham",
-  "Kampong Chhnang",
-  "Kampong Speu",
-  "Kampong Thom",
-  "Banteay Meanchey",
-  "Kep",
-  "Koh Kong",
-  "Kratie",
-  "Mondulkiri",
-  "Oddar Meanchey",
-  "Pailin",
-  "Preah Vihear",
-  "Prey Veng",
-  "Pursat",
-  "Ratanakiri",
-  "Stung Treng",
-  "Svay Rieng",
-  "Takeo",
-  "Tboung Khmum"
+  { en: "Phnom Penh", km: "រាជធានីភ្នំពេញ" },
+  { en: "Kandal", km: "ខេត្តកណ្តាល" },
+  { en: "Siem Reap", km: "ខេត្តសៀមរាប" },
+  { en: "Battambang", km: "ខេត្តបាត់ដំបង" },
+  { en: "Sihanoukville", km: "ខេត្តព្រះសីហនុ" },
+  { en: "Kampot", km: "ខេត្តកំពត" },
+  { en: "Kampong Cham", km: "ខេត្តកំពង់ចាម" },
+  { en: "Kampong Chhnang", km: "ខេត្តកំពង់ឆ្នាំង" },
+  { en: "Kampong Speu", km: "ខេត្តកំពង់ស្ពឺ" },
+  { en: "Kampong Thom", km: "ខេត្តកំពង់ធំ" },
+  { en: "Banteay Meanchey", km: "ខេត្តបន្ទាយមានជ័យ" },
+  { en: "Kep", km: "ខេត្តកែប" },
+  { en: "Koh Kong", km: "ខេត្តកោះកុង" },
+  { en: "Kratie", km: "ខេត្តក្រចេះ" },
+  { en: "Mondulkiri", km: "ខេត្តមណ្ឌលគិរី" },
+  { en: "Oddar Meanchey", km: "ខេត្តឧត្តរមានជ័យ" },
+  { en: "Pailin", km: "ខេត្តប៉ៃលិន" },
+  { en: "Preah Vihear", km: "ខេត្តព្រះវិហារ" },
+  { en: "Prey Veng", km: "ខេត្តព្រៃវែង" },
+  { en: "Pursat", km: "ខេត្តពោធិ៍សាត់" },
+  { en: "Ratanakiri", km: "ខេត្តរតនគិរី" },
+  { en: "Stung Treng", km: "ខេត្តស្ទឹងត្រែង" },
+  { en: "Svay Rieng", km: "ខេត្តស្វាយរៀង" },
+  { en: "Takeo", km: "ខេត្តតាកែវ" },
+  { en: "Tboung Khmum", km: "ខេត្តត្បូងឃ្មុំ" }
 ];
 
 function CartDrawer({
@@ -80,15 +81,15 @@ function CartDrawer({
   const [showHistory, setShowHistory]       = useState(false);
   const [pastInvoices, setPastInvoices]     = useState([]);
 
-  // Customer & Delivery Information State (persisted to localStorage)
+  // Customer & Delivery Information State
   const [selectedPresetId, setSelectedPresetId] = useState("preset_home");
 
   const [customerName, setCustomerName] = useState(() => {
     try {
       const saved = JSON.parse(localStorage.getItem("skincare_customer_info") || "{}");
-      return saved.name || "Puthea Nita";
+      return saved.name || "ពុធធានីតា ព្រំ";
     } catch {
-      return "Puthea Nita";
+      return "ពុធធានីតា ព្រំ";
     }
   });
 
@@ -104,9 +105,9 @@ function CartDrawer({
   const [customerAddress, setCustomerAddress] = useState(() => {
     try {
       const saved = JSON.parse(localStorage.getItem("skincare_customer_info") || "{}");
-      return saved.address || "Street 271, Sangkat Boeung Salang, Khan Toul Kork";
+      return saved.address || "ផ្លូវលេខ ២៧១ សង្កាត់បឹងសាឡាង ខណ្ឌទួលគោក";
     } catch {
-      return "Street 271, Sangkat Boeung Salang, Khan Toul Kork";
+      return "ផ្លូវលេខ ២៧១ សង្កាត់បឹងសាឡាង ខណ្ឌទួលគោក";
     }
   });
 
@@ -148,7 +149,7 @@ function CartDrawer({
   // Payment tab
   const [paymentTab, setPaymentTab] = useState("aba"); // "aba" | "cash"
 
-  // Load past transaction invoices from localStorage
+  // Load past transaction invoices
   useEffect(() => {
     try {
       const saved = localStorage.getItem("skincare_invoices");
@@ -162,15 +163,16 @@ function CartDrawer({
 
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const discount = promoApplied ? subtotal * PROMO_DISCOUNT : 0;
-  const shipping  = subtotal > 50 || subtotal === 0 ? 0 : 2.5;
+  const shipping  = subtotal > 30 || subtotal === 0 ? 0 : 2.0;
   const total     = subtotal - discount + shipping;
 
   const handleApplyPromo = () => {
-    if (promoInput.trim().toUpperCase() === VALID_PROMO_CODE) {
+    const inputUpper = promoInput.trim().toUpperCase();
+    if (VALID_PROMO_CODES.includes(inputUpper)) {
       setPromoApplied(true);
       setPromoError("");
     } else {
-      setPromoError("❌ Invalid code. Try PCHUMBEN20");
+      setPromoError("❌ កូដមិនត្រឹមត្រូវ។ សូមសាកល្បង KHMERFOOD ឬ BAITONG");
       setPromoApplied(false);
     }
   };
@@ -186,14 +188,13 @@ function CartDrawer({
     setIsCheckingOut(true);
 
     const customerInfo = {
-      name: customerName.trim() || "Puthea Nita",
+      name: customerName.trim() || "អតិថិជន ផ្ទះបៃតង",
       phone: customerPhone.trim() || "015 241471",
-      address: customerAddress.trim() || "Phnom Penh, Cambodia",
+      address: customerAddress.trim() || "រាជធានីភ្នំពេញ កម្ពុជា",
       province: deliveryProvince,
       notes: deliveryNotes.trim()
     };
 
-    // Save customer info for future purchases
     try {
       localStorage.setItem("skincare_customer_info", JSON.stringify(customerInfo));
     } catch (e) {
@@ -201,39 +202,33 @@ function CartDrawer({
     }
 
     setTimeout(() => {
-      // Create new official invoice record with full customer info
+      const now = new Date();
       const invoice = {
-        id: `INV-2026-${Math.floor(100000 + Math.random() * 900000)}`,
-        date: new Date().toLocaleString("en-US", {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-          hour: "2-digit",
-          minute: "2-digit"
-        }),
+        id: `INV-BT-${Math.floor(100000 + Math.random() * 900000)}`,
+        date: formatKhmerDateTime(now),
         timestamp: Date.now(),
         customer: customerInfo,
         items: cartItems.map((item) => ({ ...item })),
         subtotal,
         discount,
-        promoCode: promoApplied ? VALID_PROMO_CODE : null,
+        promoCode: promoApplied ? (promoInput.trim().toUpperCase() || "BAITONG") : null,
         shipping,
         total,
-        paymentMethod: paymentTab === "aba" ? "ABA Bank QR" : "Cash on Delivery",
-        status: "Confirmed & Recorded",
-        storeName: "SkinCare Co.",
+        paymentMethod: paymentTab === "aba" ? "ABA Bank KHQR" : "ទូទាត់ប្រាក់ពេលដឹកមកដល់",
+        status: "បានបញ្ជាក់ & កំពុងចម្អិនក្នុងផ្ទះបាយ",
+        storeName: "ផ្ទះបៃតង (Baitong House)",
+        storeOwner: "CHUM BUNTHARY (ជុំ ប៊ុនថារី)",
+        storeManager: "Putheanita Prom (putheanitaprom@gmail.com)",
         storePhone: "015 241471",
-        storeCity: "Phnom Penh, Cambodia"
+        storeCity: "រាជធានីភ្នំពេញ កម្ពុជា"
       };
 
-      // Record transaction to localStorage history
       try {
         const existing = JSON.parse(localStorage.getItem("skincare_invoices") || "[]");
         const updated = [invoice, ...existing];
         localStorage.setItem("skincare_invoices", JSON.stringify(updated));
         setPastInvoices(updated);
 
-        // Real-time alert to store owner (Telegram, Desktop, Admin Log)
         try {
           notifyNewOrderPlaced(invoice);
         } catch (notifErr) {
@@ -247,7 +242,7 @@ function CartDrawer({
       setCurrentInvoice(invoice);
       setIsInvoiceModalOpen(true);
       if (onClearCart) onClearCart();
-    }, 850);
+    }, 800);
   };
 
   const handleCloseAndReset = () => {
@@ -265,7 +260,7 @@ function CartDrawer({
 
   return (
     <>
-      {/* ── Slide-over Cart Drawer (Expanded Width) ── */}
+      {/* ── Slide-over Cart Drawer ── */}
       {isOpen && (
         <div className="cart-drawer-overlay" onClick={handleCloseAndReset}>
           <div className="cart-drawer-panel" onClick={(e) => e.stopPropagation()}>
@@ -273,10 +268,12 @@ function CartDrawer({
             {/* ── Drawer Header ── */}
             <div className="cart-drawer-header">
               <div className="cart-header-title">
-                <h3>{showHistory ? "Transaction History" : "Your Shopping Bag"}</h3>
+                <h3 style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}>
+                  {showHistory ? "ប្រវត្តិកុម្ម៉ង់ម្ហូប" : "កន្ត្រកម្ហូបរបស់អ្នក"}
+                </h3>
                 {!showHistory && (
-                  <span className="cart-count-pill">
-                    {cartItems.reduce((acc, i) => acc + i.quantity, 0)} items
+                  <span className="cart-count-pill" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                    {cartItems.reduce((acc, i) => acc + i.quantity, 0)} ចាន
                   </span>
                 )}
               </div>
@@ -286,12 +283,13 @@ function CartDrawer({
                   <button
                     className="cart-history-btn"
                     onClick={() => setShowHistory(!showHistory)}
-                    title="View previous buying transaction invoices"
+                    title="មើលវិក្កយបត្រកុម្ម៉ង់ពីមុន"
+                    style={{ fontFamily: "'Battambang', sans-serif" }}
                   >
-                    {showHistory ? "← Back to Bag" : "📜 History"}
+                    {showHistory ? "← ទៅកន្ត្រកម្ហូប" : "📜 ប្រវត្តិកុម្ម៉ង់"}
                   </button>
                 )}
-                <button className="cart-close-btn" onClick={handleCloseAndReset} aria-label="Close">
+                <button className="cart-close-btn" onClick={handleCloseAndReset} aria-label="បិទ">
                   &times;
                 </button>
               </div>
@@ -304,12 +302,18 @@ function CartDrawer({
               {showHistory ? (
                 <div className="invoice-history-list">
                   <div className="history-header">
-                    <h4>📜 Previous Transactions ({pastInvoices.length})</h4>
-                    <p>Click any transaction to open &amp; save its official invoice.</p>
+                    <h4 style={{ fontFamily: "'Battambang', sans-serif" }}>
+                      📜 ប្រវត្តិកុម្ម៉ង់ម្ហូបកន្លងមក ({pastInvoices.length})
+                    </h4>
+                    <p style={{ fontFamily: "'Battambang', sans-serif" }}>
+                      ចុចលើការកុម្ម៉ង់ណាមួយដើម្បីមើល &amp; ទាញយកវិក្កយបត្រផ្លូវការ។
+                    </p>
                   </div>
 
                   {pastInvoices.length === 0 ? (
-                    <p className="history-empty">No past transactions recorded yet.</p>
+                    <p className="history-empty" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                      មិនទាន់មានប្រវត្តិកុម្ម៉ង់នៅឡើយទេ។
+                    </p>
                   ) : (
                     <div className="history-cards">
                       {pastInvoices.map((inv) => (
@@ -317,19 +321,23 @@ function CartDrawer({
                           key={inv.id}
                           className="history-card"
                           onClick={() => handleOpenPastInvoice(inv)}
-                          title="Click to view & save official invoice"
+                          title="ចុចដើម្បីបើកមើលវិក្កយបត្រ"
                         >
                           <div className="history-card-top">
                             <span className="history-inv-id">{inv.id}</span>
                             <span className="history-inv-date">{inv.date}</span>
                           </div>
-                          <div className="history-card-mid">
-                            <span>👤 {inv.customer?.name || "Customer"} ({inv.items.length} items)</span>
+                          <div className="history-card-mid" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                            <span>👤 {inv.customer?.name || "អតិថិជន"} ({inv.items.length} មុខ)</span>
                             <span className="history-inv-pay">{inv.paymentMethod}</span>
                           </div>
                           <div className="history-card-bot">
-                            <span className="history-inv-total">Total: ${inv.total.toFixed(2)}</span>
-                            <span className="history-view-link">Open Invoice Modal →</span>
+                            <span className="history-inv-total" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                              សរុប: ${inv.total.toFixed(2)}
+                            </span>
+                            <span className="history-view-link" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                              បើកវិក្កយបត្រ →
+                            </span>
                           </div>
                         </div>
                       ))}
@@ -340,10 +348,20 @@ function CartDrawer({
               /* ════ VIEW: EMPTY BAG ════ */
               ) : cartItems.length === 0 ? (
                 <div className="cart-empty-view">
-                  <div className="empty-cart-icon">🛍️</div>
-                  <h4>Your bag is currently empty</h4>
-                  <p>Explore our clean Centella &amp; Face Republic collection to find your skincare routine.</p>
-                  <button className="cart-shop-now-btn" onClick={onClose}>Explore Products</button>
+                  <div className="empty-cart-icon">🍲</div>
+                  <h4 style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}>
+                    កន្ត្រកម្ហូបរបស់អ្នកនៅទទេ
+                  </h4>
+                  <p style={{ fontFamily: "'Battambang', sans-serif" }}>
+                    សូមស្វែងរកមុខម្ហូបខ្មែរឈ្ងុយឆ្ងាញ់របស់យើង អាម៉ុកត្រី ឡុកឡាក់ នំបញ្ចុក សម្លកកូរ ដើម្បីចាប់ផ្តើមកុម្ម៉ង់។
+                  </p>
+                  <button
+                    className="cart-shop-now-btn"
+                    onClick={onClose}
+                    style={{ fontFamily: "'Battambang', sans-serif" }}
+                  >
+                    មើលបញ្ជីមុខម្ហូប
+                  </button>
                 </div>
 
               /* ════ VIEW: ACTIVE SHOPPING BAG & CHECKOUT ════ */
@@ -351,22 +369,45 @@ function CartDrawer({
                 <>
                   {/* Product list */}
                   <div className="cart-items-list">
-                    {cartItems.map((item) => (
-                      <div key={item.productCode} className="cart-item-row">
-                        <img src={item.image} alt={item.productName} className="cart-item-img" />
-                        <div className="cart-item-details">
-                          <h4 className="cart-item-name">{item.productName}</h4>
-                          <span className="cart-item-meta">{item.volume} • ${item.price.toFixed(2)} each</span>
-                          <div className="cart-qty-controls">
-                            <button className="qty-btn" onClick={() => onUpdateQuantity(item.productCode, item.quantity - 1)} aria-label="Decrease">–</button>
-                            <span className="qty-number">{item.quantity}</span>
-                            <button className="qty-btn" onClick={() => onUpdateQuantity(item.productCode, item.quantity + 1)} aria-label="Increase">+</button>
-                            <button className="remove-item-btn" onClick={() => onRemoveItem(item.productCode)}>Remove</button>
+                    {cartItems.map((item) => {
+                      const itemKey = item.cartItemId || item.productCode;
+                      return (
+                        <div key={itemKey} className="cart-item-row">
+                          <img src={item.image} alt={item.productName} className="cart-item-img" />
+                          <div className="cart-item-details">
+                            <h4 className="cart-item-name" style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}>
+                              {item.productName}
+                            </h4>
+                            {item.selectedToppings && item.selectedToppings.length > 0 && (
+                              <div style={{ fontSize: "0.78rem", color: "#2d6a4f", fontFamily: "'Dangrek', 'Battambang', cursive", marginTop: "2px" }}>
+                                + Topping: {item.selectedToppings.map((t) => t.name.split(" ")[0]).join(", ")}
+                              </div>
+                            )}
+                            {item.spiciness && (
+                              <div style={{ fontSize: "0.76rem", color: "#c2410c", fontFamily: "'Dangrek', 'Battambang', cursive" }}>
+                                🌶️ {item.spiciness}
+                              </div>
+                            )}
+                            <span className="cart-item-meta" style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}>
+                              {item.volume} • ${item.price.toFixed(2)} ក្នុងមួយចាន
+                            </span>
+                            <div className="cart-qty-controls">
+                              <button className="qty-btn" onClick={() => onUpdateQuantity(itemKey, item.quantity - 1)} aria-label="បន្ថយ">–</button>
+                              <span className="qty-number">{item.quantity}</span>
+                              <button className="qty-btn" onClick={() => onUpdateQuantity(itemKey, item.quantity + 1)} aria-label="បន្ថែម">+</button>
+                              <button
+                                className="remove-item-btn"
+                                onClick={() => onRemoveItem(itemKey)}
+                                style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}
+                              >
+                                លុបចេញ
+                              </button>
+                            </div>
                           </div>
+                          <div className="cart-item-total">${(item.price * item.quantity).toFixed(2)}</div>
                         </div>
-                        <div className="cart-item-total">${(item.price * item.quantity).toFixed(2)}</div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
 
                   {/* ── Customer & Delivery Information ── */}
@@ -375,32 +416,41 @@ function CartDrawer({
                       <div className="section-title-left">
                         <span className="section-title-icon">📍</span>
                         <div>
-                          <p className="customer-section-title">Customer &amp; Delivery Details</p>
-                          <span className="customer-section-subtitle">ព័ត៌មានអតិថិជន និងអាសយដ្ឋានដឹកជញ្ជូន</span>
+                          <p className="customer-section-title" style={{ fontFamily: "'Battambang', sans-serif", fontWeight: 700 }}>
+                            ព័ត៌មានអតិថិជន និងអាសយដ្ឋានដឹកជញ្ជូន
+                          </p>
+                          <span className="customer-section-subtitle" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                            អាសយដ្ឋាននឹងត្រូវបោះពុម្ពលើវិក្កយបត្រម្ហូប
+                          </span>
                         </div>
                       </div>
-                      <span className="customer-badge-tag">Printed on Invoice</span>
+                      <span className="customer-badge-tag" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                        បោះពុម្ពលើវិក្កយបត្រ
+                      </span>
                     </div>
 
                     {/* Quick Preset Address Selector */}
                     <div className="preset-selector-box">
                       <div className="preset-selector-header">
-                        <span className="preset-selector-label">⚡ Choose / Select Saved Address:</span>
+                        <span className="preset-selector-label" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                          ⚡ ជ្រើសរើសអាសយដ្ឋានដឹកជញ្ជូន:
+                        </span>
                         <select
                           className="preset-select-dropdown"
                           value={selectedPresetId}
                           onChange={(e) => handleSelectPreset(e.target.value)}
+                          style={{ fontFamily: "'Battambang', sans-serif" }}
                         >
                           {PRESET_ADDRESSES.map((preset) => (
                             <option key={preset.id} value={preset.id}>
                               {preset.label} — {preset.subtitle}
                             </option>
                           ))}
-                          <option value="custom">✏️ Enter Custom Address (អាសយដ្ឋានថ្មី)</option>
+                          <option value="custom">✏️ បញ្ចូលអាសយដ្ឋានថ្មីផ្ទាល់ខ្លួន</option>
                         </select>
                       </div>
 
-                      {/* Quick Chips for fast 1-tap choosing */}
+                      {/* Quick Chips */}
                       <div className="preset-chips">
                         {PRESET_ADDRESSES.map((p) => (
                           <button
@@ -408,6 +458,7 @@ function CartDrawer({
                             type="button"
                             className={`preset-chip ${selectedPresetId === p.id ? "active" : ""}`}
                             onClick={() => handleSelectPreset(p.id)}
+                            style={{ fontFamily: "'Battambang', sans-serif" }}
                           >
                             {p.label}
                           </button>
@@ -416,49 +467,52 @@ function CartDrawer({
                           type="button"
                           className={`preset-chip ${selectedPresetId === "custom" ? "active" : ""}`}
                           onClick={() => setSelectedPresetId("custom")}
+                          style={{ fontFamily: "'Battambang', sans-serif" }}
                         >
-                          ✏️ Custom
+                          ✏️ អាសយដ្ឋានថ្មី
                         </button>
                       </div>
                     </div>
 
                     <div className="customer-form-grid">
                       <div className="cust-form-group">
-                        <label className="cust-label">
-                          Customer Name (ឈ្មោះ) <span className="req-star">*</span>
+                        <label className="cust-label" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                          ឈ្មោះអតិថិជន <span className="req-star">*</span>
                         </label>
                         <input
                           type="text"
                           className="cust-input"
-                          placeholder="e.g. Puthea Nita"
+                          placeholder="ឧ. ពុធធានីតា ព្រំ"
                           value={customerName}
                           onChange={(e) => {
                             setCustomerName(e.target.value);
                             setSelectedPresetId("custom");
                           }}
+                          style={{ fontFamily: "'Battambang', sans-serif" }}
                         />
                       </div>
 
                       <div className="cust-form-group">
-                        <label className="cust-label">
-                          Phone Number (លេខទូរស័ព្ទ) <span className="req-star">*</span>
+                        <label className="cust-label" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                          លេខទូរស័ព្ទទទួលម្ហូប <span className="req-star">*</span>
                         </label>
                         <input
                           type="tel"
                           className="cust-input"
-                          placeholder="e.g. 015 241471"
+                          placeholder="ឧ. 015 241471"
                           value={customerPhone}
                           onChange={(e) => {
                             setCustomerPhone(e.target.value);
                             setSelectedPresetId("custom");
                           }}
+                          style={{ fontFamily: "'Battambang', sans-serif" }}
                         />
                       </div>
                     </div>
 
                     <div className="cust-form-group">
-                      <label className="cust-label">
-                        Delivery City / Province (រាជធានី / ខេត្ត) <span className="req-star">*</span>
+                      <label className="cust-label" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                        រាជធានី / ខេត្ត <span className="req-star">*</span>
                       </label>
                       <select
                         className="cust-select"
@@ -467,84 +521,100 @@ function CartDrawer({
                           setDeliveryProvince(e.target.value);
                           setSelectedPresetId("custom");
                         }}
+                        style={{ fontFamily: "'Battambang', sans-serif" }}
                       >
                         {CAMBODIA_PROVINCES.map((prov) => (
-                          <option key={prov} value={prov}>
-                            {prov} {prov === "Phnom Penh" ? "(រាជធានីភ្នំពេញ) - Standard Delivery" : `(ខេត្ត${prov})`}
+                          <option key={prov.en} value={prov.en}>
+                            {prov.km} {prov.en === "Phnom Penh" ? "(ដឹកជញ្ជូនរហ័សក្នុងថ្ងៃ)" : ""}
                           </option>
                         ))}
                       </select>
                     </div>
 
                     <div className="cust-form-group">
-                      <label className="cust-label">
-                        Delivery Street Address (អាសយដ្ឋានលម្អិត) <span className="req-star">*</span>
+                      <label className="cust-label" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                        អាសយដ្ឋានលម្អិត (ផ្ទះលេខ, ផ្លូវ, សង្កាត់, ខណ្ឌ) <span className="req-star">*</span>
                       </label>
                       <input
                         type="text"
                         className="cust-input"
-                        placeholder="House #, Street, Sangkat, Khan, Landmark..."
+                        placeholder="ផ្ទះលេខ, ផ្លូវលេខ, សង្កាត់, ខណ្ឌ, ចំណុចសម្គាល់..."
                         value={customerAddress}
                         onChange={(e) => {
                           setCustomerAddress(e.target.value);
                           setSelectedPresetId("custom");
                         }}
+                        style={{ fontFamily: "'Battambang', sans-serif" }}
                       />
                     </div>
 
                     <div className="cust-form-group">
-                      <label className="cust-label">
-                        Delivery Notes (សម្គាល់បន្ថែម / Optional)
+                      <label className="cust-label" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                        ចំណាំបន្ថែមសម្រាប់អ្នកដឹកជញ្ជូន (ស្រេចចិត្ត)
                       </label>
                       <input
                         type="text"
                         className="cust-input"
-                        placeholder="e.g. Call before arrival, leave at security desk..."
+                        placeholder="ឧ. សូមទូរស័ព្ទមុនមកដល់, ផ្ញើនៅតុសន្តិសុខ..."
                         value={deliveryNotes}
                         onChange={(e) => setDeliveryNotes(e.target.value)}
+                        style={{ fontFamily: "'Battambang', sans-serif" }}
                       />
                     </div>
                   </div>
 
                   {/* ── Promo Code Section ── */}
                   <div className="promo-section">
-                    <p className="promo-section-title">🏷️ Pchum Ben Promo Code</p>
+                    <p className="promo-section-title" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                      🏷️ កូដបញ្ចុះតម្លៃពិធីបុណ្យ
+                    </p>
                     {promoApplied ? (
                       <div className="promo-applied-row">
-                        <span className="promo-applied-badge">✓ {VALID_PROMO_CODE} — 20% OFF applied!</span>
-                        <button className="promo-remove-btn" onClick={handleRemovePromo}>Remove</button>
+                        <span className="promo-applied-badge" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                          ✓ {promoInput.trim().toUpperCase() || "BAITONG"} — បញ្ចុះតម្លៃ 20% ដោយជោគជ័យ!
+                        </span>
+                        <button className="promo-remove-btn" onClick={handleRemovePromo} style={{ fontFamily: "'Battambang', sans-serif" }}>
+                          លុបកូដ
+                        </button>
                       </div>
                     ) : (
                       <div className="promo-input-row">
                         <input
                           type="text"
                           className="promo-input"
-                          placeholder="Enter code e.g. PCHUMBEN20"
+                          placeholder="បញ្ចូលកូដ e.g. BAITONG ឬ KHMERFOOD"
                           value={promoInput}
                           onChange={(e) => { setPromoInput(e.target.value); setPromoError(""); }}
                           onKeyDown={(e) => e.key === "Enter" && handleApplyPromo()}
+                          style={{ fontFamily: "'Battambang', sans-serif" }}
                         />
-                        <button className="promo-apply-btn" onClick={handleApplyPromo}>Apply</button>
+                        <button className="promo-apply-btn" onClick={handleApplyPromo} style={{ fontFamily: "'Battambang', sans-serif" }}>
+                          ប្រើកូដ
+                        </button>
                       </div>
                     )}
-                    {promoError && <p className="promo-error-msg">{promoError}</p>}
+                    {promoError && <p className="promo-error-msg" style={{ fontFamily: "'Battambang', sans-serif" }}>{promoError}</p>}
                   </div>
 
                   {/* ── Payment Section ── */}
                   <div className="payment-section">
-                    <p className="payment-section-title">💳 Payment Method</p>
+                    <p className="payment-section-title" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                      💳 វិធីសាស្ត្រទូទាត់ប្រាក់
+                    </p>
                     <div className="payment-tabs">
                       <button
                         className={`payment-tab ${paymentTab === "aba" ? "active" : ""}`}
                         onClick={() => setPaymentTab("aba")}
+                        style={{ fontFamily: "'Battambang', sans-serif" }}
                       >
-                        🏦 ABA Bank QR
+                        🏦 ស្កេន ABA Bank KHQR
                       </button>
                       <button
                         className={`payment-tab ${paymentTab === "cash" ? "active" : ""}`}
                         onClick={() => setPaymentTab("cash")}
+                        style={{ fontFamily: "'Battambang', sans-serif" }}
                       >
-                        💵 Cash on Delivery
+                        💵 ទូទាត់ប្រាក់ពេលដឹកមកដល់
                       </button>
                     </div>
 
@@ -553,8 +623,12 @@ function CartDrawer({
                         <div className="aba-qr-header">
                           <span className="aba-logo">ABA</span>
                           <div>
-                            <p className="aba-title">Scan to Pay with ABA Bank</p>
-                            <p className="aba-subtitle">តម្លៃ: ${total.toFixed(2)} · Open ABA Mobile App → Scan QR</p>
+                            <p className="aba-title" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                              ស្កេនទូទាត់ជាមួយ ABA Mobile KHQR
+                            </p>
+                            <p className="aba-subtitle" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                              ទឹកប្រាក់ត្រូវទូទាត់: ${total.toFixed(2)} · បើកកម្មវិធី ABA → Scan QR
+                            </p>
                           </div>
                         </div>
                         <div className="aba-qr-wrap">
@@ -563,27 +637,31 @@ function CartDrawer({
                             alt="ABA Bank Payment QR Code"
                             className="aba-qr-img"
                           />
-                          <div className="aba-qr-info">
-                            <p>📱 Open <strong>ABA Mobile</strong></p>
-                            <p>→ Tap <strong>Pay</strong></p>
-                            <p>→ Tap <strong>Scan QR</strong></p>
-                            <p>→ Scan the code</p>
-                            <p>→ Confirm payment</p>
+                          <div className="aba-qr-info" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                            <p>📱 បើកកម្មវិធី <strong>ABA Mobile</strong></p>
+                            <p>→ ចុចលើ <strong>Pay</strong></p>
+                            <p>→ ចុចលើ <strong>Scan QR</strong></p>
+                            <p>→ ស្កេនរូប QR នេះ</p>
+                            <p>→ បញ្ជាក់ការទូទាត់ប្រាក់</p>
                             <a href={ABA_PAY_LINK} target="_blank" rel="noopener noreferrer" className="aba-direct-link">
-                              Or tap to pay directly →
+                              ឬចុចទូទាត់ផ្ទាល់ →
                             </a>
                           </div>
                         </div>
-                        <p className="aba-note">✅ Fast &amp; secure · No card needed · Instant confirmation</p>
+                        <p className="aba-note" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                          ✅ រហ័ស សុវត្ថិភាព មិនបាច់ប្រើកាត · ទទួលការបញ្ជាក់ភ្លាមៗ
+                        </p>
                       </div>
                     )}
 
                     {paymentTab === "cash" && (
                       <div className="cod-section">
                         <div className="cod-icon">🚗</div>
-                        <p className="cod-title">Cash on Delivery</p>
-                        <p className="cod-desc">
-                          Pay in cash when courier arrives. Courier will contact <strong>{customerPhone}</strong> at <strong>{customerAddress}</strong>.
+                        <p className="cod-title" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                          ទូទាត់ប្រាក់សុទ្ធពេលដឹកជញ្ជូនមកដល់
+                        </p>
+                        <p className="cod-desc" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                          ទូទាត់ជាប្រាក់សុទ្ធពេលបុគ្គលិកដឹកជញ្ជូនយកម្ហូបដល់ដៃ។ អ្នកដឹកជញ្ជូននឹងទូរស័ព្ទទៅលេខ <strong>{customerPhone}</strong> នៅអាសយដ្ឋាន <strong>{customerAddress}</strong>។
                         </p>
                       </div>
                     )}
@@ -595,22 +673,22 @@ function CartDrawer({
             {/* ── Drawer Footer ── */}
             {!showHistory && cartItems.length > 0 && (
               <div className="cart-drawer-footer">
-                <div className="cart-summary-line">
-                  <span>Subtotal</span>
+                <div className="cart-summary-line" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                  <span>តម្លៃសរុបរង</span>
                   <span>${subtotal.toFixed(2)}</span>
                 </div>
                 {promoApplied && (
-                  <div className="cart-summary-line discount-line">
-                    <span>🏷️ Pchum Ben 20% OFF</span>
+                  <div className="cart-summary-line discount-line" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                    <span>🏷️ បញ្ចុះតម្លៃពិសេស 20%</span>
                     <span className="discount-amount">−${discount.toFixed(2)}</span>
                   </div>
                 )}
-                <div className="cart-summary-line">
-                  <span>Shipping {subtotal > 50 && <em className="free-tag">(Free over $50)</em>}</span>
-                  <span>{shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`}</span>
+                <div className="cart-summary-line" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                  <span>សេវាដឹកជញ្ជូន {subtotal > 30 && <em className="free-tag">(ឥតគិតថ្លៃលើសពី $30)</em>}</span>
+                  <span>{shipping === 0 ? "ឥតគិតថ្លៃ" : `$${shipping.toFixed(2)}`}</span>
                 </div>
-                <div className="cart-summary-total">
-                  <span>Total</span>
+                <div className="cart-summary-total" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                  <span>ទឹកប្រាក់សរុប</span>
                   <span className="total-number">${total.toFixed(2)}</span>
                 </div>
 
@@ -618,8 +696,9 @@ function CartDrawer({
                   className="cart-checkout-btn"
                   onClick={handleCheckout}
                   disabled={isCheckingOut}
+                  style={{ fontFamily: "'Battambang', sans-serif", fontSize: "1.05rem" }}
                 >
-                  {isCheckingOut ? "Processing & Generating Invoice..." : `Place Order & View Invoice • $${total.toFixed(2)}`}
+                  {isCheckingOut ? "កំពុងដំណើរការ & បង្កើតវិក្កយបត្រ..." : `កុម្ម៉ង់ម្ហូប & មើលវិក្កយបត្រ • $${total.toFixed(2)}`}
                 </button>
               </div>
             )}

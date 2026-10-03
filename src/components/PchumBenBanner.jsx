@@ -4,7 +4,7 @@ import "./PchumBenBanner.css";
 // 🪷 Pchum Ben Promo: Sep 30, 2026 → Oct 12, 2026
 const PROMO_START_DATE = new Date("2026-09-30T00:00:00");
 const PROMO_END_DATE   = new Date("2026-10-12T23:59:59");
-const PROMO_CODE       = "PCHUMBEN20";
+const PROMO_CODE       = "BAITONG";
 
 function getTimeLeft() {
   const now = new Date();
@@ -47,75 +47,72 @@ export default function PchumBenBanner({ onClose }) {
 
   return (
     <section className={`pcb-banner ${isVisible ? "pcb-enter" : "pcb-exit"}`}>
-      {/* ── User's Pchum Ben Background Artwork (Lotus, Bamboo Basket, Tray, Green Kroma) ── */}
+      {/* Background Artwork */}
       <div className="pcb-bg-artwork" aria-hidden="true" />
-
-      {/* ── Blur & Frost Gradient on the Right Side ── */}
       <div className="pcb-right-blur" aria-hidden="true" />
 
-      {/* ── Main Container: Left is open for the artwork, Right contains promo elements ── */}
       <div className="pcb-container">
-
-        {/* ── Left Area: Spacious open area letting the lotus, baskets & kroma shine ── */}
         <div className="pcb-left-spacer" aria-hidden="true"></div>
 
-        {/* ── Right Content: Title, 20% Offer, Countdown & Promo Code ── */}
         <div className="pcb-promo-content">
-
           {/* Title Header */}
           <div className="pcb-header-group">
-            <h1 className="pcb-title">ភ្ជុំបិណ្ឌ</h1>
-            <p className="pcb-subtitle">ពិធីបុណ្យភ្ជុំបិណ្ឌប្រពៃណីជាតិ • Pchum Ben Festival</p>
+            <h1 className="pcb-title" style={{ fontFamily: "'Moul', 'Dangrek', 'Battambang', serif" }}>
+              ភ្ជុំបិណ្ឌ
+            </h1>
+            <p className="pcb-subtitle" style={{ fontFamily: "'Battambang', sans-serif" }}>
+              ពិធីបុណ្យភ្ជុំបិណ្ឌប្រពៃណីជាតិខ្មែរ • ផ្ទះបៃតង
+            </p>
           </div>
 
           {/* 20% Offer + Countdown Timer Row */}
           <div className="pcb-offer-row">
             <div className="pcb-discount-badge">
               <span className="pcb-discount-pct">20%</span>
-              <div className="pcb-discount-labels">
-                <span className="pcb-discount-off">OFF</span>
-                <span className="pcb-discount-site">SITEWIDE</span>
+              <div className="pcb-discount-labels" style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}>
+                <span className="pcb-discount-off">បញ្ចុះ</span>
+                <span className="pcb-discount-site">ទូទាំងហាង</span>
               </div>
             </div>
 
-            <div className="pcb-timer-block">
-              <span className="pcb-ends-label">⏳ Offers close Oct 12:</span>
+            <div className="pcb-timer-block" style={{ fontFamily: "'Battambang', sans-serif" }}>
+              <span className="pcb-ends-label">⏳ ផុតកំណត់ត្រឹម ថ្ងៃទី១២ តុលា:</span>
               <div className="pcb-timer-wrap">
                 <div className="pcb-timer-unit">
                   <span className="pcb-timer-num">{String(timeLeft.days).padStart(2, "0")}</span>
-                  <span className="pcb-timer-lbl">Days</span>
+                  <span className="pcb-timer-lbl">ថ្ងៃ</span>
                 </div>
                 <span className="pcb-timer-sep">:</span>
                 <div className="pcb-timer-unit">
                   <span className="pcb-timer-num">{String(timeLeft.hours).padStart(2, "0")}</span>
-                  <span className="pcb-timer-lbl">Hrs</span>
+                  <span className="pcb-timer-lbl">ម៉ោង</span>
                 </div>
                 <span className="pcb-timer-sep">:</span>
                 <div className="pcb-timer-unit">
                   <span className="pcb-timer-num">{String(timeLeft.minutes).padStart(2, "0")}</span>
-                  <span className="pcb-timer-lbl">Min</span>
+                  <span className="pcb-timer-lbl">នាទី</span>
                 </div>
                 <span className="pcb-timer-sep">:</span>
                 <div className="pcb-timer-unit">
                   <span className="pcb-timer-num">{String(timeLeft.seconds).padStart(2, "0")}</span>
-                  <span className="pcb-timer-lbl">Sec</span>
+                  <span className="pcb-timer-lbl">វិនាទី</span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* EXACT Promo Code Section as Before */}
+          {/* Promo Code Section */}
           <div className="pcb-code-section">
-            <div className="pcb-code-labels">
+            <div className="pcb-code-labels" style={{ fontFamily: "'Battambang', sans-serif" }}>
               <p className="pcb-code-kh-label">វាយលេខកូដ</p>
-              <p className="pcb-code-label">Use code at checkout</p>
+              <p className="pcb-code-label">ប្រើកូដពេលកុម្ម៉ង់ទូទាត់</p>
             </div>
 
             <button
               className={`pcb-code-btn ${copied ? "pcb-copied" : ""}`}
               onClick={handleCopy}
               id="pchumben-copy-btn"
-              title="Click to copy promo code"
+              title="ចុចដើម្បីចម្លងកូដ"
             >
               <span className="pcb-code-text">{PROMO_CODE}</span>
               <span className="pcb-copy-icon">
@@ -134,19 +131,18 @@ export default function PchumBenBanner({ onClose }) {
               </span>
             </button>
 
-            <div className="pcb-copied-msg">
-              {copied ? "✓ ចម្លងជោគជ័យ! Copied!" : "\u00a0"}
+            <div className="pcb-copied-msg" style={{ fontFamily: "'Battambang', sans-serif" }}>
+              {copied ? "✓ បានចម្លងកូដជោគជ័យ!" : "\u00a0"}
             </div>
           </div>
 
-          <span className="pcb-perk-text">✦ បញ្ចុះតម្លៃ 20% គ្រប់មុខ • ដឹកជញ្ជូនឥតគិតថ្លៃ $30+</span>
-
+          <span className="pcb-perk-text" style={{ fontFamily: "'Battambang', sans-serif" }}>
+            ✦ បញ្ចុះតម្លៃ 20% គ្រប់មុខម្ហូប • ដឹកជញ្ជូនឥតគិតថ្លៃសម្រាប់ការកុម្ម៉ង់លើសពី $30
+          </span>
         </div>
-
       </div>
 
-      {/* ── Minimal Close Button ── */}
-      <button className="pcb-close-btn" onClick={handleClose} aria-label="Close promotion">
+      <button className="pcb-close-btn" onClick={handleClose} aria-label="បិទផ្ទាំងផ្សាយ">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
           stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
           <line x1="18" y1="6" x2="6" y2="18" />

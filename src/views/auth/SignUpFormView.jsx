@@ -28,12 +28,12 @@ export default function SignUpFormView({
     if (!file) return;
 
     if (!file.type.startsWith("image/")) {
-      alert("Please upload a valid image file (JPG, PNG).");
+      alert("សូមជ្រើសរើសឯកសាររូបភាពត្រឹមត្រូវ (JPG, PNG)។");
       return;
     }
 
     if (file.size > 3 * 1024 * 1024) {
-      alert("Photo must be less than 3MB.");
+      alert("ទំហំរូបថតត្រូវតែតូចជាង 3MB។");
       return;
     }
 
@@ -53,7 +53,7 @@ export default function SignUpFormView({
         <div
           className="signup-avatar-preview"
           onClick={() => fileInputRef.current?.click()}
-          title="Click to upload profile photo"
+          title="ចុចដើម្បីបង្ហោះរូបថត"
         >
           {signupAvatar ? (
             <img src={signupAvatar} alt="Avatar" className="signup-avatar-img" />
@@ -73,27 +73,31 @@ export default function SignUpFormView({
             type="button"
             className="signup-photo-btn"
             onClick={() => fileInputRef.current?.click()}
+            style={{ fontFamily: "'Battambang', sans-serif" }}
           >
-            {signupAvatar ? "Change Photo" : "Upload Profile Photo (Optional)"}
+            {signupAvatar ? "ប្តូររូបថត" : "បង្ហោះរូបថតគណនី (ស្រេចចិត្ត)"}
           </button>
           {signupAvatar && (
             <button
               type="button"
               className="signup-photo-remove"
               onClick={() => onAvatarChange("")}
+              style={{ fontFamily: "'Battambang', sans-serif" }}
             >
-              Remove
+              លុបរូបថត
             </button>
           )}
-          <span className="signup-photo-hint">Adds your avatar to your customer account</span>
+          <span className="signup-photo-hint" style={{ fontFamily: "'Battambang', sans-serif" }}>
+            ភ្ជាប់រូបថតទៅកាន់គណនីអតិថិជនរបស់អ្នក
+          </span>
         </div>
       </div>
 
       <div className="form-group">
-        <label>Full Name (ឈ្មោះ)</label>
+        <label style={{ fontFamily: "'Battambang', sans-serif" }}>ឈ្មោះពេញរបស់អ្នក *</label>
         <input
           type="text"
-          placeholder="e.g. Puthea Nita"
+          placeholder="ឧ. ជុំ ប៊ុនថារី ឬ ព្រហ្ម ពុទ្ធានីតា"
           value={signupName}
           onChange={(e) => onNameChange(e.target.value)}
           className="login-input"
@@ -103,10 +107,10 @@ export default function SignUpFormView({
 
       <div className="form-row-2">
         <div className="form-group">
-          <label>Email Address (អ៊ីមែល)</label>
+          <label style={{ fontFamily: "'Battambang', sans-serif" }}>អាសយដ្ឋានអ៊ីមែល *</label>
           <input
             type="email"
-            placeholder="nita@example.com"
+            placeholder="example@gmail.com"
             value={signupEmail}
             onChange={(e) => onEmailChange(e.target.value)}
             className="login-input"
@@ -115,7 +119,7 @@ export default function SignUpFormView({
         </div>
 
         <div className="form-group">
-          <label>Phone (លេខទូរស័ព្ទ)</label>
+          <label style={{ fontFamily: "'Battambang', sans-serif" }}>លេខទូរស័ព្ទ *</label>
           <input
             type="tel"
             placeholder="015 241471"
@@ -128,7 +132,7 @@ export default function SignUpFormView({
 
       <div className="form-row-2">
         <div className="form-group">
-          <label>Password (យ៉ាងតិច 6 ខ្ទង់)</label>
+          <label style={{ fontFamily: "'Battambang', sans-serif" }}>ពាក្យសម្ងាត់ (យ៉ាងតិច ៦ ខ្ទង់) *</label>
           <input
             type="password"
             placeholder="••••••••"
@@ -141,7 +145,7 @@ export default function SignUpFormView({
         </div>
 
         <div className="form-group">
-          <label>Confirm Password</label>
+          <label style={{ fontFamily: "'Battambang', sans-serif" }}>បញ្ជាក់ពាក្យសម្ងាត់ *</label>
           <input
             type="password"
             placeholder="••••••••"
@@ -158,6 +162,7 @@ export default function SignUpFormView({
         type="submit"
         className={`login-btn ${isSuccess ? "login-btn-success" : ""}`}
         disabled={isLoading || isSuccess}
+        style={{ fontFamily: "'Battambang', sans-serif", fontSize: "1rem" }}
       >
         {isSuccess ? (
           <span className="btn-status">
@@ -173,15 +178,15 @@ export default function SignUpFormView({
             >
               <polyline points="20 6 9 17 4 12" />
             </svg>
-            Account Created! Entering...
+            ចុះឈ្មោះជោគជ័យ! កំពុងចូល...
           </span>
         ) : isLoading ? (
           <span className="btn-status">
             <span className="btn-spinner"></span>
-            Registering...
+            កំពុងចុះឈ្មោះ...
           </span>
         ) : (
-          "Create Account & Sign In ✨"
+          "ចុះឈ្មោះគណនីថ្មី ✨"
         )}
       </button>
     </form>

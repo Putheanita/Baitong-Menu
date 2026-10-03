@@ -84,16 +84,14 @@ function App() {
 
   // Sync state changes to browser URL hash
   useEffect(() => {
-    if (!isAuthenticated) {
-      window.location.hash = "/login";
-    } else if (currentPage === "about") {
+    if (currentPage === "about") {
       window.location.hash = "/about";
     } else if (currentPage === "contact") {
       window.location.hash = "/contact";
     } else {
       window.location.hash = "/";
     }
-  }, [isAuthenticated, currentPage]);
+  }, [currentPage]);
 
   // Listen to browser navigation changes (back/forward buttons)
   useEffect(() => {
@@ -103,8 +101,6 @@ function App() {
         setCurrentPage("about");
       } else if (hash === "#/contact") {
         setCurrentPage("contact");
-      } else if (hash === "#/login" || !isAuthenticated) {
-        // Stay on login if not authenticated
       } else {
         setCurrentPage("home");
       }
@@ -112,7 +108,7 @@ function App() {
 
     window.addEventListener("hashchange", handleHashChange);
     return () => window.removeEventListener("hashchange", handleHashChange);
-  }, [isAuthenticated]);
+  }, []);
 
   const handleLoginSuccess = (user) => {
     localStorage.setItem("isLoggedIn", "true");
@@ -135,7 +131,7 @@ function App() {
     setIsCustomerProfileOpen(false);
     setIsCartOpen(false);
     setCurrentPage("home");
-    window.location.hash = "/login";
+    window.location.hash = "/";
   };
 
   // Update Customer Profile Data
@@ -173,36 +169,45 @@ function App() {
     }
   };
 
-  // Cart operations
+  // Cart operations with customizable toppings & spice
   const handleAddToCart = (product, quantity = 1) => {
     setCartItems((prev) => {
-      const existing = prev.find((item) => item.productCode === product.productCode);
+      const toppingKey = product.selectedToppings && product.selectedToppings.length > 0
+        ? product.selectedToppings.map((t) => t.id).sort().join("-")
+        : "";
+      const itemKey = `${product.productCode}${toppingKey ? "_" + toppingKey : ""}${product.spiciness ? "_" + product.spiciness : ""}`;
+
+      const existing = prev.find((item) => (item.cartItemId || item.productCode) === itemKey);
       if (existing) {
         return prev.map((item) =>
-          item.productCode === product.productCode
+          (item.cartItemId || item.productCode) === itemKey
             ? { ...item, quantity: item.quantity + quantity }
             : item
         );
       }
-      return [...prev, { ...product, quantity }];
+      return [...prev, { ...product, cartItemId: itemKey, quantity }];
     });
     setIsCartOpen(true);
   };
 
-  const handleUpdateQuantity = (productCode, newQty) => {
+  const handleUpdateQuantity = (itemIdentifier, newQty) => {
     if (newQty <= 0) {
-      handleRemoveItem(productCode);
+      handleRemoveItem(itemIdentifier);
       return;
     }
     setCartItems((prev) =>
       prev.map((item) =>
-        item.productCode === productCode ? { ...item, quantity: newQty } : item
+        (item.cartItemId || item.productCode) === itemIdentifier
+          ? { ...item, quantity: newQty }
+          : item
       )
     );
   };
 
-  const handleRemoveItem = (productCode) => {
-    setCartItems((prev) => prev.filter((item) => item.productCode !== productCode));
+  const handleRemoveItem = (itemIdentifier) => {
+    setCartItems((prev) =>
+      prev.filter((item) => (item.cartItemId || item.productCode) !== itemIdentifier)
+    );
   };
 
   const handleClearCart = () => {
@@ -213,59 +218,53 @@ function App() {
 
   return (
     <div>
-      {isAuthenticated ? (
-        <>
-          {currentPage === "about" ? (
-            <PutheanetaProfile onBack={() => setCurrentPage("home")} />
-          ) : currentPage === "contact" ? (
-            <Contact
-              onBack={() => setCurrentPage("home")}
-              onNavigateShop={() => setCurrentPage("home")}
-              onNavigateAbout={() => setCurrentPage("about")}
-            />
-          ) : (
-            <Home
-              onLogout={handleLogout}
-              onViewAbout={() => setCurrentPage("about")}
-              onViewContact={() => setCurrentPage("contact")}
-              onOpenCart={() => setIsCartOpen(true)}
-              cartItemCount={totalCartCount}
-              onAddToCart={handleAddToCart}
-              currentUser={currentUser}
-              onOpenCustomerProfile={() => setIsCustomerProfileOpen(true)}
-              onOpenNotifications={() => setIsNotificationSidebarOpen(true)}
-              unreadNotifCount={unreadNotifCount}
-            />
-          )}
-
-          {/* Slide-over Shopping Cart Drawer */}
-          <CartDrawer
-            isOpen={isCartOpen}
-            onClose={() => setIsCartOpen(false)}
-            cartItems={cartItems}
-            onUpdateQuantity={handleUpdateQuantity}
-            onRemoveItem={handleRemoveItem}
-            onClearCart={handleClearCart}
-          />
-
-          {/* Customer Account & Data Upload Modal */}
-          <CustomerProfileModal
-            isOpen={isCustomerProfileOpen}
-            onClose={() => setIsCustomerProfileOpen(false)}
-            currentUser={currentUser}
-            onUpdateCurrentUser={handleUpdateCurrentUser}
-            onLogout={handleLogout}
-          />
-
-          {/* Admin Alerts & Notifications Slide-over Sidebar Drawer */}
-          <NotificationSidebar
-            isOpen={isNotificationSidebarOpen}
-            onClose={() => setIsNotificationSidebarOpen(false)}
-          />
-        </>
+      {currentPage === "about" ? (
+        <PutheanetaProfile onBack={() => setCurrentPage("home")} />
+      ) : currentPage === "contact" ? (
+        <Contact
+          onBack={() => setCurrentPage("home")}
+          onNavigateShop={() => setCurrentPage("home")}
+          onNavigateAbout={() => setCurrentPage("about")}
+        />
       ) : (
-        <Login onLoginSuccess={handleLoginSuccess} />
+        <Home
+          onLogout={handleLogout}
+          onViewAbout={() => setCurrentPage("about")}
+          onViewContact={() => setCurrentPage("contact")}
+          onOpenCart={() => setIsCartOpen(true)}
+          cartItemCount={totalCartCount}
+          onAddToCart={handleAddToCart}
+          currentUser={currentUser}
+          onOpenCustomerProfile={() => setIsCustomerProfileOpen(true)}
+          onOpenNotifications={() => setIsNotificationSidebarOpen(true)}
+          unreadNotifCount={unreadNotifCount}
+        />
       )}
+
+      {/* Slide-over Shopping Cart Drawer */}
+      <CartDrawer
+        isOpen={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
+        cartItems={cartItems}
+        onUpdateQuantity={handleUpdateQuantity}
+        onRemoveItem={handleRemoveItem}
+        onClearCart={handleClearCart}
+      />
+
+      {/* Customer Account & Data Upload Modal */}
+      <CustomerProfileModal
+        isOpen={isCustomerProfileOpen}
+        onClose={() => setIsCustomerProfileOpen(false)}
+        currentUser={currentUser}
+        onUpdateCurrentUser={handleUpdateCurrentUser}
+        onLogout={handleLogout}
+      />
+
+      {/* Admin Alerts & Notifications Slide-over Sidebar Drawer */}
+      <NotificationSidebar
+        isOpen={isNotificationSidebarOpen}
+        onClose={() => setIsNotificationSidebarOpen(false)}
+      />
     </div>
   );
 }
