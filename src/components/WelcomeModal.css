@@ -571,3 +571,52 @@
     transform: translateY(0);
   }
 }
+
+@media (max-width: 640px) {
+  .welcome-modal-overlay {
+    padding: 10px;
+  }
+
+  .welcome-modal-card {
+    border-radius: 18px;
+    max-width: 98vw;
+    max-height: 94vh;
+    min-height: auto;
+  }
+
+  .wm-left-panel {
+    padding: 24px 16px 20px;
+  }
+
+  .wm-top-badge {
+    font-size: 0.8rem;
+    padding: 4px 10px;
+    margin-bottom: 12px;
+  }
+
+  .wm-main-title {
+    font-size: 1.55rem;
+  }
+
+  .wm-khmer-title {
+    font-size: 1.15rem;
+  }
+
+  .wm-explore-menu-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 16px;
+    font-size: 0.95rem;
+  }
+
+  .wm-founder-bar {
+    font-size: 0.82rem;
+    padding: 10px 12px;
+  }
+
+  .welcome-modal-card.chef-revealed .wm-right-slideshow-panel {
+    min-height: 260px;
+    max-height: 320px;
+  }
+}
+

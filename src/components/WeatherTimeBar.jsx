@@ -96,17 +96,18 @@ export default function WeatherTimeBar() {
         
         {/* Left: Location & Live Weather */}
         <div className="weather-item">
-          <span className="wt-location">📍 {locationLabel}</span>
+          <span className="wt-location wt-hide-mobile">📍 {locationLabel}</span>
+          <span className="wt-location wt-show-mobile">📍 ភ្នំពេញ</span>
           <span className="wt-icon">{weather.icon}</span>
           <span className="wt-temp">{toKhmerDigits(weather.temp)}°C</span>
-          <span className="wt-desc">{weather.condition}</span>
-          <span className="wt-humidity">💧 {toKhmerDigits(weather.humidity)}%</span>
+          <span className="wt-desc wt-hide-mobile">{weather.condition}</span>
+          <span className="wt-humidity wt-hide-mobile">💧 {toKhmerDigits(weather.humidity)}%</span>
         </div>
 
         {/* Right: Local Phnom Penh Time & Live Clock */}
         <div className="time-item">
-          <span className="wt-tz-badge">{tzLabel}</span>
-          <span className="wt-date">📅 {currentDate}</span>
+          <span className="wt-tz-badge wt-hide-mobile">{tzLabel}</span>
+          <span className="wt-date wt-hide-mobile">📅 {currentDate}</span>
           <span className="wt-clock">🕒 <strong>{currentTime}</strong></span>
         </div>
 

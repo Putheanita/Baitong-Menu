@@ -92,17 +92,55 @@
   font-weight: 700;
 }
 
+.wt-show-mobile {
+  display: none;
+}
+
 /* Responsive adjustment for small screens */
 @media (max-width: 768px) {
-  .weather-time-content {
-    justify-content: center;
-    padding: 5px 14px;
-    font-size: 0.72rem;
-    gap: 6px;
+  .wt-hide-mobile {
+    display: none !important;
   }
+
+  .wt-show-mobile {
+    display: inline !important;
+  }
+
+  .weather-time-strip {
+    padding: 2px 0;
+  }
+
+  .weather-time-content {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 12px;
+    font-size: 0.74rem;
+    gap: 4px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
   .weather-item,
   .time-item {
-    justify-content: center;
-    gap: 6px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+  }
+
+  .wt-location {
+    font-size: 0.74rem;
+  }
+
+  .wt-temp {
+    font-size: 0.72rem;
+    padding: 1px 5px;
+  }
+
+  .wt-clock {
+    font-size: 0.74rem;
   }
 }
