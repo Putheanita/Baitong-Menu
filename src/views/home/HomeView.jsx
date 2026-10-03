@@ -40,7 +40,9 @@ export default function HomeView({
   currentUser,
   onOpenCustomerProfile,
   onOpenNotifications,
-  unreadNotifCount
+  unreadNotifCount,
+  onOpenTableBooking,
+  onOpenOrderTracking
 }) {
   // Automatically show the Welcome Popup Modal on load (with left branding and right photo slideshow)
   const [isWelcomeModalOpen, setIsWelcomeModalOpen] = useState(true);
@@ -66,6 +68,8 @@ export default function HomeView({
         onLogout={onLogout}
         onOpenNotifications={onOpenNotifications}
         unreadNotifCount={unreadNotifCount}
+        onOpenTableBooking={onOpenTableBooking}
+        onOpenOrderTracking={onOpenOrderTracking}
       />
 
       {/* Main Content Area */}
@@ -81,6 +85,7 @@ export default function HomeView({
           onNavigateContact={onViewContact}
           onNavigateAbout={onViewAbout}
           onOpenSlideshow={() => setIsWelcomeModalOpen(true)}
+          onOpenTableBooking={onOpenTableBooking}
         />
 
         {/* Category Filters */}
@@ -109,6 +114,8 @@ export default function HomeView({
         onNavigateAbout={onViewAbout}
         onNavigateContact={onViewContact}
         onOpenCart={onOpenCart}
+        onOpenTableBooking={onOpenTableBooking}
+        onOpenOrderTracking={onOpenOrderTracking}
       />
 
       {/* Product Detail Modal */}

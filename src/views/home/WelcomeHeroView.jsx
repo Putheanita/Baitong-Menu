@@ -1,6 +1,6 @@
 import "./WelcomeHeroView.css";
 
-export default function WelcomeHeroView({ onExploreMenu, onNavigateContact, onOpenSlideshow }) {
+export default function WelcomeHeroView({ onExploreMenu, onNavigateContact, onOpenSlideshow, onOpenTableBooking }) {
   return (
     <section className="welcome-split-hero">
       <div className="welcome-split-container">
@@ -43,6 +43,31 @@ export default function WelcomeHeroView({ onExploreMenu, onNavigateContact, onOp
             >
               <span>📖 មើលបញ្ជីមុខម្ហូប (Explore Menu)</span>
             </button>
+            {onOpenTableBooking && (
+              <button
+                type="button"
+                className="welcome-book-table-btn"
+                onClick={onOpenTableBooking}
+                style={{
+                  background: "linear-gradient(135deg, #eab308, #ca8a04)",
+                  color: "#1e293b",
+                  fontWeight: 700,
+                  border: "none",
+                  padding: "13px 22px",
+                  borderRadius: "12px",
+                  fontFamily: "'Dangrek', 'Battambang', cursive",
+                  fontSize: "0.98rem",
+                  cursor: "pointer",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  boxShadow: "0 4px 14px rgba(202, 138, 4, 0.4)",
+                  transition: "all 0.25s ease"
+                }}
+              >
+                <span>🍽️ កក់តុអាហារ (Book Table)</span>
+              </button>
+            )}
             {onOpenSlideshow && (
               <button
                 type="button"
@@ -59,7 +84,7 @@ export default function WelcomeHeroView({ onExploreMenu, onNavigateContact, onOp
                 className="welcome-contact-btn"
                 onClick={onNavigateContact}
               >
-                <span>📞 កក់តុ &amp; ទំនាក់ទំនង</span>
+                <span>📞 ទំនាក់ទំនង</span>
               </button>
             )}
           </div>

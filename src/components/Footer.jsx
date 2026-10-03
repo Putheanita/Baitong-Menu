@@ -1,7 +1,7 @@
 import { toKhmerDigits } from "../utils/khmerDate";
 import "./Footer.css";
 
-export default function Footer({ onNavigateShop, onNavigateAbout, onNavigateContact, onOpenCart }) {
+export default function Footer({ onNavigateShop, onNavigateAbout, onNavigateContact, onOpenCart, onOpenTableBooking, onOpenOrderTracking }) {
   return (
     <footer className="main-footer">
       <div className="footer-top-strip">
@@ -66,8 +66,16 @@ export default function Footer({ onNavigateShop, onNavigateAbout, onNavigateCont
             </h4>
             <ul className="footer-links" style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}>
               <li><button type="button" onClick={onNavigateShop}>មុខម្ហូបខ្មែរទាំងអស់</button></li>
+              {onOpenTableBooking ? (
+                <li><button type="button" onClick={onOpenTableBooking} style={{ color: "#ffd166", fontWeight: 700 }}>🍽️ កក់តុអាហារអនឡាញ</button></li>
+              ) : (
+                <li><button type="button" onClick={onNavigateContact}>កក់តុ &amp; ទំនាក់ទំនង</button></li>
+              )}
+              {onOpenOrderTracking && (
+                <li><button type="button" onClick={onOpenOrderTracking} style={{ color: "#a7f3d0" }}>🕒 តាមដានស្ថានភាពម្ហូប</button></li>
+              )}
               <li><button type="button" onClick={onNavigateAbout}>អំពីម្ចាស់ហាង &amp; ថ្នាក់ដឹកនាំ</button></li>
-              <li><button type="button" onClick={onNavigateContact}>កក់តុ &amp; ទំនាក់ទំនង</button></li>
+              <li><button type="button" onClick={onNavigateContact}>ទំនាក់ទំនង &amp; ផែនទី</button></li>
               <li><button type="button" onClick={onOpenCart}>មើលកន្ត្រកម្ហូប</button></li>
             </ul>
           </div>

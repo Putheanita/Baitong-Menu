@@ -13,7 +13,9 @@ export default function HeaderNavView({
   onLogout,
   onOpenLogin,
   onOpenNotifications,
-  unreadNotifCount = 0
+  unreadNotifCount = 0,
+  onOpenOrderTracking,
+  onOpenTableBooking
 }) {
   return (
     <header className="main-header">
@@ -42,6 +44,15 @@ export default function HeaderNavView({
           >
             មុខម្ហូប
           </span>
+          {onOpenTableBooking && (
+            <span
+              className="nav-link"
+              onClick={onOpenTableBooking}
+              style={{ fontFamily: "'Dangrek', 'Battambang', cursive", color: "#2d6a4f", fontWeight: 700 }}
+            >
+              🍽️ កក់តុអាហារ
+            </span>
+          )}
           <span
             className={`nav-link ${activeMenu === "About" ? "active" : ""}`}
             onClick={() => onMenuClick("About")}
@@ -54,12 +65,39 @@ export default function HeaderNavView({
             onClick={() => onMenuClick("Contact")}
             style={{ fontFamily: "'Dangrek', 'Battambang', cursive" }}
           >
-            កក់តុ &amp; ទំនាក់ទំនង
+            ទំនាក់ទំនង
           </span>
         </nav>
 
         {/* Action Buttons (Right) */}
         <div className="header-right">
+          {/* Live Order Tracker Button */}
+          {onOpenOrderTracking && (
+            <button
+              type="button"
+              className="track-nav-btn"
+              onClick={onOpenOrderTracking}
+              title="តាមដានស្ថានភាពម្ហូប (Live Order Tracker)"
+              aria-label="Track Order"
+              style={{
+                fontFamily: "'Dangrek', 'Battambang', cursive",
+                background: "#ecfdf5",
+                color: "#065f46",
+                border: "1.5px solid #a7f3d0",
+                borderRadius: "20px",
+                padding: "6px 12px",
+                cursor: "pointer",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "5px",
+                fontSize: "0.85rem",
+                fontWeight: 600
+              }}
+            >
+              <span>🕒</span>
+              <span className="track-nav-label">តាមដានម្ហូប</span>
+            </button>
+          )}
           {/* Desktop Search Container */}
           <div className={`search-container ${isSearchOpen ? "search-open" : ""}`}>
             {isSearchOpen && (

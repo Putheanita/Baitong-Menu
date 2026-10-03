@@ -1,4 +1,5 @@
 import { useState } from "react";
+import TableBookingModal from "../components/TableBookingModal";
 import "./Contact.css";
 
 function Contact({ onBack, onNavigateShop, onNavigateAbout }) {
@@ -9,6 +10,7 @@ function Contact({ onBack, onNavigateShop, onNavigateAbout }) {
     message: ""
   });
   const [submitted, setSubmitted] = useState(false);
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -58,6 +60,30 @@ function Contact({ onBack, onNavigateShop, onNavigateAbout }) {
           <p style={{ fontFamily: "'Battambang', sans-serif" }}>
             មានចម្ងល់អំពីការកក់តុ កម្មវិធីជប់លៀងគ្រួសារ ឬមុខម្ហូបខ្មែរប្រចាំហាង ក្រុមការងារផ្ទះបៃតងរីករាយបម្រើលោកអ្នកជានិច្ច។
           </p>
+
+          <div style={{ marginTop: "18px" }}>
+            <button
+              type="button"
+              onClick={() => setIsBookingOpen(true)}
+              style={{
+                background: "linear-gradient(135deg, #2d6a4f 0%, #1b4332 100%)",
+                color: "#ffffff",
+                border: "none",
+                padding: "14px 28px",
+                borderRadius: "14px",
+                fontSize: "1.05rem",
+                fontWeight: 700,
+                fontFamily: "'Dangrek', 'Battambang', cursive",
+                cursor: "pointer",
+                boxShadow: "0 4px 16px rgba(45, 106, 79, 0.35)",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px"
+              }}
+            >
+              🍽️ កក់តុអាហារអនឡាញឥឡូវនេះ (Online Table Booking)
+            </button>
+          </div>
         </div>
 
         <div className="contact-grid">
@@ -204,6 +230,12 @@ function Contact({ onBack, onNavigateShop, onNavigateAbout }) {
           </div>
         </div>
       </main>
+
+      {/* Online Table Booking Modal */}
+      <TableBookingModal
+        isOpen={isBookingOpen}
+        onClose={() => setIsBookingOpen(false)}
+      />
     </div>
   );
 }

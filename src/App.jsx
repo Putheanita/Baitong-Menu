@@ -6,6 +6,8 @@ import Contact from "./pages/Contact";
 import CartDrawer from "./components/CartDrawer";
 import CustomerProfileModal from "./components/CustomerProfileModal";
 import NotificationSidebar from "./components/NotificationSidebar";
+import TableBookingModal from "./components/TableBookingModal";
+import OrderTrackingModal from "./components/OrderTrackingModal";
 import { confirmAndLogout } from "./utils/navigation";
 import "./App.css";
 
@@ -45,6 +47,17 @@ function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCustomerProfileOpen, setIsCustomerProfileOpen] = useState(false);
   const [isNotificationSidebarOpen, setIsNotificationSidebarOpen] = useState(false);
+  const [isTableBookingOpen, setIsTableBookingOpen] = useState(false);
+  const [isOrderTrackingOpen, setIsOrderTrackingOpen] = useState(false);
+  const [activeTrackingOrder, setActiveTrackingOrder] = useState(null);
+
+  const handleOpenOrderTracking = (order = null) => {
+    if (order && order.id) {
+      setActiveTrackingOrder(order);
+    }
+    setIsOrderTrackingOpen(true);
+  };
+
   const [unreadNotifCount, setUnreadNotifCount] = useState(() => {
     try {
       const saved = JSON.parse(
@@ -238,6 +251,8 @@ function App() {
           onOpenCustomerProfile={() => setIsCustomerProfileOpen(true)}
           onOpenNotifications={() => setIsNotificationSidebarOpen(true)}
           unreadNotifCount={unreadNotifCount}
+          onOpenTableBooking={() => setIsTableBookingOpen(true)}
+          onOpenOrderTracking={handleOpenOrderTracking}
         />
       )}
 
@@ -249,6 +264,7 @@ function App() {
         onUpdateQuantity={handleUpdateQuantity}
         onRemoveItem={handleRemoveItem}
         onClearCart={handleClearCart}
+        onOpenTracking={handleOpenOrderTracking}
       />
 
       {/* Customer Account & Data Upload Modal */}
@@ -264,6 +280,19 @@ function App() {
       <NotificationSidebar
         isOpen={isNotificationSidebarOpen}
         onClose={() => setIsNotificationSidebarOpen(false)}
+      />
+
+      {/* Online Table Booking Modal */}
+      <TableBookingModal
+        isOpen={isTableBookingOpen}
+        onClose={() => setIsTableBookingOpen(false)}
+      />
+
+      {/* Live Kitchen Order Tracking Modal */}
+      <OrderTrackingModal
+        isOpen={isOrderTrackingOpen}
+        onClose={() => setIsOrderTrackingOpen(false)}
+        activeOrder={activeTrackingOrder}
       />
     </div>
   );

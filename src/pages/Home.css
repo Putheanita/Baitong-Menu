@@ -695,7 +695,8 @@
   /* Compact Icon Buttons on Mobile */
   .search-btn,
   .cart-nav-btn,
-  .notif-nav-btn {
+  .notif-nav-btn,
+  .track-nav-btn {
     padding: 7px 10px;
     min-height: 36px;
   }
@@ -703,7 +704,8 @@
   .search-btn-label,
   .cart-nav-label,
   .notif-nav-label,
-  .item-count-badge {
+  .item-count-badge,
+  .track-nav-label {
     display: none !important;
   }
 

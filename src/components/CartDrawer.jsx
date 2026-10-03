@@ -73,13 +73,32 @@ function CartDrawer({
   cartItems = [],
   onUpdateQuantity,
   onRemoveItem,
-  onClearCart
+  onClearCart,
+  onOpenTracking
 }) {
   const [isCheckingOut, setIsCheckingOut]   = useState(false);
   const [currentInvoice, setCurrentInvoice] = useState(null);
   const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);
   const [showHistory, setShowHistory]       = useState(false);
   const [pastInvoices, setPastInvoices]     = useState([]);
+
+  // Restaurant Features: Order Mode (Dine-In, Takeaway, Delivery)
+  const [orderMode, setOrderMode]           = useState("dine_in"); // "dine_in" | "takeaway" | "delivery"
+  const [tableNumber, setTableNumber]       = useState("តុ ០១");
+  const [takeawayTime, setTakeawayTime]     = useState("១៥-២០ នាទី (ឆាប់ៗ)");
+  const [selectedChefChips, setSelectedChefChips] = useState(["🌿 មិនដាក់ប៊ីចេង"]);
+  const [customChefNote, setCustomChefNote] = useState("");
+
+  const handleToggleChefChip = (chip) => {
+    setSelectedChefChips((prev) =>
+      prev.includes(chip) ? prev.filter((c) => c !== chip) : [...prev, chip]
+    );
+  };
+
+  const combinedChefNotes = [
+    ...selectedChefChips,
+    customChefNote.trim()
+  ].filter(Boolean).join(" • ");
 
   // Customer & Delivery Information State
   const [selectedPresetId, setSelectedPresetId] = useState("preset_home");
@@ -163,7 +182,8 @@ function CartDrawer({
 
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const discount = promoApplied ? subtotal * PROMO_DISCOUNT : 0;
-  const shipping  = subtotal > 30 || subtotal === 0 ? 0 : 2.0;
+  // Dine-in and Takeaway have $0 delivery fee
+  const shipping  = (orderMode === "dine_in" || orderMode === "takeaway" || subtotal > 30 || subtotal === 0) ? 0 : 2.0;
   const total     = subtotal - discount + shipping;
 
   const handleApplyPromo = () => {
@@ -207,6 +227,10 @@ function CartDrawer({
         id: `INV-BT-${Math.floor(100000 + Math.random() * 900000)}`,
         date: formatKhmerDateTime(now),
         timestamp: Date.now(),
+        orderMode,
+        tableNumber: orderMode === "dine_in" ? tableNumber : null,
+        takeawayTime: orderMode === "takeaway" ? takeawayTime : null,
+        chefNotes: combinedChefNotes,
         customer: customerInfo,
         items: cartItems.map((item) => ({ ...item })),
         subtotal,
@@ -214,7 +238,7 @@ function CartDrawer({
         promoCode: promoApplied ? (promoInput.trim().toUpperCase() || "BAITONG") : null,
         shipping,
         total,
-        paymentMethod: paymentTab === "aba" ? "ABA Bank KHQR" : "ទូទាត់ប្រាក់ពេលដឹកមកដល់",
+        paymentMethod: paymentTab === "aba" ? "ABA Bank KHQR" : (orderMode === "dine_in" ? "ទូទាត់នៅតុអាហារ" : "ទូទាត់ប្រាក់ពេលទទួលម្ហូប"),
         status: "បានបញ្ជាក់ & កំពុងចម្អិនក្នុងផ្ទះបាយ",
         storeName: "ផ្ទះបៃតង (Baitong House)",
         storeOwner: "CHUM BUNTHARY (ជុំ ប៊ុនថារី)",
@@ -410,70 +434,121 @@ function CartDrawer({
                     })}
                   </div>
 
-                  {/* ── Customer & Delivery Information ── */}
+                  {/* ── Restaurant Features: Dining Mode & Customer Info ── */}
                   <div className="customer-info-section">
                     <div className="section-title-row">
                       <div className="section-title-left">
-                        <span className="section-title-icon">📍</span>
+                        <span className="section-title-icon">🍽️</span>
                         <div>
                           <p className="customer-section-title" style={{ fontFamily: "'Battambang', sans-serif", fontWeight: 700 }}>
-                            ព័ត៌មានអតិថិជន និងអាសយដ្ឋានដឹកជញ្ជូន
+                            ជ្រើសរើសរបៀបទទួលទាន &amp; ព័ត៌មានកុម្ម៉ង់
                           </p>
                           <span className="customer-section-subtitle" style={{ fontFamily: "'Battambang', sans-serif" }}>
-                            អាសយដ្ឋាននឹងត្រូវបោះពុម្ពលើវិក្កយបត្រម្ហូប
+                            {orderMode === "dine_in"
+                              ? "ញ៉ាំនៅហាងផ្ទាល់ (ឥតគិតថ្លៃសេវាដឹក) • បម្រើដល់តុ"
+                              : orderMode === "takeaway"
+                              ? "ខ្ចប់យកទៅផ្ទះ (ឥតគិតថ្លៃសេវាដឹក) • ទទួលនៅបញ្ជរ"
+                              : "ដឹកជញ្ជូនរហ័សដល់គេហដ្ឋានរបស់អ្នក"}
                           </span>
                         </div>
                       </div>
                       <span className="customer-badge-tag" style={{ fontFamily: "'Battambang', sans-serif" }}>
-                        បោះពុម្ពលើវិក្កយបត្រ
+                        {orderMode === "dine_in" ? "🍽️ ញ៉ាំនៅហាង" : orderMode === "takeaway" ? "🥡 ខ្ចប់យកទៅ" : "🛵 ដឹកជញ្ជូន"}
                       </span>
                     </div>
 
-                    {/* Quick Preset Address Selector */}
-                    <div className="preset-selector-box">
-                      <div className="preset-selector-header">
-                        <span className="preset-selector-label" style={{ fontFamily: "'Battambang', sans-serif" }}>
-                          ⚡ ជ្រើសរើសអាសយដ្ឋានដឹកជញ្ជូន:
-                        </span>
-                        <select
-                          className="preset-select-dropdown"
-                          value={selectedPresetId}
-                          onChange={(e) => handleSelectPreset(e.target.value)}
-                          style={{ fontFamily: "'Battambang', sans-serif" }}
-                        >
-                          {PRESET_ADDRESSES.map((preset) => (
-                            <option key={preset.id} value={preset.id}>
-                              {preset.label} — {preset.subtitle}
-                            </option>
-                          ))}
-                          <option value="custom">✏️ បញ្ចូលអាសយដ្ឋានថ្មីផ្ទាល់ខ្លួន</option>
-                        </select>
-                      </div>
+                    {/* ── Order Mode Segmented Selector ── */}
+                    <div className="order-mode-selector">
+                      <button
+                        type="button"
+                        className={`order-mode-tab ${orderMode === "dine_in" ? "active" : ""}`}
+                        onClick={() => setOrderMode("dine_in")}
+                      >
+                        <span className="mode-icon">🍽️</span>
+                        <span className="mode-text">ញ៉ាំនៅហាង</span>
+                        <span className="mode-sub">Dine-In (តុ)</span>
+                      </button>
 
-                      {/* Quick Chips */}
-                      <div className="preset-chips">
-                        {PRESET_ADDRESSES.map((p) => (
-                          <button
-                            key={p.id}
-                            type="button"
-                            className={`preset-chip ${selectedPresetId === p.id ? "active" : ""}`}
-                            onClick={() => handleSelectPreset(p.id)}
-                            style={{ fontFamily: "'Battambang', sans-serif" }}
-                          >
-                            {p.label}
-                          </button>
-                        ))}
-                        <button
-                          type="button"
-                          className={`preset-chip ${selectedPresetId === "custom" ? "active" : ""}`}
-                          onClick={() => setSelectedPresetId("custom")}
-                          style={{ fontFamily: "'Battambang', sans-serif" }}
-                        >
-                          ✏️ អាសយដ្ឋានថ្មី
-                        </button>
-                      </div>
+                      <button
+                        type="button"
+                        className={`order-mode-tab ${orderMode === "takeaway" ? "active" : ""}`}
+                        onClick={() => setOrderMode("takeaway")}
+                      >
+                        <span className="mode-icon">🥡</span>
+                        <span className="mode-text">ខ្ចប់យកទៅ</span>
+                        <span className="mode-sub">Takeaway</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        className={`order-mode-tab ${orderMode === "delivery" ? "active" : ""}`}
+                        onClick={() => setOrderMode("delivery")}
+                      >
+                        <span className="mode-icon">🛵</span>
+                        <span className="mode-text">ដឹកជញ្ជូន</span>
+                        <span className="mode-sub">Delivery</span>
+                      </button>
                     </div>
 
+                    {/* ── Mode 1: Dine-In Table Picker ── */}
+                    {orderMode === "dine_in" && (
+                      <div className="dine-in-box" style={{ marginBottom: "14px" }}>
+                        <label className="cust-label" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                          📍 ជ្រើសរើសលេខតុអាហាររបស់អ្នក <span className="req-star">*</span>
+                        </label>
+                        <div className="table-quick-chips">
+                          {["តុ ០១", "តុ ០២", "តុ ០៣", "តុ ០៤", "តុ ០៥", "តុ ០៦", "តុ VIP ១", "តុ VIP ២"].map((tbl) => (
+                            <button
+                              key={tbl}
+                              type="button"
+                              className={`table-chip ${tableNumber === tbl ? "active" : ""}`}
+                              onClick={() => setTableNumber(tbl)}
+                              style={{ fontFamily: "'Battambang', sans-serif" }}
+                            >
+                              {tbl}
+                            </button>
+                          ))}
+                        </div>
+                        <input
+                          type="text"
+                          className="cust-input"
+                          placeholder="ឬបញ្ចូលលេខតុផ្សេងទៀត (e.g. តុសួនច្បារលេខ ០៨)"
+                          value={tableNumber}
+                          onChange={(e) => setTableNumber(e.target.value)}
+                          style={{ fontFamily: "'Battambang', sans-serif" }}
+                        />
+                        <p className="mode-helper-note" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                          ✨ ឥតគិតថ្លៃសេវាដឹកជញ្ជូន ($0) · បុគ្គលិកនឹងលើកម្ហូបក្តៅៗជូនដល់ {tableNumber}!
+                        </p>
+                      </div>
+                    )}
+
+                    {/* ── Mode 2: Takeaway Pickup Time ── */}
+                    {orderMode === "takeaway" && (
+                      <div className="takeaway-box" style={{ marginBottom: "14px" }}>
+                        <label className="cust-label" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                          ⏱️ ពេលមកទទួលម្ហូបនៅបញ្ជរ
+                        </label>
+                        <div className="table-quick-chips">
+                          {["១៥-២០ នាទី (ឆាប់ៗ)", "៣០ នាទីក្រោយ", "៤៥ នាទីក្រោយ", "១ ម៉ោងក្រោយ"].map((time) => (
+                            <button
+                              key={time}
+                              type="button"
+                              className={`table-chip ${takeawayTime === time ? "active" : ""}`}
+                              onClick={() => setTakeawayTime(time)}
+                              style={{ fontFamily: "'Battambang', sans-serif" }}
+                            >
+                              {time}
+                            </button>
+                          ))}
+                        </div>
+                        <p className="mode-helper-note" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                          🥡 ឥតគិតថ្លៃសេវាដឹកជញ្ជូន ($0) · ម្ហូបនឹងខ្ចប់ស្រេចត្រៀមទុកជូននៅបញ្ជរ!
+                        </p>
+                      </div>
+                    )}
+
+                    {/* ── Customer Name & Phone (All Modes) ── */}
                     <div className="customer-form-grid">
                       <div className="cust-form-group">
                         <label className="cust-label" style={{ fontFamily: "'Battambang', sans-serif" }}>
@@ -494,7 +569,7 @@ function CartDrawer({
 
                       <div className="cust-form-group">
                         <label className="cust-label" style={{ fontFamily: "'Battambang', sans-serif" }}>
-                          លេខទូរស័ព្ទទទួលម្ហូប <span className="req-star">*</span>
+                          លេខទូរស័ព្ទ {orderMode === "dine_in" ? "ជូនដំណឹង" : "ទទួលម្ហូប"} <span className="req-star">*</span>
                         </label>
                         <input
                           type="tel"
@@ -510,55 +585,141 @@ function CartDrawer({
                       </div>
                     </div>
 
-                    <div className="cust-form-group">
-                      <label className="cust-label" style={{ fontFamily: "'Battambang', sans-serif" }}>
-                        រាជធានី / ខេត្ត <span className="req-star">*</span>
-                      </label>
-                      <select
-                        className="cust-select"
-                        value={deliveryProvince}
-                        onChange={(e) => {
-                          setDeliveryProvince(e.target.value);
-                          setSelectedPresetId("custom");
-                        }}
-                        style={{ fontFamily: "'Battambang', sans-serif" }}
-                      >
-                        {CAMBODIA_PROVINCES.map((prov) => (
-                          <option key={prov.en} value={prov.en}>
-                            {prov.km} {prov.en === "Phnom Penh" ? "(ដឹកជញ្ជូនរហ័សក្នុងថ្ងៃ)" : ""}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
+                    {/* ── Mode 3: Delivery Address Form (Only in Delivery mode) ── */}
+                    {orderMode === "delivery" && (
+                      <>
+                        <div className="preset-selector-box" style={{ marginTop: "10px" }}>
+                          <div className="preset-selector-header">
+                            <span className="preset-selector-label" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                              ⚡ អាសយដ្ឋានគំរូ:
+                            </span>
+                            <select
+                              className="preset-select-dropdown"
+                              value={selectedPresetId}
+                              onChange={(e) => handleSelectPreset(e.target.value)}
+                              style={{ fontFamily: "'Battambang', sans-serif" }}
+                            >
+                              {PRESET_ADDRESSES.map((preset) => (
+                                <option key={preset.id} value={preset.id}>
+                                  {preset.label} — {preset.subtitle}
+                                </option>
+                              ))}
+                              <option value="custom">✏️ បញ្ចូលអាសយដ្ឋានថ្មីផ្ទាល់ខ្លួន</option>
+                            </select>
+                          </div>
 
-                    <div className="cust-form-group">
-                      <label className="cust-label" style={{ fontFamily: "'Battambang', sans-serif" }}>
-                        អាសយដ្ឋានលម្អិត (ផ្ទះលេខ, ផ្លូវ, សង្កាត់, ខណ្ឌ) <span className="req-star">*</span>
+                          <div className="preset-chips">
+                            {PRESET_ADDRESSES.map((p) => (
+                              <button
+                                key={p.id}
+                                type="button"
+                                className={`preset-chip ${selectedPresetId === p.id ? "active" : ""}`}
+                                onClick={() => handleSelectPreset(p.id)}
+                                style={{ fontFamily: "'Battambang', sans-serif" }}
+                              >
+                                {p.label}
+                              </button>
+                            ))}
+                            <button
+                              type="button"
+                              className={`preset-chip ${selectedPresetId === "custom" ? "active" : ""}`}
+                              onClick={() => setSelectedPresetId("custom")}
+                              style={{ fontFamily: "'Battambang', sans-serif" }}
+                            >
+                              ✏️ អាសយដ្ឋានថ្មី
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="cust-form-group" style={{ marginTop: "10px" }}>
+                          <label className="cust-label" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                            រាជធានី / ខេត្ត <span className="req-star">*</span>
+                          </label>
+                          <select
+                            className="cust-select"
+                            value={deliveryProvince}
+                            onChange={(e) => {
+                              setDeliveryProvince(e.target.value);
+                              setSelectedPresetId("custom");
+                            }}
+                            style={{ fontFamily: "'Battambang', sans-serif" }}
+                          >
+                            {CAMBODIA_PROVINCES.map((prov) => (
+                              <option key={prov.en} value={prov.en}>
+                                {prov.km} {prov.en === "Phnom Penh" ? "(ដឹកជញ្ជូនរហ័សក្នុងថ្ងៃ)" : ""}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+
+                        <div className="cust-form-group">
+                          <label className="cust-label" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                            អាសយដ្ឋានលម្អិត (ផ្ទះលេខ, ផ្លូវ, សង្កាត់, ខណ្ឌ) <span className="req-star">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            className="cust-input"
+                            placeholder="ផ្ទះលេខ, ផ្លូវលេខ, សង្កាត់, ខណ្ឌ, ចំណុចសម្គាល់..."
+                            value={customerAddress}
+                            onChange={(e) => {
+                              setCustomerAddress(e.target.value);
+                              setSelectedPresetId("custom");
+                            }}
+                            style={{ fontFamily: "'Battambang', sans-serif" }}
+                          />
+                        </div>
+
+                        <div className="cust-form-group">
+                          <label className="cust-label" style={{ fontFamily: "'Battambang', sans-serif" }}>
+                            ចំណាំបន្ថែមសម្រាប់អ្នកដឹកជញ្ជូន (ស្រេចចិត្ត)
+                          </label>
+                          <input
+                            type="text"
+                            className="cust-input"
+                            placeholder="ឧ. សូមទូរស័ព្ទមុនមកដល់, ផ្ញើនៅតុសន្តិសុខ..."
+                            value={deliveryNotes}
+                            onChange={(e) => setDeliveryNotes(e.target.value)}
+                            style={{ fontFamily: "'Battambang', sans-serif" }}
+                          />
+                        </div>
+                      </>
+                    )}
+
+                    {/* ── Chef Kitchen Notes Section (All Modes) ── */}
+                    <div className="chef-notes-section">
+                      <label className="cust-label" style={{ fontFamily: "'Battambang', sans-serif", color: "#b45309", display: "flex", alignItems: "center", gap: "6px" }}>
+                        <span>👨‍🍳</span> ចំណាំពិសេសផ្ញើជូនមេចុងភៅ (Kitchen Cooking Request)
                       </label>
+                      <div className="chef-quick-chips">
+                        {[
+                          "🌿 មិនដាក់ប៊ីចេង",
+                          "🚫🌶️ មិនហឹរ",
+                          "🌶️ ហឹរតិច",
+                          "🌶️🌶️ ហឹរខ្លាំង",
+                          "🍯 បន្ថយផ្អែម",
+                          "🍲 ទឹកសម្លច្រើន"
+                        ].map((chip) => {
+                          const isSelected = selectedChefChips.includes(chip);
+                          return (
+                            <button
+                              key={chip}
+                              type="button"
+                              className={`chef-chip ${isSelected ? "active" : ""}`}
+                              onClick={() => handleToggleChefChip(chip)}
+                              style={{ fontFamily: "'Battambang', sans-serif" }}
+                            >
+                              {chip}
+                            </button>
+                          );
+                        })}
+                      </div>
                       <input
                         type="text"
                         className="cust-input"
-                        placeholder="ផ្ទះលេខ, ផ្លូវលេខ, សង្កាត់, ខណ្ឌ, ចំណុចសម្គាល់..."
-                        value={customerAddress}
-                        onChange={(e) => {
-                          setCustomerAddress(e.target.value);
-                          setSelectedPresetId("custom");
-                        }}
-                        style={{ fontFamily: "'Battambang', sans-serif" }}
-                      />
-                    </div>
-
-                    <div className="cust-form-group">
-                      <label className="cust-label" style={{ fontFamily: "'Battambang', sans-serif" }}>
-                        ចំណាំបន្ថែមសម្រាប់អ្នកដឹកជញ្ជូន (ស្រេចចិត្ត)
-                      </label>
-                      <input
-                        type="text"
-                        className="cust-input"
-                        placeholder="ឧ. សូមទូរស័ព្ទមុនមកដល់, ផ្ញើនៅតុសន្តិសុខ..."
-                        value={deliveryNotes}
-                        onChange={(e) => setDeliveryNotes(e.target.value)}
-                        style={{ fontFamily: "'Battambang', sans-serif" }}
+                        placeholder="សំណើពិសេសបន្ថែម e.g. ដាក់បន្លែច្រើន, កុំដាក់ខ្ទឹមបារាំង..."
+                        value={customChefNote}
+                        onChange={(e) => setCustomChefNote(e.target.value)}
+                        style={{ fontFamily: "'Battambang', sans-serif", fontSize: "0.85rem" }}
                       />
                     </div>
                   </div>
@@ -712,6 +873,7 @@ function CartDrawer({
         invoice={currentInvoice}
         isOpen={isInvoiceModalOpen}
         onClose={() => setIsInvoiceModalOpen(false)}
+        onTrackOrder={onOpenTracking}
       />
     </>
   );

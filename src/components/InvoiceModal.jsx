@@ -2,7 +2,7 @@ import { useState } from "react";
 import { formatKhmerDateTime } from "../utils/khmerDate";
 import "./InvoiceModal.css";
 
-export default function InvoiceModal({ invoice, isOpen, onClose }) {
+export default function InvoiceModal({ invoice, isOpen, onClose, onTrackOrder }) {
   const [copied, setCopied] = useState(false);
 
   if (!isOpen || !invoice) return null;
@@ -17,6 +17,9 @@ export default function InvoiceModal({ invoice, isOpen, onClose }) {
   const storeManager = invoice.storeManager || "Putheanita Prom";
   const displayDate = formatKhmerDateTime(invoice.date || invoice.timestamp || new Date());
 
+  const isDineIn = invoice.orderMode === "dine_in";
+  const isTakeaway = invoice.orderMode === "takeaway";
+
   // 1. Download formatted text receipt file (.txt)
   const handleDownloadFile = () => {
     const invoiceText = `
@@ -26,7 +29,8 @@ export default function InvoiceModal({ invoice, isOpen, onClose }) {
 =====================================================
 លេខវិក្កយបត្រ:      ${invoice.id}
 កាលបរិច្ឆេទ & ម៉ោង: ${displayDate}
-វិធីសាស្ត្រទូទាត់:    ${invoice.paymentMethod}
+ប្រភេទកុម្ម៉ង់:      ${isDineIn ? `ញ៉ាំនៅហាង (${invoice.tableNumber || "តុ ០១"})` : isTakeaway ? "ខ្ចប់យកទៅ (Takeaway)" : "ដឹកជញ្ជូនដល់ផ្ទះ"}
+${invoice.chefNotes ? `ចំណាំជូនចុងភៅ:     ${invoice.chefNotes}\n` : ""}វិធីសាស្ត្រទូទាត់:    ${invoice.paymentMethod}
 ស្ថានភាព:          ${invoice.status}
 
 -----------------------------------------------------
@@ -38,10 +42,10 @@ export default function InvoiceModal({ invoice, isOpen, onClose }) {
 អ៊ីមែល:           putheanitaprom@gmail.com
 ទីតាំង:           ${invoice.storeCity || "រាជធានីភ្នំពេញ កម្ពុជា"}
 
-ព័ត៌មានអតិថិជន & ដឹកជញ្ជូន:
+ព័ត៌មានអតិថិជន:
 ឈ្មោះ:            ${customerName}
 លេខទូរស័ព្ទ:       ${customerPhone}
-អាសយដ្ឋាន:        ${customerAddress} (${customerProvince})
+${isDineIn ? `ទីតាំងតុ:          ${invoice.tableNumber || "តុ ០១"}` : `អាសយដ្ឋាន:        ${customerAddress} (${customerProvince})`}
 =====================================================
 មុខម្ហូបដែលបានកុម្ម៉ង់:
 -----------------------------------------------------
@@ -85,9 +89,8 @@ ${invoice.discount > 0 ? `បញ្ចុះតម្លៃកូដ (${invoice.
 🧾 វិក្កយបត្រម្ហូបអាហារ - ${storeName}
 លេខវិក្កយបត្រ: ${invoice.id}
 កាលបរិច្ឆេទ: ${displayDate}
-ម្ចាស់ហាង: ${storeOwner}
-អតិថិជន: ${customerName} (${customerPhone})
-អាសយដ្ឋាន: ${customerAddress}
+ប្រភេទ: ${isDineIn ? `ញ៉ាំនៅហាង (${invoice.tableNumber})` : isTakeaway ? "ខ្ចប់យកទៅ" : "ដឹកជញ្ជូន"}
+${invoice.chefNotes ? `ចំណាំចុងភៅ: ${invoice.chefNotes}\n` : ""}អតិថិជន: ${customerName} (${customerPhone})
 ការទូទាត់: ${invoice.paymentMethod}
 ចំនួនមុខម្ហូប: ${invoice.items.length} មុខ
 ទឹកប្រាក់សរុប: $${invoice.total.toFixed(2)}
@@ -152,14 +155,16 @@ ${invoice.discount > 0 ? `បញ្ចុះតម្លៃកូដ (${invoice.
               <span>{displayDate}</span>
             </div>
             <div className="inv-meta-col">
-              <span className="inv-meta-lbl">វិធីសាស្ត្រទូទាត់:</span>
-              <span className="inv-payment-text">
-                {invoice.paymentMethod === "ABA Bank KHQR" ? "🏦 ABA Bank KHQR (ទូទាត់រួច)" : "💵 ទូទាត់ប្រាក់ពេលដឹកមកដល់"}
+              <span className="inv-meta-lbl">ប្រភេទកុម្ម៉ង់:</span>
+              <span className="inv-order-mode-pill" style={{ color: "#2d6a4f", fontWeight: 700 }}>
+                {isDineIn ? `🍽️ ញ៉ាំនៅហាង (${invoice.tableNumber || "តុ ០១"})` : isTakeaway ? "🥡 ខ្ចប់យកទៅ (Takeaway)" : "🛵 ដឹកជញ្ជូនដល់ផ្ទះ"}
               </span>
             </div>
             <div className="inv-meta-col">
-              <span className="inv-meta-lbl">ខ្សែទូរស័ព្ទហាង:</span>
-              <strong className="inv-phone-text">{storePhone}</strong>
+              <span className="inv-meta-lbl">វិធីសាស្ត្រទូទាត់:</span>
+              <span className="inv-payment-text">
+                {invoice.paymentMethod === "ABA Bank KHQR" ? "🏦 ABA Bank KHQR (ទូទាត់រួច)" : "💵 ទូទាត់ប្រាក់ពេលទទួលម្ហូប"}
+              </span>
             </div>
           </div>
 
@@ -178,19 +183,52 @@ ${invoice.discount > 0 ? `បញ្ចុះតម្លៃកូដ (${invoice.
 
             <div className="inv-party-col customer-party-col">
               <div className="inv-party-header">
-                <span className="inv-party-badge customer-badge">ដឹកជញ្ជូនជូន (អតិថិជន)</span>
-                <span className="inv-deliver-tag">🚚 ដឹកជញ្ជូនរហ័សទាន់ចិត្ត</span>
+                <span className="inv-party-badge customer-badge">
+                  {isDineIn ? "កុម្ម៉ង់នៅតុ (អតិថិជន)" : isTakeaway ? "ខ្ចប់យកទៅ (អតិថិជន)" : "ដឹកជញ្ជូនជូន (អតិថិជន)"}
+                </span>
+                <span className="inv-deliver-tag">
+                  {isDineIn ? "🍽️ បម្រើដល់តុ" : isTakeaway ? "🥡 ទទួលនៅបញ្ជរ" : "🚚 ដឹកជញ្ជូនរហ័ស"}
+                </span>
               </div>
               <h4 className="inv-party-name customer-name-title">👤 {customerName}</h4>
               <p className="inv-party-line">📞 ទូរស័ព្ទ: <strong className="customer-phone-highlight">{customerPhone}</strong></p>
-              <p className="inv-party-line">
-                📍 អាសយដ្ឋាន: <span>{customerAddress}</span>
-              </p>
+              {isDineIn ? (
+                <p className="inv-party-line">
+                  📍 ទីតាំងតុ: <strong>{invoice.tableNumber || "តុ ០១"} (ក្នុងភោជនីយដ្ឋាន)</strong>
+                </p>
+              ) : isTakeaway ? (
+                <p className="inv-party-line">
+                  ⏱️ ពេលមកទទួល: <strong>{invoice.takeawayTime || "១៥-២០ នាទី (ឆាប់ៗ)"}</strong>
+                </p>
+              ) : (
+                <p className="inv-party-line">
+                  📍 អាសយដ្ឋាន: <span>{customerAddress}</span>
+                </p>
+              )}
               {invoice.customer?.notes && (
                 <p className="inv-party-notes">📝 ចំណាំ: {invoice.customer.notes}</p>
               )}
             </div>
           </div>
+
+          {/* Chef Kitchen Notes if any */}
+          {invoice.chefNotes && (
+            <div style={{
+              background: "#fffbeb",
+              border: "1px dashed #f59e0b",
+              borderRadius: "10px",
+              padding: "10px 14px",
+              margin: "12px 0",
+              fontFamily: "'Battambang', sans-serif"
+            }}>
+              <span style={{ fontWeight: 700, color: "#b45309", fontSize: "0.85rem" }}>
+                👨‍🍳 ចំណាំពិសេសផ្ញើជូនមេចុងភៅ (Kitchen Request):
+              </span>
+              <p style={{ margin: "3px 0 0", color: "#78350f", fontStyle: "italic", fontSize: "0.88rem" }}>
+                "{invoice.chefNotes}"
+              </p>
+            </div>
+          )}
 
           {/* Items Purchased Table */}
           <div className="inv-table-wrap">
@@ -249,7 +287,7 @@ ${invoice.discount > 0 ? `បញ្ចុះតម្លៃកូដ (${invoice.
               🙏 សូមថ្លែងអំណរគុណយ៉ាងជ្រាលជ្រៅចំពោះការកុម្ម៉ង់ និងការគាំទ្រម្ហូបខ្មែរនៅ ផ្ទះបៃតង!
             </p>
             <p className="inv-en-blessing" style={{ fontFamily: "'Battambang', sans-serif" }}>
-              បុគ្គលិកដឹកជញ្ជូននឹងទាក់ទងមកកាន់លេខ <strong>{customerPhone}</strong> ពេលម្ហូបយកទៅដល់។
+              {isDineIn ? `បុគ្គលិកនឹងលើកម្ហូបជូនដល់ ${invoice.tableNumber || "តុរបស់អ្នក"}។` : `បុគ្គលិកនឹងទាក់ទងមកកាន់លេខ ${customerPhone}។`}
             </p>
           </div>
 
@@ -257,11 +295,34 @@ ${invoice.discount > 0 ? `បញ្ចុះតម្លៃកូដ (${invoice.
 
         {/* ── Action Buttons Bar ── */}
         <div className="invoice-modal-actions no-print">
+          {onTrackOrder && (
+            <button
+              className="inv-btn inv-btn-track"
+              onClick={() => {
+                onClose();
+                onTrackOrder(invoice);
+              }}
+              title="តាមដានស្ថានភាពម្ហូបផ្ទាល់"
+              style={{
+                fontFamily: "'Battambang', sans-serif",
+                background: "#2d6a4f",
+                color: "#ffffff",
+                fontWeight: 700,
+                border: "none",
+                boxShadow: "0 4px 12px rgba(45, 106, 79, 0.35)",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px"
+              }}
+            >
+              🕒 តាមដានស្ថានភាពម្ហូប (Track Order)
+            </button>
+          )}
           <button className="inv-btn inv-btn-pdf" onClick={handlePrintPdf} title="បោះពុម្ព ឬរក្សាទុកជា PDF" style={{ fontFamily: "'Battambang', sans-serif" }}>
-            🖨️ បោះពុម្ព / រក្សាទុកជា PDF
+            🖨️ បោះពុម្ព / PDF
           </button>
           <button className="inv-btn inv-btn-save" onClick={handleDownloadFile} title="ទាញយកឯកសារវិក្កយបត្រ (.txt)" style={{ fontFamily: "'Battambang', sans-serif" }}>
-            💾 ទាញយកឯកសារ (.txt)
+            💾 ទាញយក (.txt)
           </button>
           <button className="inv-btn inv-btn-copy" onClick={handleCopy} title="ចម្លងព័ត៌មានសង្ខេប" style={{ fontFamily: "'Battambang', sans-serif" }}>
             {copied ? "✓ បានចម្លង!" : "📋 ចម្លងព័ត៌មាន"}
